@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -44,12 +43,9 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.lifecycleScope
 import com.example.apptfgandroid.ui.theme.AppTfgAndroidTheme
 import com.example.tfgapp.services.LoginRequestDTO
 import com.example.tfgapp.services.RetrofitService
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 
@@ -87,15 +83,16 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun TelephoneTextField(
     onPhoneNumberChanged: (String) -> Unit,
-    onCountryPrefixChanged: (String) -> Unit
-    ) {
+    onCountryPrefixChanged: (String) -> Unit,
+    phoneNumber: String
+) {
     var expanded by remember { mutableStateOf(false) }
     var countryPrefix by remember { mutableStateOf("+34") }
-    var phoneNumber by remember { mutableStateOf("") }
+//    var phoneNumber by remember { mutableStateOf("") }
     val countriesMap = mapOf(
+        "Spain" to "+34",
         "United States" to "+1",
         "United Kingdom" to "+44",
-        "Spain" to "+34"
     )
 
     Row(
@@ -145,7 +142,6 @@ fun TelephoneTextField(
         OutlinedTextField(
             value = phoneNumber,
             onValueChange = {
-                phoneNumber = it
                 onPhoneNumberChanged(it)
             },
             modifier = Modifier
@@ -164,7 +160,8 @@ fun TelephoneTextField(
                 .height(240.dp)
                 .background(MaterialTheme.colorScheme.background)
         ) {
-            Text("Seleccione el país")
+            Text("Seleccione el país",
+                color = MaterialTheme.colorScheme.primary)
 
             LazyColumn {
                 items(countriesMap.keys.toList()) { country ->
@@ -211,7 +208,7 @@ fun PasswordTextField(password: String, onPasswordChanged: (String) -> Unit) {
 fun LoginForm(modifier: Modifier = Modifier) {
     var password by remember { mutableStateOf("") }
     var phoneNumber by remember { mutableStateOf("") }
-    var countryPrefix by remember { mutableStateOf("+34637650089") }
+    var countryPrefix by remember { mutableStateOf("+34") }
 
     val scope = rememberCoroutineScope()
 
@@ -229,6 +226,7 @@ fun LoginForm(modifier: Modifier = Modifier) {
             style = MaterialTheme.typography.titleLarge.copy()
         )
         TelephoneTextField(
+            phoneNumber = phoneNumber,
             onPhoneNumberChanged = {
                 phoneNumber = it
             },
