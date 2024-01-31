@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavController
 import com.example.apptfgandroid.models.CreateUserDTO
+import com.example.apptfgandroid.navigation.AppScreens
 import com.example.tfgapp.services.RetrofitService
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
@@ -38,8 +39,7 @@ import retrofit2.HttpException
 @Composable
 fun SmsCodeDialog(
     onDismiss: () -> Unit,
-    data: CreateUserDTO,
-    navController: NavController
+    data: CreateUserDTO
 ) {
     var codeSms by remember { mutableStateOf("") }
     var attempts by remember { mutableStateOf(3) }
@@ -141,8 +141,7 @@ fun SmsCodeDialog(
                     onDismiss = {
                         onDismiss()
                     },
-                    message = messageDialog,
-                    navController = navController
+                    message = messageDialog
                 )
             }
         }

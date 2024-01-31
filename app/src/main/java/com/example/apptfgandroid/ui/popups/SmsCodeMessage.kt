@@ -17,23 +17,16 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import androidx.navigation.NavController
-import com.example.apptfgandroid.navigation.AppScreens
 
 @Composable
 fun SmsCodeMessage(
     onDismiss: () -> Unit,
-    message: String,
-    navController: NavController
+    message: String
 ) {
 
     Dialog(
@@ -48,7 +41,7 @@ fun SmsCodeMessage(
                 .background(MaterialTheme.colorScheme.background)
         ) {
 
-            Text(
+            Text (
                 text = message,
                 color = if (message.contains("Error", ignoreCase = true)) {
                     Color.Red
@@ -65,7 +58,7 @@ fun SmsCodeMessage(
             ) {
                 TextButton(
                     onClick = {
-                        navController.navigate(AppScreens.RegisterForm.route)
+                        onDismiss()
                     },
                     modifier = Modifier.padding(end = 8.dp)
                 ) {

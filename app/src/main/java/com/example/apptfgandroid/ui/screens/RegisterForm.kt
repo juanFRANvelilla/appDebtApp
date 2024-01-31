@@ -3,23 +3,21 @@ package com.example.apptfgandroid.ui.screens
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -57,7 +55,6 @@ fun RegisterForm(
     var countryPrefix by remember { mutableStateOf("+34") }
     var verificationCode by remember { mutableStateOf("") }
     var isDialogVisible by remember { mutableStateOf(false) }
-    var createUserDTO by remember { mutableStateOf(null) }
 
     val scope = rememberCoroutineScope()
 
@@ -200,9 +197,9 @@ fun RegisterForm(
             SmsCodeDialog(
                 onDismiss = {
                     isDialogVisible = false
+                    navController.navigate(AppScreens.RegisterForm.route)
                 },
-                data = createUserDTO,
-                navController = navController
+                data = createUserDTO
             )
         }
         GoBack(navController = navController)
