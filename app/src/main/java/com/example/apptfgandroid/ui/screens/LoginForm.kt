@@ -24,6 +24,7 @@ import com.example.apptfgandroid.models.LoginRequestDTO
 import com.example.apptfgandroid.navigation.AppScreens
 import com.example.apptfgandroid.ui.composables.PasswordTextField
 import com.example.apptfgandroid.ui.composables.TelephoneTextField
+import com.example.tfgapp.models.ServerResponseDTO
 import com.example.tfgapp.services.RetrofitService
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
@@ -82,10 +83,9 @@ fun LoginForm(
                     try {
                         val service = RetrofitService.login()
                         val totalPhoneNumber = countryPrefix + phoneNumber
-                        val response = service.login(LoginRequestDTO(username = totalPhoneNumber, password = password))
+                        val response: ServerResponseDTO = service.login(LoginRequestDTO(username = totalPhoneNumber, password = password))
                         errorMessage = null
-                        navController.navigate(route = AppScreens.MainMenu.route + "/" + response.toString())
-                        println(response.toString())
+                        navController.navigate(route = AppScreens.MainMenu.route + "/" + response.message)
                     } catch (e: Exception) {
                         when (e) {
                             is HttpException -> {

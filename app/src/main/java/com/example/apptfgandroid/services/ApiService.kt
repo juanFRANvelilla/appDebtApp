@@ -4,6 +4,7 @@ import com.example.apptfgandroid.R
 import com.example.apptfgandroid.models.CreateUserDTO
 import com.example.apptfgandroid.models.LoginRequestDTO
 import com.example.apptfgandroid.models.PhoneValidationDTO
+import com.example.apptfgandroid.models.UserDTO
 import com.example.tfgapp.models.ServerResponseDTO
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -24,8 +25,8 @@ interface ApiService {
     @POST("validatePhone")
     suspend fun validatePhone(@Body data: CreateUserDTO): ServerResponseDTO
 
-    @GET("showContact")
-    suspend fun showContacts(): ServerResponseDTO
+    @GET("showContacts")
+    suspend fun showContacts(): Set<UserDTO>
 
 
 }
@@ -37,7 +38,7 @@ private val url: String = R.string.url2.toString()
 object RetrofitService{
     fun login(): ApiService {
         return Retrofit.Builder()
-            .baseUrl("http://192.168.0.128:8080/")
+            .baseUrl("http://192.168.56.1:8080/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(ApiService::class.java)
@@ -45,7 +46,7 @@ object RetrofitService{
 
     fun confirmPhone(): ApiService{
         return Retrofit.Builder()
-            .baseUrl("$url api/")
+            .baseUrl("http://192.168.56.1:8080/api/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(ApiService::class.java)
@@ -53,7 +54,7 @@ object RetrofitService{
 
     fun validatePhone(): ApiService{
         return Retrofit.Builder()
-            .baseUrl("$url api/")
+            .baseUrl("http://192.168.56.1:8080/api/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(ApiService::class.java)
@@ -65,7 +66,7 @@ object RetrofitService{
             .build()
 
         return Retrofit.Builder()
-            .baseUrl("http://192.168.0.128:8080/api2/")
+            .baseUrl("http://192.168.56.1:8080/api2/")
             .addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClient)
             .build()
