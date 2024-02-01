@@ -9,6 +9,7 @@ import androidx.navigation.navArgument
 import com.example.apptfgandroid.ui.screens.LoginForm
 import com.example.apptfgandroid.ui.screens.MainMenu
 import com.example.apptfgandroid.ui.screens.RegisterForm
+import com.example.tfgapp.models.ServerResponseDTO
 
 
 @Composable
@@ -21,15 +22,28 @@ fun AppNavigation(){
         composable(route= AppScreens.RegisterForm.route){
             RegisterForm(navController)
         }
+//        composable(
+//            route = AppScreens.MainMenu.route + "/{data}",
+//            arguments = listOf(
+//                navArgument(name = "data") {
+//                    type = NavType.StringType
+//                }
+//            )
+//        ) {
+//            MainMenu(navController, it.arguments?.getString("data").toString())
+//        }
         composable(
             route = AppScreens.MainMenu.route + "/{data}",
             arguments = listOf(
                 navArgument(name = "data") {
-                    type = NavType.StringType
+                    type = NavType.ParcelableType(ServerResponseDTO::class.java)
                 }
             )
         ) {
-            MainMenu(navController, it.arguments?.getString("data").toString())
+            val serverResponseDTO = it.arguments?.getParcelable<ServerResponseDTO>("data")
+            if (serverResponseDTO != null) {
+                MainMenu(navController, serverResponseDTO)
+            }
         }
     }
 
