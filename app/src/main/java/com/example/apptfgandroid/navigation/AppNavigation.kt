@@ -9,6 +9,7 @@ import androidx.navigation.navArgument
 import com.example.apptfgandroid.ui.screens.LoginForm
 import com.example.apptfgandroid.ui.screens.MainMenu
 import com.example.apptfgandroid.ui.screens.RegisterForm
+import com.example.apptfgandroid.ui.theme.AppTfgAndroidTheme
 
 
 @Composable

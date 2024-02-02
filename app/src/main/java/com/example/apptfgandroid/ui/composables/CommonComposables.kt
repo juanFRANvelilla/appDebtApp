@@ -80,7 +80,7 @@ fun TelephoneTextField(
                         Icon(
                             Icons.Default.Call,
                             contentDescription = null,
-                            tint = MaterialTheme.colorScheme.primary
+                            tint = MaterialTheme.colorScheme.error
                         )
                         Icon(
                             Icons.Default.ArrowDropDown,
