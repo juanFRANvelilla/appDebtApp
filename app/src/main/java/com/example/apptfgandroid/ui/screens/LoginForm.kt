@@ -18,8 +18,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.apptfgandroid.models.LoginRequestDTO
 import com.example.apptfgandroid.navigation.AppScreens
 import com.example.apptfgandroid.ui.composables.PasswordTextField
@@ -29,6 +31,15 @@ import com.example.tfgapp.services.RetrofitService
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 
+@Preview
+@Composable
+fun Previews(){
+    val a: String = "hola"
+    val navController = rememberNavController()
+    val modifier: Modifier
+    LoginForm(navController, Modifier)
+//    ToolBar()
+}
 
 @Composable
 fun LoginForm(
@@ -128,3 +139,4 @@ fun LoginForm(
         )
     }
 }
+

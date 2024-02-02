@@ -51,13 +51,13 @@ fun ToolBar(navController: NavController,){
                 Icon(
                     imageVector = Icons.Default.ArrowBack,
                     contentDescription = "Back",
-                    tint = MaterialTheme.colorScheme.error
+                    tint = MaterialTheme.colorScheme.onPrimary
                 )
             }
         },
         colors = TopAppBarDefaults.smallTopAppBarColors(
             containerColor = MaterialTheme.colorScheme.primary,
-            titleContentColor = Color.Black
+            titleContentColor = MaterialTheme.colorScheme.onPrimary
         )
     )
 }
@@ -144,7 +144,6 @@ fun getContacts(token: String){
 }
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
 fun preview(){

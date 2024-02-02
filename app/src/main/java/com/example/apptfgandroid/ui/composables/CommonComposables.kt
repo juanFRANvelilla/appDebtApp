@@ -80,7 +80,7 @@ fun TelephoneTextField(
                         Icon(
                             Icons.Default.Call,
                             contentDescription = null,
-                            tint = MaterialTheme.colorScheme.error
+                            tint = MaterialTheme.colorScheme.primary
                         )
                         Icon(
                             Icons.Default.ArrowDropDown,
@@ -105,8 +105,6 @@ fun TelephoneTextField(
         )
 
     }
-
-
 
     if (expanded) {
         Column(
@@ -162,3 +160,6 @@ fun PasswordTextField(
         visualTransformation = PasswordVisualTransformation()
     )
 }
+
+
+

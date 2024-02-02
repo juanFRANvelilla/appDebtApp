@@ -16,17 +16,18 @@ import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
 private val DarkColorScheme = darkColorScheme(
-    primary = rojo,
+    primary = Purple40,
     secondary = PurpleGrey80,
     tertiary = Pink80,
-    background = rojo,
+    background = GreyBackground
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = rojo,
+    primary = Purple40,
     secondary = PurpleGrey40,
     tertiary = Pink40,
-    background = rojo,
+    onPrimary = White,
+    background = White
 
 
     /* Other default colors to override
@@ -40,52 +41,61 @@ private val LightColorScheme = lightColorScheme(
     */
 )
 
+//@Composable
+//fun AppTfgAndroidTheme(
+//    darkTheme: Boolean = isSystemInDarkTheme(),
+//    // Dynamic color is available on Android 12+
+//    dynamicColor: Boolean = true,
+//    content: @Composable () -> Unit
+//) {
+//    val colorScheme = when {
+//        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
+//            val context = LocalContext.current
+//            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
+//        }
+//
+//        darkTheme -> DarkColorScheme
+//        else -> LightColorScheme
+//    }
+//    val view = LocalView.current
+//    if (!view.isInEditMode) {
+//        SideEffect {
+//            val window = (view.context as Activity).window
+//            window.statusBarColor = colorScheme.primary.toArgb()
+//            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkTheme
+//        }
+//    }
+//
+//    MaterialTheme(
+//        colorScheme = colorScheme,
+//        typography = Typography,
+//        content = content
+//    )
+//}
+
 @Composable
 fun AppTfgAndroidTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
     content: @Composable () -> Unit
 ) {
-    val colorScheme = when {
-        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-            val context = LocalContext.current
-            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-        }
-
-        darkTheme -> DarkColorScheme
-        else -> LightColorScheme
+    val colors = if (darkTheme){
+        DarkColorScheme
+    } else {
+        LightColorScheme
     }
+
     val view = LocalView.current
     if (!view.isInEditMode) {
         SideEffect {
             val window = (view.context as Activity).window
-            window.statusBarColor = colorScheme.primary.toArgb()
+            window.statusBarColor = colors.primary.toArgb()
             WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkTheme
         }
     }
 
     MaterialTheme(
-        colorScheme = colorScheme,
+        colorScheme = colors,
         typography = Typography,
         content = content
     )
 }
-
-//@Composable
-//fun AppTfgAndroidTheme(
-//    darkTheme: Boolean = isSystemInDarkTheme(),
-//    content: @Composable () -> Unit
-//) {
-//    val colors = if (darkTheme){
-//        DarkColorScheme
-//    } else {
-//        LightColorScheme
-//    }
-//
-//    MaterialTheme(
-//        colorScheme = colors,
-//        typography = Typography,
-//        content = content
-//    )
-//}
