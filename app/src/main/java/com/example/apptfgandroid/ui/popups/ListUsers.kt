@@ -12,6 +12,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -51,7 +53,7 @@ fun ListUsers(
                         .padding(16.dp)
                 ) {
                     Icon(
-                        painter = painterResource(id = R.drawable.ic_launcher_background),
+                        imageVector = Icons.Default.Person,
                         contentDescription = null,
                         modifier = Modifier
                             .size(48.dp)
