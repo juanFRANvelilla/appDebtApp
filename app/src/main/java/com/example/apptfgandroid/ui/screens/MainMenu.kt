@@ -1,21 +1,26 @@
 package com.example.apptfgandroid.ui.screens
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.ui.Alignment
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -27,28 +32,67 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.apptfgandroid.models.UserDTO
-import com.example.tfgapp.models.ServerResponseDTO
+import com.example.apptfgandroid.navigation.AppScreens
+import com.example.apptfgandroid.ui.popups.ListUsers
 import com.example.tfgapp.services.RetrofitService
 import kotlinx.coroutines.launch
-import retrofit2.HttpException
-import com.example.apptfgandroid.ui.screens.ItemList as ItemList
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun ToolBar(navController: NavController,){
+    TopAppBar(
+        title = { Text(text = "Main Menu") },
+        navigationIcon = {
+            IconButton(onClick = {
+                navController.navigate(AppScreens.LoginForm.route)
+            }) {
+                Icon(
+                    imageVector = Icons.Default.ArrowBack,
+                    contentDescription = "Back",
+                    tint = MaterialTheme.colorScheme.error
+                )
+            }
+        },
+        colors = TopAppBarDefaults.smallTopAppBarColors(
+            containerColor = MaterialTheme.colorScheme.primary,
+            titleContentColor = Color.Black
+        )
+    )
+}
+
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainMenu(
+    navController: NavController,
+    data: String
+){
+    Scaffold (
+        topBar = { ToolBar(navController) },
+        content = { MainMenuContent(navController, data) }
+    )
+}
+
+
+
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@Composable
+fun MainMenuContent(
     navController: NavController,
     data: String
 ) {
     Box(
         modifier = Modifier
-            .background(Color.Cyan)
+            .background(MaterialTheme.colorScheme.background)
             .height(280.dp),
         contentAlignment = Alignment.Center
     ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .wrapContentSize(Alignment.Center),  // Center vertically within Box
+                .wrapContentSize(Alignment.Center),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -60,9 +104,12 @@ fun MainMenu(
 }
 
 
+
+
 @Composable
 fun getContacts(token: String){
     var response by remember { mutableStateOf<Set<UserDTO>?>(null) }
+    var openListUserDialog by remember { mutableStateOf<Boolean>(false) }
     val scope = rememberCoroutineScope()
     Button(
         onClick = {
@@ -70,6 +117,9 @@ fun getContacts(token: String){
                 try {
                     val service = RetrofitService.showContacts(token)
                     response = service.showContacts()
+                    if (response?.size ?: 0 > 0) {
+                        openListUserDialog = true
+                    }
 
                     println("respuesta contactos: " + response.toString())
 
@@ -81,27 +131,25 @@ fun getContacts(token: String){
     ) {
         Text("Contactos")
     }
-    response?.let { ItemList(itemSet = it) }
-}
-
-@Composable
-fun ItemList(itemSet: Set<UserDTO>) {
-    LazyColumn {
-        items(itemSet.toList()) { item ->
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp)
-            ) {
-                Text(text = item.toString(), modifier = Modifier.weight(1f))
-            }
+    if(openListUserDialog){
+        response?.let {
+            ListUsers(
+                onDismiss = {
+                    openListUserDialog = false
+                },
+                users = it
+            )
         }
     }
 }
 
+
+@OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
 fun preview(){
     val a: String = "hola"
-//    MainMenu(a)
+    val navController = rememberNavController()
+    MainMenu(navController,a)
+//    ToolBar()
 }

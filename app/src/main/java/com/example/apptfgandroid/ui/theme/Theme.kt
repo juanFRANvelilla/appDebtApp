@@ -16,15 +16,18 @@ import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
+    primary = rojo,
     secondary = PurpleGrey80,
-    tertiary = Pink80
+    tertiary = Pink80,
+    background = rojo,
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
+    primary = rojo,
     secondary = PurpleGrey40,
-    tertiary = Pink40
+    tertiary = Pink40,
+    background = rojo,
+
 
     /* Other default colors to override
     background = Color(0xFFFFFBFE),
@@ -68,3 +71,21 @@ fun AppTfgAndroidTheme(
         content = content
     )
 }
+
+//@Composable
+//fun AppTfgAndroidTheme(
+//    darkTheme: Boolean = isSystemInDarkTheme(),
+//    content: @Composable () -> Unit
+//) {
+//    val colors = if (darkTheme){
+//        DarkColorScheme
+//    } else {
+//        LightColorScheme
+//    }
+//
+//    MaterialTheme(
+//        colorScheme = colors,
+//        typography = Typography,
+//        content = content
+//    )
+//}

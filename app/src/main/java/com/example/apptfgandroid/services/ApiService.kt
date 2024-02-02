@@ -38,7 +38,7 @@ private val url: String = R.string.url2.toString()
 object RetrofitService{
     fun login(): ApiService {
         return Retrofit.Builder()
-            .baseUrl("http://192.168.56.1:8080/")
+            .baseUrl("http://192.168.0.128:8080/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(ApiService::class.java)
@@ -46,7 +46,7 @@ object RetrofitService{
 
     fun confirmPhone(): ApiService{
         return Retrofit.Builder()
-            .baseUrl("http://192.168.56.1:8080/api/")
+            .baseUrl("http://192.168.0.128:8080/api/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(ApiService::class.java)
@@ -54,7 +54,7 @@ object RetrofitService{
 
     fun validatePhone(): ApiService{
         return Retrofit.Builder()
-            .baseUrl("http://192.168.56.1:8080/api/")
+            .baseUrl("http://192.168.0.128:8080/api/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(ApiService::class.java)
@@ -66,7 +66,7 @@ object RetrofitService{
             .build()
 
         return Retrofit.Builder()
-            .baseUrl("http://192.168.56.1:8080/api2/")
+            .baseUrl("http://192.168.0.128:8080/api2/")
             .addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClient)
             .build()
