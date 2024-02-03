@@ -10,8 +10,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.apptfgandroid.module.appModule
 import com.example.apptfgandroid.navigation.AppNavigation
 import com.example.apptfgandroid.ui.theme.AppTfgAndroidTheme
+import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidLogger
+import org.koin.core.context.startKoin
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,5 +30,12 @@ class MainActivity : ComponentActivity() {
 
             }
         }
+
+        startKoin{
+            androidLogger()
+            androidContext(this@MainActivity)
+            modules(appModule)
+        }
     }
+
 }

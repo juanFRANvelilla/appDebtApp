@@ -28,14 +28,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.apptfgandroid.models.UserDTO
 import com.example.apptfgandroid.navigation.AppScreens
-import com.example.apptfgandroid.ui.popups.ListUsers
+import com.example.apptfgandroid.navigation.AppViewModel
 import com.example.tfgapp.services.RetrofitService
 import kotlinx.coroutines.launch
 
@@ -67,11 +64,12 @@ fun ToolBar(navController: NavController,){
 @Composable
 fun MainMenu(
     navController: NavController,
-    data: String
+    appViewModel: AppViewModel
 ){
+    val data = appViewModel.getToken()
     Scaffold (
         topBar = { ToolBar(navController) },
-        content = { MainMenuContent(navController, data) }
+        content = { MainMenuContent(navController, appViewModel) }
     )
 }
 
@@ -81,7 +79,7 @@ fun MainMenu(
 @Composable
 fun MainMenuContent(
     navController: NavController,
-    data: String
+    appViewModel: AppViewModel,
 ) {
     Box(
         modifier = Modifier
@@ -98,7 +96,7 @@ fun MainMenuContent(
         ) {
             Text(text = "data")
             Spacer(modifier = Modifier.height(16.dp))
-            getContacts(data)
+            getContacts(appViewModel.getToken(), navController, appViewModel)
         }
     }
 }
@@ -107,7 +105,7 @@ fun MainMenuContent(
 
 
 @Composable
-fun getContacts(token: String){
+fun getContacts(token: String, navController: NavController,appViewModel: AppViewModel){
     var response by remember { mutableStateOf<Set<UserDTO>?>(null) }
     var openListUserDialog by remember { mutableStateOf<Boolean>(false) }
     val scope = rememberCoroutineScope()
@@ -119,6 +117,8 @@ fun getContacts(token: String){
                     response = service.showContacts()
                     if (response?.size ?: 0 > 0) {
                         openListUserDialog = true
+                        appViewModel.setContacts(response!!)
+                        navController.navigate(AppScreens.ManageContacs.route)
                     }
 
                     println("respuesta contactos: " + response.toString())
@@ -131,24 +131,14 @@ fun getContacts(token: String){
     ) {
         Text("Contactos")
     }
-    if(openListUserDialog){
-        response?.let {
-            ListUsers(
-                onDismiss = {
-                    openListUserDialog = false
-                },
-                users = it
-            )
-        }
-    }
 }
 
 
-@Preview
-@Composable
-fun preview(){
-    val a: String = "hola"
-    val navController = rememberNavController()
-    MainMenu(navController,a)
-//    ToolBar()
-}
+//@Preview
+//@Composable
+//fun preview(){
+//    val a: String = "hola"
+//    val navController = rememberNavController()
+//    MainMenu(navController,a)
+////    ToolBar()
+//}

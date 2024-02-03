@@ -67,6 +67,9 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp:4.11.0")
     implementation ("androidx.navigation:navigation-compose:2.4.0-alpha10")
 
+    //koin
+    implementation("io.insert-koin:koin-android:3.3.2")
+
 
 
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
