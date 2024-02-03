@@ -1,9 +1,11 @@
 package com.example.apptfgandroid.ui.popups
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.Icon
@@ -14,8 +16,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import com.example.apptfgandroid.models.CreateUserDTO
 
 @Composable
 fun ResponseMessageDialog(
@@ -28,38 +32,50 @@ fun ResponseMessageDialog(
             onDismiss()
         }
     ) {
-        Column(
+        Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp)
-                .background(MaterialTheme.colorScheme.background)
+                .background(
+                    color = MaterialTheme.colorScheme.background,
+                    shape = RoundedCornerShape(14.dp)
+                )
         ) {
-
-            Text (
-                text = message,
-                color = if (message.contains("Error", ignoreCase = true)) {
-                    Color.Red
-                } else {
-                    MaterialTheme.colorScheme.primary
-                },
-                modifier = Modifier.padding(8.dp)
-            )
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 16.dp),
-                horizontalAlignment = Alignment.End
+                    .padding(16.dp)
+                    .background(MaterialTheme.colorScheme.background)
             ) {
-                TextButton(
-                    onClick = {
-                        onDismiss()
+
+                Text (
+                    text = message,
+                    color = if (message.contains("Error", ignoreCase = true)) {
+                        Color.Red
+                    } else {
+                        MaterialTheme.colorScheme.primary
                     },
-                    modifier = Modifier.padding(end = 8.dp)
+                    modifier = Modifier.padding(8.dp)
+                )
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 16.dp),
+                    horizontalAlignment = Alignment.End
                 ) {
-                    Icon(imageVector = Icons.Default.Check, contentDescription = null)
-                    Text("Aceptar")
+                    TextButton(
+                        onClick = {
+                            onDismiss()
+                        },
+                        modifier = Modifier.padding(end = 8.dp)
+                    ) {
+                        Icon(imageVector = Icons.Default.Check, contentDescription = null)
+                        Text("Aceptar")
+                    }
                 }
             }
         }
     }
 }
+
+

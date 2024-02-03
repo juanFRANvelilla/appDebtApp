@@ -1,12 +1,19 @@
 package com.example.apptfgandroid.ui.popups
 
+import android.widget.ScrollView
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
@@ -15,6 +22,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Snackbar
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -26,6 +34,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Red
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
@@ -33,7 +42,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.example.apptfgandroid.models.CreateUserDTO
-import com.example.apptfgandroid.navigation.AppScreens
 import com.example.tfgapp.services.RetrofitService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -51,6 +59,11 @@ fun EnterSeguritySmsCodeDialog(
     var errorMessage by remember { mutableStateOf<String?>(null) }
     var isMessageDialogVisible by remember { mutableStateOf(false) }
     var messageDialog by remember { mutableStateOf("") }
+    var heighDialog by remember { mutableStateOf(140.dp) }
+
+    if(attempts != 2){
+        heighDialog = 180.dp
+    }
 
     val scope = rememberCoroutineScope()
 
@@ -60,100 +73,113 @@ fun EnterSeguritySmsCodeDialog(
             onDismiss()
         },
     ) {
-        Column(
+        Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp)
-                .background(MaterialTheme.colorScheme.background)
+                .background(
+                    color = MaterialTheme.colorScheme.background,
+                    shape = RoundedCornerShape(14.dp)
+                )
         ) {
-            OutlinedTextField(
-                value = codeSms,
-                onValueChange = { codeSms = it },
-                label = { Text("Ingrese el código SMS") },
-                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
+            Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(bottom = 16.dp, start = 5.dp, end = 5.dp)
-            )
-
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 16.dp),
-                horizontalArrangement = Arrangement.End
+                    .padding(16.dp)
+                    .background(MaterialTheme.colorScheme.background)
             ) {
+                OutlinedTextField(
+                    value = codeSms,
+                    onValueChange = { codeSms = it },
+                    label = { Text("Ingrese el código SMS") },
+                    keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 5.dp, start = 5.dp, end = 5.dp)
+                )
                 Text(
                     text = warningAttempts,
                     style = TextStyle(
                         color = Color.Red,
-                        fontSize = 16.sp
+                        fontSize = 13.sp
                     ),
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(bottom = 16.dp, start = 5.dp, end = 5.dp)
+                        .padding(start = 8.dp, end = 8.dp)
+                        .height(16.dp)
                 )
 
-                Spacer(modifier = Modifier.weight(1f)) // Add a spacer to fill the available space
 
-                TextButton(
-                    onClick = {
-                        onDismiss()
-                    },
-                    modifier = Modifier.padding(end = 8.dp)
-                ) {
-                    Icon(imageVector = Icons.Default.Close, contentDescription = null)
-                    Text("Cancelar")
-                }
-
-                TextButton(
-                    onClick = {
-                        SendSms(
-                            scope = scope,
-                            codeSms = codeSms,
-                            onCodeSmsChanged = {
-                                codeSms = it
-                            },
-                            data = data,
-                            onIsMessageDialogVisibleChange = { isVisible ->
-                                isMessageDialogVisible = isVisible
-                            },
-                            onMessageDialogChanged = {
-                                messageDialog = it
-                            },
-                            onAttemptsChanged = {
-                                attempts = it
-                            },
-                            onWarningAttempts = {
-                                warningAttempts = it
-                            },
-                            attempts = attempts
-                        )
-                    }
-                ) {
-                    Icon(imageVector = Icons.Default.Check, contentDescription = null)
-                    Text("Aceptar")
-                }
-            }
-            errorMessage?.let {
-                Text(
-                    text = it,
-                    color = Red,
+                Row(
                     modifier = Modifier
-                        .padding(top = 4.dp)
-                        .background(Color.White)
-                )
+                        .fillMaxWidth()
+                        .padding(top = 12.dp),
+                    horizontalArrangement = Arrangement.End
+                ) {
+                    TextButton(
+                        onClick = {
+                            onDismiss()
+                        },
+                        modifier = Modifier.padding(end = 8.dp)
+                    ) {
+                        Icon(imageVector = Icons.Default.Close, contentDescription = null)
+                        Text("Cancelar")
+                    }
+
+                    TextButton(
+                        onClick = {
+                            SendSms(
+                                scope = scope,
+                                codeSms = codeSms,
+                                onCodeSmsChanged = {
+                                    codeSms = it
+                                },
+                                data = data,
+                                onIsMessageDialogVisibleChange = { isVisible ->
+                                    isMessageDialogVisible = isVisible
+                                },
+                                onMessageDialogChanged = {
+                                    messageDialog = it
+                                },
+                                onAttemptsChanged = {
+                                    attempts = it
+                                },
+                                onWarningAttempts = {
+                                    warningAttempts = it
+                                },
+                                attempts = attempts
+                            )
+                        }
+                    ) {
+                        Icon(imageVector = Icons.Default.Check, contentDescription = null)
+                        Text("Aceptar")
+                    }
+                }
+                errorMessage?.let {
+                    Text(
+                        text = it,
+                        color = Red,
+                        modifier = Modifier
+                            .padding(top = 4.dp)
+                            .background(Color.White)
+                    )
+                }
+                if(isMessageDialogVisible){
+                    ResponseMessageDialog(
+                        onDismiss = {
+                            onDismiss()
+                        },
+                        message = messageDialog
+                    )
+                }
             }
-            if(isMessageDialogVisible){
-                ResponseMessageDialog(
-                    onDismiss = {
-                        onDismiss()
-                    },
-                    message = messageDialog
-                )
-            }
+
         }
+
     }
 }
+
+
 
 fun SendSms(
     scope: CoroutineScope,
@@ -174,8 +200,6 @@ fun SendSms(
             onIsMessageDialogVisibleChange(true)
             onMessageDialogChanged(response.message)
 
-//            isMessageDialogVisible = true
-//            messageDialog = response.message
 
         } catch (e: Exception) {
             when (e) {
@@ -185,12 +209,16 @@ fun SendSms(
                             onAttemptsChanged
                             onAttemptsChanged(attempts - 1)
                             onCodeSmsChanged("")
-                            onWarningAttempts("Codigo incorrecto. Te quedan \" + attempts + \" intentos")
+                            if(attempts == 1){
+                                onWarningAttempts("Codigo incorrecto. Te queda " + attempts + " intento")
+                            } else{
+                                onWarningAttempts("Codigo incorrecto. Te quedan " + attempts + " intentos")
+                            }
+
                         }
                         400 -> {
                             onIsMessageDialogVisibleChange(true)
                             onMessageDialogChanged("Error, te has quedado sin intentos para verificar tu numero de telefono")
-//                            messageDialog = "Error, te has quedado sin intentos para verificar tu numero de telefono"
                         }
                         else -> {
                             println(e.message)
@@ -205,6 +233,7 @@ fun SendSms(
     }
 }
 
+
 @Preview
 @Composable
 fun sfdsf(){
@@ -216,7 +245,7 @@ fun sfdsf(){
         lastName = "Doe",
         verificationCode = "123456"
     )
+
     EnterSeguritySmsCodeDialog(onDismiss = {
     }, data = user)
 }
-
