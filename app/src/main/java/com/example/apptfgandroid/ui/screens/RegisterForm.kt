@@ -35,7 +35,7 @@ import com.example.apptfgandroid.models.PhoneValidationDTO
 import com.example.apptfgandroid.navigation.AppScreens
 import com.example.apptfgandroid.ui.composables.PasswordTextField
 import com.example.apptfgandroid.ui.composables.TelephoneTextField
-import com.example.apptfgandroid.ui.popups.SmsCodeDialog
+import com.example.apptfgandroid.ui.popups.EnterSeguritySmsCodeDialog
 import com.example.tfgapp.services.RetrofitService
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
@@ -194,7 +194,7 @@ fun RegisterForm(
                 lastName = lastName,
                 verificationCode = ""
             )
-            SmsCodeDialog(
+            EnterSeguritySmsCodeDialog(
                 onDismiss = {
                     isDialogVisible = false
                     navController.navigate(AppScreens.RegisterForm.route)

@@ -66,7 +66,6 @@ fun MainMenu(
     navController: NavController,
     appViewModel: AppViewModel
 ){
-    val data = appViewModel.getToken()
     Scaffold (
         topBar = { ToolBar(navController) },
         content = { MainMenuContent(navController, appViewModel) }
