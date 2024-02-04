@@ -119,7 +119,6 @@ fun LoginForm(
                         errorMessage = null
                         appViewModel.setToken(response.message)
                         navController.navigate(AppScreens.MainMenu.route)
-//                        navController.navigate(route = AppScreens.MainMenu.route + "/" + response.message)
                     } catch (e: Exception) {
                         when (e) {
                             is HttpException -> {

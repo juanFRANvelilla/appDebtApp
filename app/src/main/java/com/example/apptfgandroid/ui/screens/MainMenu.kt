@@ -106,19 +106,15 @@ fun MainMenuContent(
 @Composable
 fun getContacts(token: String, navController: NavController,appViewModel: AppViewModel){
     var response by remember { mutableStateOf<Set<UserDTO>?>(null) }
-    var openListUserDialog by remember { mutableStateOf<Boolean>(false) }
     val scope = rememberCoroutineScope()
     Button(
         onClick = {
             scope.launch {
                 try {
-                    val service = RetrofitService.showContacts(token)
+                    val service = RetrofitService.contactsCallsJwt(token)
                     response = service.showContacts()
-                    if (response?.size ?: 0 > 0) {
-                        openListUserDialog = true
-                        appViewModel.setContacts(response!!)
-                        navController.navigate(AppScreens.ManageContacs.route)
-                    }
+                    appViewModel.setContacts(response!!)
+                    navController.navigate(AppScreens.ManageContacs.route)
 
                     println("respuesta contactos: " + response.toString())
 

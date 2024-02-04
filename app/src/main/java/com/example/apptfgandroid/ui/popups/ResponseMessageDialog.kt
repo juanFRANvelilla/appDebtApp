@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -24,6 +25,7 @@ import com.example.apptfgandroid.models.CreateUserDTO
 @Composable
 fun ResponseMessageDialog(
     onDismiss: () -> Unit,
+    status: String,
     message: String
 ) {
 
@@ -35,7 +37,6 @@ fun ResponseMessageDialog(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp)
                 .background(
                     color = MaterialTheme.colorScheme.background,
                     shape = RoundedCornerShape(14.dp)
@@ -44,13 +45,13 @@ fun ResponseMessageDialog(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp)
+                    .padding(5.dp)
                     .background(MaterialTheme.colorScheme.background)
             ) {
 
                 Text (
                     text = message,
-                    color = if (message.contains("Error", ignoreCase = true)) {
+                    color = if (status.equals("error")) {
                         Color.Red
                     } else {
                         MaterialTheme.colorScheme.primary
@@ -60,7 +61,7 @@ fun ResponseMessageDialog(
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = 16.dp),
+                        .padding(top = 0.dp),
                     horizontalAlignment = Alignment.End
                 ) {
                     TextButton(
@@ -77,5 +78,11 @@ fun ResponseMessageDialog(
         }
     }
 }
+
+//@Preview
+//@Composable
+//fun Response(){
+//    ResponseMessageDialog(onDismiss = {}, message = "Error, te has quedado sin intentos para verificar tu numero de telefono")
+//}
 
 

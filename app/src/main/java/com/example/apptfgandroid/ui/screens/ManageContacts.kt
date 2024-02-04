@@ -27,7 +27,11 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -40,6 +44,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.apptfgandroid.models.UserDTO
 import com.example.apptfgandroid.navigation.AppScreens
 import com.example.apptfgandroid.navigation.AppViewModel
+import com.example.apptfgandroid.ui.popups.AddContactDialog
 import com.example.tfgapp.services.RetrofitService
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
@@ -54,8 +59,8 @@ fun ManageContacts(
     navController: NavController,
     appViewModel: AppViewModel
 ) {
-//    val users: Set<UserDTO> = appViewModel.getContacts()
-    val users: Set<UserDTO> = getUsers()
+    val users: Set<UserDTO> = appViewModel.getContacts()
+//    val users: Set<UserDTO> = getUsers()
     Scaffold(
         content = { ManageContactsContent(users)} ,
         topBar = { ToolBarContacts(navController,appViewModel) }
@@ -76,7 +81,7 @@ fun ManageContactsContent(users: Set<UserDTO>){
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start= 16.dp, bottom = 16.dp)
+                    .padding(start = 16.dp, bottom = 16.dp)
             ) {
                 Icon(
                     imageVector = Icons.Default.Person,
@@ -154,8 +159,9 @@ fun ToolBarContacts(navController: NavController, appViewModel: AppViewModel) {
 
 @Composable
 fun AddUsers(appViewModel: AppViewModel){
+    var addDialog by remember { mutableStateOf(false) }
     IconButton(onClick = {
-
+        addDialog = true
     }){
         Icon(
             imageVector = Icons.Default.Person,
@@ -163,7 +169,7 @@ fun AddUsers(appViewModel: AppViewModel){
             tint = MaterialTheme.colorScheme.onPrimary,
             modifier = Modifier
                 .fillMaxSize()
-                .padding(end=12.dp)
+                .padding(end = 12.dp)
         )
         Icon(
             imageVector = Icons.Default.Add,
@@ -173,6 +179,9 @@ fun AddUsers(appViewModel: AppViewModel){
                 .size(26.dp)
                 .padding(bottom = 10.dp, start = 12.dp)
         )
+    }
+    if (addDialog){
+        AddContactDialog(onDismiss = { addDialog = false }, appViewModel = appViewModel)
     }
 }
 

@@ -42,6 +42,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.example.apptfgandroid.models.CreateUserDTO
+import com.example.tfgapp.models.ServerResponseDTO
+import com.example.tfgapp.models.toServerResponseDTO
 import com.example.tfgapp.services.RetrofitService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -58,12 +60,8 @@ fun EnterSeguritySmsCodeDialog(
     var warningAttempts by remember { mutableStateOf("")}
     var errorMessage by remember { mutableStateOf<String?>(null) }
     var isMessageDialogVisible by remember { mutableStateOf(false) }
-    var messageDialog by remember { mutableStateOf("") }
+    var responseDTO by remember { mutableStateOf<ServerResponseDTO>(ServerResponseDTO("","")) }
     var heighDialog by remember { mutableStateOf(140.dp) }
-
-    if(attempts != 2){
-        heighDialog = 180.dp
-    }
 
     val scope = rememberCoroutineScope()
 
@@ -76,7 +74,6 @@ fun EnterSeguritySmsCodeDialog(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp)
                 .background(
                     color = MaterialTheme.colorScheme.background,
                     shape = RoundedCornerShape(14.dp)
@@ -138,8 +135,8 @@ fun EnterSeguritySmsCodeDialog(
                                 onIsMessageDialogVisibleChange = { isVisible ->
                                     isMessageDialogVisible = isVisible
                                 },
-                                onMessageDialogChanged = {
-                                    messageDialog = it
+                                onResponseChange = {
+                                    responseDTO = it
                                 },
                                 onAttemptsChanged = {
                                     attempts = it
@@ -169,13 +166,12 @@ fun EnterSeguritySmsCodeDialog(
                         onDismiss = {
                             onDismiss()
                         },
-                        message = messageDialog
+                        status = responseDTO.status,
+                        message = responseDTO.message
                     )
                 }
             }
-
         }
-
     }
 }
 
@@ -187,7 +183,7 @@ fun SendSms(
     codeSms: String,
     data: CreateUserDTO,
     onIsMessageDialogVisibleChange: (Boolean) -> Unit,
-    onMessageDialogChanged: (String) -> Unit,
+    onResponseChange: (ServerResponseDTO) -> Unit,
     onAttemptsChanged: (Int) -> Unit,
     onWarningAttempts: (String) -> Unit,
     attempts: Int
@@ -195,10 +191,12 @@ fun SendSms(
     scope.launch {
         try {
             val updateData = data.copy(verificationCode = codeSms)
-            val service = RetrofitService.confirmPhone()
-            val response = service.validatePhone(updateData)
+            val service = RetrofitService.accessCalls()
+            val responseServer : Map<String, Any> = service.validatePhone(updateData)
+            val responseDTO = responseServer.toServerResponseDTO()
+            onResponseChange(responseDTO)
+            println("Buena respuesta --> ${responseDTO.toString()}")
             onIsMessageDialogVisibleChange(true)
-            onMessageDialogChanged(response.message)
 
 
         } catch (e: Exception) {
@@ -217,8 +215,12 @@ fun SendSms(
 
                         }
                         400 -> {
+                            val responseDTO = ServerResponseDTO(
+                                "error",
+                                "Te has quedado sin intentos para verificar tu numero de telefono"
+                            )
+                            onResponseChange(responseDTO)
                             onIsMessageDialogVisibleChange(true)
-                            onMessageDialogChanged("Error, te has quedado sin intentos para verificar tu numero de telefono")
                         }
                         else -> {
                             println(e.message)

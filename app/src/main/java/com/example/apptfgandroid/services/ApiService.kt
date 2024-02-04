@@ -4,6 +4,7 @@ import com.example.apptfgandroid.R
 import com.example.apptfgandroid.models.CreateUserDTO
 import com.example.apptfgandroid.models.LoginRequestDTO
 import com.example.apptfgandroid.models.PhoneValidationDTO
+import com.example.apptfgandroid.models.RequestContactDTO
 import com.example.apptfgandroid.models.UserDTO
 import com.example.tfgapp.models.ServerResponseDTO
 import okhttp3.Interceptor
@@ -23,10 +24,13 @@ interface ApiService {
     suspend fun confirmPhone(@Body data: PhoneValidationDTO): ServerResponseDTO
 
     @POST("validatePhone")
-    suspend fun validatePhone(@Body data: CreateUserDTO): ServerResponseDTO
+    suspend fun validatePhone(@Body data: CreateUserDTO): Map<String, Any>
 
     @GET("showContacts")
     suspend fun showContacts(): Set<UserDTO>
+
+    @POST("requestContact")
+    suspend fun sendContactRequest(@Body data: RequestContactDTO): Map<String, Any>
 
 
 }
@@ -44,7 +48,7 @@ object RetrofitService{
             .create(ApiService::class.java)
     }
 
-    fun confirmPhone(): ApiService{
+    fun accessCalls(): ApiService{
         return Retrofit.Builder()
             .baseUrl("http://192.168.0.128:8080/api/")
             .addConverterFactory(GsonConverterFactory.create())
@@ -52,15 +56,7 @@ object RetrofitService{
             .create(ApiService::class.java)
     }
 
-    fun validatePhone(): ApiService{
-        return Retrofit.Builder()
-            .baseUrl("http://192.168.0.128:8080/api/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(ApiService::class.java)
-    }
-
-    fun showContacts(token: String): ApiService{
+    fun contactsCallsJwt(token: String): ApiService{
         val okHttpClient = OkHttpClient.Builder()
             .addInterceptor(TokenInterceptor(token))
             .build()
@@ -72,6 +68,8 @@ object RetrofitService{
             .build()
             .create(ApiService::class.java)
     }
+
+
 }
 
 class TokenInterceptor(private val jwtToken: String) : Interceptor {

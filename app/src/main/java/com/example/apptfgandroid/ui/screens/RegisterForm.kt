@@ -137,7 +137,7 @@ fun RegisterForm(
                             errorMessage = "La contraseña no coincide"
                         }
                         else{
-                            val service = RetrofitService.confirmPhone()
+                            val service = RetrofitService.accessCalls()
                             val randomNumber = Random.nextInt(0, 1000000)
                             verificationCode = String.format("%06d", randomNumber)
                             val phoneValidationDTO = PhoneValidationDTO(
