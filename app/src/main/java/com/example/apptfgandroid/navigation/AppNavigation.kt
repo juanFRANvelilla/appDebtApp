@@ -43,7 +43,10 @@ fun AppNavigation(){
             LoginForm(navController, appViewModel)
         }
         composable(route= AppScreens.RegisterForm.route){
-            RegisterForm(navController)
+            RegisterForm(
+                onClickNavigate = { navController.navigate(AppScreens.RegisterForm.route) },
+                goBackNavigation = { navController.popBackStack() }
+            )
         }
 //        composable(
 //            route = AppScreens.MainMenu.route + "/{data}",

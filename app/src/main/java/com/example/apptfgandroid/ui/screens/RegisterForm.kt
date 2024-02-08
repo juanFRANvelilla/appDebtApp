@@ -44,7 +44,8 @@ import kotlin.random.Random
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RegisterForm(
-    navController: NavController
+    onClickNavigate: () -> Unit,
+    goBackNavigation: () -> Unit
 ) {
     var firstName by remember { mutableStateOf("") }
     var lastName by remember { mutableStateOf("") }
@@ -197,18 +198,19 @@ fun RegisterForm(
             EnterSeguritySmsCodeDialog(
                 onDismiss = {
                     isDialogVisible = false
-                    navController.navigate(AppScreens.RegisterForm.route)
+                    onClickNavigate()
+//                    navController.navigate(AppScreens.RegisterForm.route)
                 },
                 data = createUserDTO
             )
         }
-        GoBack(navController = navController)
+        GoBack(goBackNavigation)
     }
 }
 
 
 @Composable
-fun GoBack(navController: NavController) {
+fun GoBack(goBackNavigation: () -> Unit) {
 //    Row(
 //        modifier = Modifier
 //    ) {
@@ -238,7 +240,8 @@ fun GoBack(navController: NavController) {
     ) {
         TextButton(
             onClick = {
-                navController.navigate(AppScreens.LoginForm.route)
+                goBackNavigation()
+//                navController.navigate(AppScreens.LoginForm.route)
             }
         ) {
             Icon(
@@ -254,11 +257,11 @@ fun GoBack(navController: NavController) {
 
 
 
-@Preview
-@Composable
-fun Preview(){
-//    RegisterForm()
-    GoBack(navController = rememberNavController())
-}
+//@Preview
+//@Composable
+//fun Preview(){
+////    RegisterForm()
+//    GoBack(navController = rememberNavController())
+//}
 
 
