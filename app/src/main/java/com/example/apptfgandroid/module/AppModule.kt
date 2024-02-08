@@ -1,8 +1,10 @@
 package com.example.apptfgandroid.module
 
 import androidx.lifecycle.MutableLiveData
+import com.example.apptfgandroid.appViewModel.AppViewModel
 import com.example.apptfgandroid.models.UserDTO
 import com.example.apptfgandroid.module.Qualifier.*
+import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import org.koin.core.qualifier.named
@@ -12,6 +14,7 @@ val appModule = module {
     single(named(BaseUrl)) { "http://192.168.0.128:8080/" }
     single<Set<UserDTO>> { mutableSetOf() }
     single(named(JWToken)) { MutableLiveData<String>().apply { value = "" } }
+    viewModel { AppViewModel(get(), get(named(JWToken))) }
 }
 
 enum class Qualifier{

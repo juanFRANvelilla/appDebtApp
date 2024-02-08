@@ -33,11 +33,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import com.example.apptfgandroid.appViewModel.AppViewModel
 import com.example.apptfgandroid.models.CreateUserDTO
 import com.example.apptfgandroid.models.RequestContactDTO
 import com.example.apptfgandroid.module.appModule
 import com.example.apptfgandroid.navigation.AppScreens
-import com.example.apptfgandroid.navigation.AppViewModel
 import com.example.apptfgandroid.ui.composables.TelephoneTextField
 import com.example.tfgapp.models.ConvertResponseToServerResponseDTO
 import com.example.tfgapp.models.ServerResponseDTO
