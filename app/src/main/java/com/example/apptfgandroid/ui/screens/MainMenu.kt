@@ -94,7 +94,7 @@ fun MainMenuContent(
         ) {
             Text(text = "data")
             Spacer(modifier = Modifier.height(16.dp))
-            getContacts(appViewModel.getToken(), onNavigateManageContact, appViewModel)
+            getContacts("appViewModel.getToken()", onNavigateManageContact, appViewModel)
         }
     }
 }
@@ -112,7 +112,7 @@ fun getContacts(token: String, onNavigateManageContact: () -> Unit, appViewModel
                 try {
                     val service = RetrofitService.contactsCallsJwt(token)
                     response = service.showContacts()
-                    appViewModel.setContacts(response!!)
+//                    appViewModel.setContacts(response!!)
                     onNavigateManageContact()
                     println("respuesta contactos: " + response.toString())
 

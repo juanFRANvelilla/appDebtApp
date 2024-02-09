@@ -1,16 +1,13 @@
 package com.example.apptfgandroid.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.apptfgandroid.appViewModel.AppViewModel
-import com.example.apptfgandroid.models.UserDTO
 import com.example.apptfgandroid.ui.screens.LoginForm
 import com.example.apptfgandroid.ui.screens.MainMenu
-import com.example.apptfgandroid.ui.screens.ManageContacts
+import com.example.apptfgandroid.ui.screens.ManageContacts.ManageContacts
 import com.example.apptfgandroid.ui.screens.RegisterForm
 
 

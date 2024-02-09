@@ -160,7 +160,7 @@ fun SendContactRequest(
 ){
     scope.launch {
         try {
-            val service = RetrofitService.contactsCallsJwt(appViewModel.getToken())
+            val service = RetrofitService.contactsCallsJwt("appViewModel.getToken()")
             val responseServer : Map<String, Any> = service.sendContactRequest(request)
             val responseDTO = responseServer.toServerResponseDTO()
             onResponseChange(responseDTO)

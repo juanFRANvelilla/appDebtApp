@@ -1,4 +1,4 @@
-package com.example.apptfgandroid.ui.screens
+package com.example.apptfgandroid.ui.screens.ManageContacts
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
@@ -15,7 +15,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -30,17 +29,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.apptfgandroid.appViewModel.AppViewModel
 import com.example.apptfgandroid.models.UserDTO
 import com.example.apptfgandroid.navigation.AppScreens
@@ -55,10 +51,9 @@ fun ManageContacts(
     navController: NavController,
     appViewModel: AppViewModel
 ) {
-    val users: Set<UserDTO> = appViewModel.getContacts()
-//    val users: Set<UserDTO> = getUsers()
+    val users: Set<UserDTO> = getUsers()
     Scaffold(
-        content = { ManageContactsContent(users)} ,
+        content = { ManageContactsContent(users) } ,
         topBar = { ToolBarContacts(navController,appViewModel) }
     )
 }
@@ -96,7 +91,7 @@ fun ManageContactsContent(users: Set<UserDTO>){
                     Text(text = "Number: ${user.username}")
                     Text(text = "Name: ${user.firstName}", fontWeight = FontWeight.Bold)
                     Text(text = "Last Name: ${user.lastName}")
-                    if (user.email?.isNotEmpty() == true) {
+                    if (user.email.isNotEmpty() == true) {
                         Text(text = "Email: ${user.email}")
                     }
                 }
