@@ -21,13 +21,28 @@ fun AppNavigation(appViewModel: AppViewModel) {
 
     NavHost(navController = navController, startDestination = AppScreens.LoginForm.route){
         composable(route= AppScreens.LoginForm.route){
-            LoginForm(navController, appViewModel)
+            LoginForm(
+                onNavigateRegister = { navController.navigate(AppScreens.RegisterForm.route) },
+                onNavigateMainMenu = { navController.navigate(AppScreens.MainMenu.route) },
+                appViewModel = appViewModel
+            )
         }
         composable(route= AppScreens.RegisterForm.route){
             RegisterForm(
-                onClickNavigate = { navController.navigate(AppScreens.RegisterForm.route) },
-                goBackNavigation = { navController.popBackStack() }
+                onNavigateRegister = { navController.navigate(AppScreens.RegisterForm.route) },
+                onNavigateBack = { navController.popBackStack() }
             )
+        }
+        composable(
+            route = AppScreens.MainMenu.route ) {
+            MainMenu(
+                onNavigateLogin = { navController.navigate(AppScreens.LoginForm.route) },
+                onNavigateManageContact = { navController.navigate(AppScreens.ManageContacs.route) },
+                appViewModel = appViewModel
+            )
+        }
+        composable(route= AppScreens.ManageContacs.route){
+            ManageContacts(navController, appViewModel)
         }
 //        composable(
 //            route = AppScreens.MainMenu.route + "/{data}",
@@ -39,13 +54,6 @@ fun AppNavigation(appViewModel: AppViewModel) {
 //        ) {
 //            MainMenu(navController, it.arguments?.getString("data").toString())
 //        }
-        composable(
-            route = AppScreens.MainMenu.route ) {
-            MainMenu(navController, appViewModel)
-        }
-        composable(route= AppScreens.ManageContacs.route){
-            ManageContacts(navController, appViewModel)
-        }
     }
 
 }

@@ -17,7 +17,6 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -26,13 +25,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.apptfgandroid.models.CreateUserDTO
 import com.example.apptfgandroid.models.PhoneValidationDTO
-import com.example.apptfgandroid.navigation.AppScreens
 import com.example.apptfgandroid.ui.composables.PasswordTextField
 import com.example.apptfgandroid.ui.composables.TelephoneTextField
 import com.example.apptfgandroid.ui.popups.EnterSeguritySmsCodeDialog
@@ -44,8 +39,8 @@ import kotlin.random.Random
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RegisterForm(
-    onClickNavigate: () -> Unit,
-    goBackNavigation: () -> Unit
+    onNavigateRegister: () -> Unit,
+    onNavigateBack: () -> Unit
 ) {
     var firstName by remember { mutableStateOf("") }
     var lastName by remember { mutableStateOf("") }
@@ -198,40 +193,18 @@ fun RegisterForm(
             EnterSeguritySmsCodeDialog(
                 onDismiss = {
                     isDialogVisible = false
-                    onClickNavigate()
-//                    navController.navigate(AppScreens.RegisterForm.route)
+                    onNavigateRegister()
                 },
                 data = createUserDTO
             )
         }
-        GoBack(goBackNavigation)
+        GoBack(onNavigateBack)
     }
 }
 
 
 @Composable
-fun GoBack(goBackNavigation: () -> Unit) {
-//    Row(
-//        modifier = Modifier
-//    ) {
-//        IconButton(
-//            onClick = { navController.popBackStack() },
-//            modifier = Modifier.fillMaxWidth()
-//        ) {
-//            Icon(
-//                imageVector = Icons.Default.ArrowBack,
-//                contentDescription = "Back",
-//                tint = MaterialTheme.colorScheme.primary,
-//                modifier = Modifier.alignByBaseline()
-//            )
-//            Spacer(modifier = Modifier.width(4.dp)) // Add a Spacer for separation
-//            Text(
-//                text = "Volver al login",
-//                color = MaterialTheme.colorScheme.primary,
-//                modifier = Modifier.padding(start = 50.dp)
-//            )
-//        }
-//    }
+fun GoBack(onNavigateBack: () -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -240,8 +213,7 @@ fun GoBack(goBackNavigation: () -> Unit) {
     ) {
         TextButton(
             onClick = {
-                goBackNavigation()
-//                navController.navigate(AppScreens.LoginForm.route)
+                onNavigateBack()
             }
         ) {
             Icon(

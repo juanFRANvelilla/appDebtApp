@@ -19,10 +19,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
+import com.example.apptfgandroid.appViewModel.AppViewModel
 import com.example.apptfgandroid.models.LoginRequestDTO
-import com.example.apptfgandroid.navigation.AppScreens
-import com.example.apptfgandroid.navigation.AppViewModel
 import com.example.apptfgandroid.ui.composables.PasswordTextField
 import com.example.apptfgandroid.ui.composables.TelephoneTextField
 import com.example.tfgapp.models.ServerResponseDTO
@@ -34,9 +32,9 @@ import retrofit2.HttpException
 
 @Composable
 fun LoginForm(
-    navController: NavHostController,
-    appViewModel: AppViewModel,
-    modifier: Modifier = Modifier
+    onNavigateRegister: () -> Unit,
+    onNavigateMainMenu: () -> Unit,
+    appViewModel: AppViewModel
 ) {
     var password by remember { mutableStateOf("") }
     var phoneNumber by remember { mutableStateOf("") }
@@ -47,7 +45,7 @@ fun LoginForm(
     var errorMessage by remember { mutableStateOf<String?>(null) }
 
     Column(
-        modifier = modifier
+        modifier = Modifier
             .padding(16.dp)
             .fillMaxWidth()
             .padding(top = 120.dp)
@@ -82,35 +80,6 @@ fun LoginForm(
 
         Button(
             onClick = {
-//                scope.launch {
-//                    try {
-//                        val service = RetrofitService.login()
-//                        val totalPhoneNumber = countryPrefix + phoneNumber
-//                        val response: ServerResponseDTO = service.login(LoginRequestDTO(username = totalPhoneNumber, password = password))
-//                        errorMessage = null
-//                        navController.navigate(route = AppScreens.MainMenu.route + "/" + response.message)
-//                    } catch (e: Exception) {
-//                        when (e) {
-//                            is HttpException -> {
-//                                when (e.code()) {
-//                                    403 -> {
-//                                        errorMessage = "Credenciales incorrectas"
-//                                        password = ""
-//                                    }
-//                                    else -> {
-//                                        errorMessage = "Error de servidor"
-//                                        password = ""
-//                                    }
-//                                }
-//                            }
-//                            else -> {
-//                                errorMessage = "Error de servidor" + e.message
-//                                println(e.message)
-//                                password = ""
-//                            }
-//                        }
-//                    }
-//                }
                 scope.launch {
                     try {
                         val service = RetrofitService.login()
@@ -118,7 +87,7 @@ fun LoginForm(
                         val response: ServerResponseDTO = service.login(LoginRequestDTO(username = totalPhoneNumber, password = password))
                         errorMessage = null
                         appViewModel.setToken(response.message)
-                        navController.navigate(AppScreens.MainMenu.route)
+                        onNavigateMainMenu()
                     } catch (e: Exception) {
                         when (e) {
                             is HttpException -> {
@@ -155,7 +124,7 @@ fun LoginForm(
         ClickableText(
             text = AnnotatedString("Aun no estas registrado?, click aqui"),
             onClick = {
-                navController.navigate(route = AppScreens.RegisterForm.route)
+                      onNavigateRegister()
             },
             modifier = Modifier.padding(top = 8.dp)
         )

@@ -29,21 +29,19 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
+import com.example.apptfgandroid.appViewModel.AppViewModel
 import com.example.apptfgandroid.models.UserDTO
-import com.example.apptfgandroid.navigation.AppScreens
-import com.example.apptfgandroid.navigation.AppViewModel
 import com.example.tfgapp.services.RetrofitService
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ToolBar(navController: NavController,){
+fun ToolBar(onNavigateLogin: () -> Unit,){
     TopAppBar(
         title = { Text(text = "Main Menu") },
         navigationIcon = {
             IconButton(onClick = {
-                navController.navigate(AppScreens.LoginForm.route)
+                onNavigateLogin()
             }) {
                 Icon(
                     imageVector = Icons.Default.ArrowBack,
@@ -63,12 +61,13 @@ fun ToolBar(navController: NavController,){
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainMenu(
-    navController: NavController,
+    onNavigateLogin: () -> Unit,
+    onNavigateManageContact: () -> Unit,
     appViewModel: AppViewModel
 ){
     Scaffold (
-        topBar = { ToolBar(navController) },
-        content = { MainMenuContent(navController, appViewModel) }
+        topBar = { ToolBar(onNavigateLogin) },
+        content = { MainMenuContent(onNavigateManageContact, appViewModel) }
     )
 }
 
@@ -77,7 +76,7 @@ fun MainMenu(
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun MainMenuContent(
-    navController: NavController,
+    onNavigateManageContact: () -> Unit,
     appViewModel: AppViewModel,
 ) {
     Box(
@@ -95,7 +94,7 @@ fun MainMenuContent(
         ) {
             Text(text = "data")
             Spacer(modifier = Modifier.height(16.dp))
-            getContacts(appViewModel.getToken(), navController, appViewModel)
+            getContacts(appViewModel.getToken(), onNavigateManageContact, appViewModel)
         }
     }
 }
@@ -104,7 +103,7 @@ fun MainMenuContent(
 
 
 @Composable
-fun getContacts(token: String, navController: NavController,appViewModel: AppViewModel){
+fun getContacts(token: String, onNavigateManageContact: () -> Unit, appViewModel: AppViewModel){
     var response by remember { mutableStateOf<Set<UserDTO>?>(null) }
     val scope = rememberCoroutineScope()
     Button(
@@ -114,8 +113,7 @@ fun getContacts(token: String, navController: NavController,appViewModel: AppVie
                     val service = RetrofitService.contactsCallsJwt(token)
                     response = service.showContacts()
                     appViewModel.setContacts(response!!)
-                    navController.navigate(AppScreens.ManageContacs.route)
-
+                    onNavigateManageContact()
                     println("respuesta contactos: " + response.toString())
 
                 } catch (e: Exception) {

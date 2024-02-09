@@ -41,14 +41,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.apptfgandroid.appViewModel.AppViewModel
 import com.example.apptfgandroid.models.UserDTO
 import com.example.apptfgandroid.navigation.AppScreens
-import com.example.apptfgandroid.navigation.AppViewModel
 import com.example.apptfgandroid.ui.popups.AddContactDialog
-import com.example.tfgapp.services.RetrofitService
-import kotlinx.coroutines.launch
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
 
 
 
@@ -187,13 +183,13 @@ fun AddUsers(appViewModel: AppViewModel){
 
 
 
-@Composable
-@Preview
-fun vsdfsd(){
-    val navController = rememberNavController()
-    val appViewModel: AppViewModel = AppViewModel()
-    ManageContacts(navController = navController, appViewModel = appViewModel)
-}
+//@Composable
+//@Preview
+//fun vsdfsd(){
+//    val navController = rememberNavController()
+//    val appViewModel: AppViewModel = AppViewModel()
+//    ManageContacts(navController = navController, appViewModel = appViewModel)
+//}
 
 fun getUsers(): MutableSet<UserDTO> {
     val users = mutableSetOf<UserDTO>()
