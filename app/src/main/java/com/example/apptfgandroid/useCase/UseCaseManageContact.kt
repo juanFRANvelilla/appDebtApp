@@ -14,5 +14,4 @@ class UseCaseManageContact(
 
     suspend fun sendContactRequest(request: RequestContactDTO): ServerResponseDTO? = repository.sendContactRequest(request)
 
-
 }

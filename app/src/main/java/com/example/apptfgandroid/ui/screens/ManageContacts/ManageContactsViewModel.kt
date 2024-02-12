@@ -48,12 +48,10 @@ class ManageContactsViewModel(
     }
 
     private suspend fun getUsers(){
-//        _contacts.value = getUsersExample()
         useCase.getUsers().collect {contacts ->
             withContext(Dispatchers.Main) {
                 _contacts.value = contacts
             }
         }
-
     }
 }

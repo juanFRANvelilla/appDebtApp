@@ -11,12 +11,8 @@ class RepositoryManageContacts(
     private val dataSourceManageContacts: DataSourceManageContacts
 ) {
     suspend fun getContacts(): Flow<Set<UserDTO>> = flow {
-        try {
-            val contacts = dataSourceManageContacts.getUsers()
-            emit(contacts.toSet())
-        } catch (e: Exception) {
-            emit(emptySet())
-        }
+        val contacts = dataSourceManageContacts.getUsers()
+        emit(contacts.toSet())
     }
 
     suspend fun sendContactRequest(request: RequestContactDTO): ServerResponseDTO? {
