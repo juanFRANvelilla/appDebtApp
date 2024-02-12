@@ -31,7 +31,7 @@ import com.example.apptfgandroid.models.PhoneValidationDTO
 import com.example.apptfgandroid.ui.composables.PasswordTextField
 import com.example.apptfgandroid.ui.composables.TelephoneTextField
 import com.example.apptfgandroid.ui.popups.EnterSeguritySmsCodeDialog
-import com.example.tfgapp.services.RetrofitService
+import com.example.tfgapp.service.RetrofitService
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import kotlin.random.Random

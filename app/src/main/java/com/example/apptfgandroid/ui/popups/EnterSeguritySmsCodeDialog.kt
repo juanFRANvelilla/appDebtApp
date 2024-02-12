@@ -44,7 +44,7 @@ import androidx.compose.ui.window.Dialog
 import com.example.apptfgandroid.models.CreateUserDTO
 import com.example.tfgapp.models.ServerResponseDTO
 import com.example.tfgapp.models.toServerResponseDTO
-import com.example.tfgapp.services.RetrofitService
+import com.example.tfgapp.service.RetrofitService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import retrofit2.HttpException

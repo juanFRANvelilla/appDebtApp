@@ -1,4 +1,4 @@
-package com.example.tfgapp.services
+package com.example.tfgapp.service
 
 import com.example.apptfgandroid.R
 import com.example.apptfgandroid.models.CreateUserDTO
@@ -36,17 +36,8 @@ interface ApiService {
 }
 
 
-private val url: String = R.string.url2.toString()
-
 
 object RetrofitService{
-    fun login(): ApiService {
-        return Retrofit.Builder()
-            .baseUrl("http://192.168.0.128:8080/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(ApiService::class.java)
-    }
 
     fun accessCalls(): ApiService{
         return Retrofit.Builder()
@@ -68,8 +59,6 @@ object RetrofitService{
             .build()
             .create(ApiService::class.java)
     }
-
-
 }
 
 class TokenInterceptor(private val jwtToken: String) : Interceptor {

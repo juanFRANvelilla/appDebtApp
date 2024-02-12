@@ -1,4 +1,4 @@
-package com.example.apptfgandroid.ui.screens
+package com.example.apptfgandroid.ui.screens.Login
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,13 +19,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.ViewModel
 import com.example.apptfgandroid.appViewModel.AppViewModel
 import com.example.apptfgandroid.models.LoginRequestDTO
 import com.example.apptfgandroid.ui.composables.PasswordTextField
 import com.example.apptfgandroid.ui.composables.TelephoneTextField
-import com.example.tfgapp.models.ServerResponseDTO
-import com.example.tfgapp.services.RetrofitService
-import kotlinx.coroutines.launch
+import org.koin.androidx.compose.getViewModel
 import retrofit2.HttpException
 
 
@@ -34,8 +33,9 @@ import retrofit2.HttpException
 fun LoginForm(
     onNavigateRegister: () -> Unit,
     onNavigateMainMenu: () -> Unit,
-    appViewModel: AppViewModel
 ) {
+    val viewModel: LoginViewModel = getViewModel()
+
     var password by remember { mutableStateOf("") }
     var phoneNumber by remember { mutableStateOf("") }
     var countryPrefix by remember { mutableStateOf("+34") }
@@ -80,36 +80,16 @@ fun LoginForm(
 
         Button(
             onClick = {
-                scope.launch {
-                    try {
-                        val service = RetrofitService.login()
-                        val totalPhoneNumber = countryPrefix + phoneNumber
-                        val response: ServerResponseDTO = service.login(LoginRequestDTO(username = totalPhoneNumber, password = password))
-                        errorMessage = null
-                        appViewModel.setToken(response.message)
-                        onNavigateMainMenu()
-                    } catch (e: Exception) {
-                        when (e) {
-                            is HttpException -> {
-                                when (e.code()) {
-                                    403 -> {
-                                        errorMessage = "Credenciales incorrectas"
-                                        password = ""
-                                    }
-                                    else -> {
-                                        errorMessage = "Error de servidor"
-                                        password = ""
-                                    }
-                                }
-                            }
-                            else -> {
-                                errorMessage = "Error de servidor" + e.message
-                                println(e.message)
-                                password = ""
-                            }
-                        }
-                    }
-                }
+                val totalPhoneNumber = countryPrefix + phoneNumber
+                viewModel.doLogin(
+                    loginRequest = LoginRequestDTO(username = totalPhoneNumber, password = password),
+                    onNavigateMain = onNavigateMainMenu,
+                    onErrorMessageChange = {
+                        errorMessage = it
+                    },
+                    onPasswordChange = {
+                        password = it
+                    })
             },
             modifier = Modifier
                 .width(180.dp)

@@ -7,7 +7,7 @@ import com.example.apptfgandroid.models.UserDTO
 import com.example.tfgapp.models.ConvertResponseToServerResponseDTO
 import com.example.tfgapp.models.ServerResponseDTO
 import com.example.tfgapp.models.toServerResponseDTO
-import com.example.tfgapp.services.RetrofitService.contactsCallsJwt
+import com.example.tfgapp.service.RetrofitService.contactsCallsJwt
 import retrofit2.HttpException
 
 class DataSourceManageContacts(

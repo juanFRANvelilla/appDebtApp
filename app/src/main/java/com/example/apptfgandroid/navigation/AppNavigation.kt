@@ -5,7 +5,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.apptfgandroid.appViewModel.AppViewModel
-import com.example.apptfgandroid.ui.screens.LoginForm
+import com.example.apptfgandroid.ui.screens.Login.LoginForm
 import com.example.apptfgandroid.ui.screens.MainMenu
 import com.example.apptfgandroid.ui.screens.ManageContacts.ManageContacts
 import com.example.apptfgandroid.ui.screens.RegisterForm
@@ -20,8 +20,7 @@ fun AppNavigation(appViewModel: AppViewModel) {
         composable(route= AppScreens.LoginForm.route){
             LoginForm(
                 onNavigateRegister = { navController.navigate(AppScreens.RegisterForm.route) },
-                onNavigateMainMenu = { navController.navigate(AppScreens.MainMenu.route) },
-                appViewModel = appViewModel
+                onNavigateMainMenu = { navController.navigate(AppScreens.MainMenu.route) }
             )
         }
         composable(route= AppScreens.RegisterForm.route){
