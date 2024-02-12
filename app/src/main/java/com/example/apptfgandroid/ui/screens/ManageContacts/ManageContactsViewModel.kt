@@ -2,10 +2,12 @@ package com.example.apptfgandroid.ui.screens.ManageContacts
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.apptfgandroid.models.RequestContactDTO
 import com.example.apptfgandroid.models.UserDTO
 import com.example.apptfgandroid.useCase.UseCaseManageContact
 import com.example.apptfgandroid.useCase.preferences.GetToken
 import com.example.apptfgandroid.useCase.preferences.SaveToken
+import com.example.tfgapp.models.ServerResponseDTO
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -25,6 +27,22 @@ class ManageContactsViewModel(
         viewModelScope.launch {
             withContext(Dispatchers.Main) {
                 getUsers()
+            }
+        }
+    }
+
+    fun sendContactRequest(
+        request: RequestContactDTO,
+        onResponseChange: (ServerResponseDTO) -> Unit,
+        onIsMessageDialogVisibleChange: (Boolean) -> Unit
+    ){
+        viewModelScope.launch {
+            withContext(Dispatchers.Default) {
+                val responseDTO = useCase.sendContactRequest(request)
+                if (responseDTO != null) {
+                    onResponseChange(responseDTO)
+                    onIsMessageDialogVisibleChange(true)
+                }
             }
         }
     }

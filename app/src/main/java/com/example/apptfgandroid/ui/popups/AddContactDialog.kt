@@ -6,17 +6,13 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -26,42 +22,18 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import com.example.apptfgandroid.appViewModel.AppViewModel
-import com.example.apptfgandroid.models.CreateUserDTO
 import com.example.apptfgandroid.models.RequestContactDTO
-import com.example.apptfgandroid.module.appModule
-import com.example.apptfgandroid.navigation.AppScreens
 import com.example.apptfgandroid.ui.composables.TelephoneTextField
-import com.example.tfgapp.models.ConvertResponseToServerResponseDTO
+import com.example.apptfgandroid.ui.screens.ManageContacts.ManageContactsViewModel
 import com.example.tfgapp.models.ServerResponseDTO
-import com.example.tfgapp.models.toServerResponseDTO
-import com.example.tfgapp.services.RetrofitService
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import retrofit2.HttpException
 
-//@Preview
-//@Composable
-//fun sdfdsf(){
-//    AddContactDialog {
-//
-//    }
-//}
 
 @Composable
 fun AddContactDialog(
     onDismiss: () -> Unit,
-    appViewModel: AppViewModel
+    viewModel: ManageContactsViewModel
 ) {
     var phoneNumber by remember { mutableStateOf("") }
     var countryPrefix by remember { mutableStateOf("+34") }
@@ -119,17 +91,14 @@ fun AddContactDialog(
 
                     TextButton(
                         onClick = {
-                            SendContactRequest(
-                                scope = scope,
-                                appViewModel = appViewModel,
-                                request = RequestContactDTO(countryPrefix + phoneNumber),
+                            val request = RequestContactDTO(countryPrefix + phoneNumber)
+                            viewModel.sendContactRequest(request = request,
                                 onResponseChange = {
                                     responseDTO = it
                                 },
                                 onIsMessageDialogVisibleChange = {
                                     isMessageDialogVisible = it
-                                }
-                            )
+                                })
                         }
                     ) {
                         Icon(imageVector = Icons.Default.Check, contentDescription = null)
@@ -139,52 +108,8 @@ fun AddContactDialog(
             }
 
         }
-
     }
     if(isMessageDialogVisible){
         ResponseMessageDialog(onDismiss = { onDismiss() }, status = responseDTO.status, message = responseDTO.message)
-    }
-
-
-
-}
-
-fun SendContactRequest(
-    scope: CoroutineScope,
-    appViewModel: AppViewModel,
-    request: RequestContactDTO,
-    onResponseChange: (ServerResponseDTO) -> Unit,
-    onIsMessageDialogVisibleChange: (Boolean) -> Unit
-
-
-){
-    scope.launch {
-        try {
-            val service = RetrofitService.contactsCallsJwt("appViewModel.getToken()")
-            val responseServer : Map<String, Any> = service.sendContactRequest(request)
-            val responseDTO = responseServer.toServerResponseDTO()
-            onResponseChange(responseDTO)
-            onIsMessageDialogVisibleChange(true)
-
-        } catch (e: Exception) {
-            when (e) {
-                is HttpException -> {
-                    when (e.code()) {
-                        400 -> {
-                            val responseDTO = ConvertResponseToServerResponseDTO(
-                                e.response()?.errorBody()?.string())
-                            onResponseChange(responseDTO)
-                            onIsMessageDialogVisibleChange(true)
-                            println("error al mandar solicitud --> ${responseDTO}")
-                        }
-                    }
-                }
-//                else -> {
-//                    errorMessage = "Error de servidor" + e.message
-//                    println(e.message)
-//                    password = ""
-//                }
-            }
-        }
     }
 }

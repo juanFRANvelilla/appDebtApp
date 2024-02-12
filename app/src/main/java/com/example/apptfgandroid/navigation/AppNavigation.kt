@@ -39,7 +39,9 @@ fun AppNavigation(appViewModel: AppViewModel) {
             )
         }
         composable(route= AppScreens.ManageContacs.route){
-            ManageContacts(navController, appViewModel)
+            ManageContacts(
+                onNavigateBack = { navController.popBackStack() }
+            )
         }
 //        composable(
 //            route = AppScreens.MainMenu.route + "/{data}",

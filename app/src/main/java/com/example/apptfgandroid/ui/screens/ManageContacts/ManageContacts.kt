@@ -37,19 +37,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
-import com.example.apptfgandroid.appViewModel.AppViewModel
 import com.example.apptfgandroid.models.UserDTO
-import com.example.apptfgandroid.navigation.AppScreens
 import com.example.apptfgandroid.ui.popups.AddContactDialog
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.toList
-import org.koin.androidx.viewmodel.ext.android.getViewModel
-
-import androidx.compose.runtime.remember
-import androidx.lifecycle.viewmodel.compose.viewModel
 import org.koin.androidx.compose.getViewModel
 
 
@@ -57,16 +47,14 @@ import org.koin.androidx.compose.getViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ManageContacts(
-    navController: NavController,
-    appViewModel: AppViewModel
+    onNavigateBack: () -> Unit
 ) {
     val viewModel: ManageContactsViewModel = getViewModel()
     val users: StateFlow<Set<UserDTO>> = viewModel.contacts
-//    val users: Set<UserDTO> = getUsersExample()
 
     Scaffold(
         content = { ManageContactsContent(users) } ,
-        topBar = { ToolBarContacts(navController,appViewModel) }
+        topBar = { ToolBarContacts(onNavigateBack, viewModel) }
     )
 }
 
@@ -114,12 +102,12 @@ fun ManageContactsContent(users: StateFlow<Set<UserDTO>>){
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ToolBarContacts(navController: NavController, appViewModel: AppViewModel) {
+fun ToolBarContacts(ononNavigateBack: () -> Unit, viewModel: ManageContactsViewModel) {
     TopAppBar(
         title = { Text(text = "Contactos Menu") },
         navigationIcon = {
             IconButton(onClick = {
-                navController.navigate(AppScreens.MainMenu.route)
+                ononNavigateBack()
             }) {
                 Icon(
                     imageVector = Icons.Default.Home,
@@ -129,7 +117,7 @@ fun ToolBarContacts(navController: NavController, appViewModel: AppViewModel) {
             }
         },
         actions = {
-            AddUsers(appViewModel)
+            AddUsers(viewModel)
         },
         colors = TopAppBarDefaults.smallTopAppBarColors(
             containerColor = MaterialTheme.colorScheme.primary,
@@ -139,7 +127,7 @@ fun ToolBarContacts(navController: NavController, appViewModel: AppViewModel) {
 }
 
 @Composable
-fun AddUsers(appViewModel: AppViewModel){
+fun AddUsers(viewModel: ManageContactsViewModel){
     var addDialog by remember { mutableStateOf(false) }
     IconButton(onClick = {
         addDialog = true
@@ -162,19 +150,10 @@ fun AddUsers(appViewModel: AppViewModel){
         )
     }
     if (addDialog){
-        AddContactDialog(onDismiss = { addDialog = false }, appViewModel = appViewModel)
+        AddContactDialog(onDismiss = { addDialog = false }, viewModel = viewModel)
     }
 }
 
-
-
-//@Composable
-//@Preview
-//fun vsdfsd(){
-//    val navController = rememberNavController()
-//    val appViewModel: AppViewModel = AppViewModel()
-//    ManageContacts(navController = navController, appViewModel = appViewModel)
-//}
 
 fun getUsersExample(): Set<UserDTO> {
     val users = mutableSetOf<UserDTO>()
