@@ -10,6 +10,7 @@ import com.example.apptfgandroid.module.Qualifier.*
 import com.example.apptfgandroid.repository.RepositoryManageContacts
 import com.example.apptfgandroid.repository.preferences.JWTokenRepository
 import com.example.apptfgandroid.repository.preferences.JWTokenRepositoryImpl
+import com.example.apptfgandroid.ui.screens.ManageContacts.ManageContactsViewModel
 import com.example.apptfgandroid.useCase.UseCaseManageContact
 import com.example.apptfgandroid.useCase.preferences.GetToken
 import com.example.apptfgandroid.useCase.preferences.SaveToken
@@ -22,9 +23,9 @@ val appModule = module {
     single<Set<UserDTO>> { mutableSetOf() }
     single(named(JWToken)) { MutableLiveData<String>().apply { value = "" } }
 
-    single<DataSourceManageContacts> {DataSourceManageContacts()}
-    single<RepositoryManageContacts>{RepositoryManageContacts(get())}
-    single<UseCaseManageContact> { UseCaseManageContact(get()) }
+    single<DataSourceManageContacts> { DataSourceManageContacts(get()) }
+    single<RepositoryManageContacts>{ RepositoryManageContacts(get()) }
+    single<UseCaseManageContact>{ UseCaseManageContact(get()) }
 
 
 
@@ -34,12 +35,14 @@ val appModule = module {
     single { GetToken(get()) }
     single { SaveToken(get()) }
 
-    viewModel { AppViewModel(get(), get(), get() ) }
+
+    viewModel { AppViewModel(get(named(JWToken))) }
+    viewModel { ManageContactsViewModel(get()) }
 }
 
 enum class Qualifier{
     JWToken,
-    BaseUrl,
+    UseCase,
 }
 
 

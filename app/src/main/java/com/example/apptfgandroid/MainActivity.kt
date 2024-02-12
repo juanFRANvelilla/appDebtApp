@@ -32,22 +32,6 @@ class MainActivity : ComponentActivity() {
             ) {
                 Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
                     val appViewModel = getViewModel<AppViewModel>()
-                    lifecycleScope.launch {
-                        val deferredToken = async { appViewModel.getToken() }
-                        val token = deferredToken.await()
-                        println("token $token")
-                    }
-
-
-                    appViewModel.setToken("tokenintroducido")
-
-                    lifecycleScope.launch {
-                        val deferredToken = async { appViewModel.getToken() }
-                        val token = deferredToken.await()
-                        println("token2 $token")
-                    }
-
-
                     AppNavigation(appViewModel)
                 }
 

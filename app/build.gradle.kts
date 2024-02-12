@@ -68,7 +68,10 @@ dependencies {
     implementation ("androidx.navigation:navigation-compose:2.4.0-alpha10")
 
     //koin
-    implementation("io.insert-koin:koin-android:3.3.2")
+    implementation ("io.insert-koin:koin-androidx-compose:3.2.0")
+
+
+
 
     //dataStore
     implementation("androidx.datastore:datastore-preferences:1.0.0")

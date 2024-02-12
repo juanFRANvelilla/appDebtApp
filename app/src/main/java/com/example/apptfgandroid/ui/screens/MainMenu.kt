@@ -108,18 +108,19 @@ fun getContacts(token: String, onNavigateManageContact: () -> Unit, appViewModel
     val scope = rememberCoroutineScope()
     Button(
         onClick = {
-            scope.launch {
-                try {
-                    val service = RetrofitService.contactsCallsJwt(token)
-                    response = service.showContacts()
-//                    appViewModel.setContacts(response!!)
-                    onNavigateManageContact()
-                    println("respuesta contactos: " + response.toString())
-
-                } catch (e: Exception) {
-                    println("Error: " + e.message)
-                }
-            }
+            onNavigateManageContact()
+//            scope.launch {
+//                try {
+//                    val service = RetrofitService.contactsCallsJwt(token)
+//                    response = service.showContacts()
+////                    appViewModel.setContacts(response!!)
+//                    onNavigateManageContact()
+//                    println("respuesta contactos: " + response.toString())
+//
+//                } catch (e: Exception) {
+//                    println("Error: " + e.message)
+//                }
+//            }
         }
     ) {
         Text("Contactos")

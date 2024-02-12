@@ -29,6 +29,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -36,12 +37,20 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.apptfgandroid.appViewModel.AppViewModel
 import com.example.apptfgandroid.models.UserDTO
 import com.example.apptfgandroid.navigation.AppScreens
 import com.example.apptfgandroid.ui.popups.AddContactDialog
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.toList
+import org.koin.androidx.viewmodel.ext.android.getViewModel
 
+import androidx.compose.runtime.remember
+import androidx.lifecycle.viewmodel.compose.viewModel
+import org.koin.androidx.compose.getViewModel
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -51,7 +60,10 @@ fun ManageContacts(
     navController: NavController,
     appViewModel: AppViewModel
 ) {
-    val users: Set<UserDTO> = getUsers()
+    val viewModel: ManageContactsViewModel = getViewModel()
+    val users: StateFlow<Set<UserDTO>> = viewModel.contacts
+//    val users: Set<UserDTO> = getUsersExample()
+
     Scaffold(
         content = { ManageContactsContent(users) } ,
         topBar = { ToolBarContacts(navController,appViewModel) }
@@ -59,16 +71,16 @@ fun ManageContacts(
 }
 
 
-
-
+@SuppressLint("StateFlowValueCalledInComposition")
 @Composable
-fun ManageContactsContent(users: Set<UserDTO>){
+fun ManageContactsContent(users: StateFlow<Set<UserDTO>>){
+    val usersList by rememberUpdatedState(users.value.toList())
     LazyColumn(
         modifier = Modifier
             .background(Color.White)
             .padding(top = 70.dp)
     ) {
-        items(users.toList()) { user ->
+        items(usersList.toList()) { user ->
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -118,28 +130,6 @@ fun ToolBarContacts(navController: NavController, appViewModel: AppViewModel) {
         },
         actions = {
             AddUsers(appViewModel)
-//            IconButton(onClick = {
-//                // Handle the action for adding a contact
-//            }){
-//                Icon(
-//                    imageVector = Icons.Default.Person,
-//                    contentDescription = null,
-//                    tint = MaterialTheme.colorScheme.onPrimary,
-//                    modifier = Modifier
-//                        .fillMaxSize()
-//                        .padding(end=12.dp)
-//                        .align(Alignment.CenterVertically)
-//                )
-//                Icon(
-//                    imageVector = Icons.Default.Add,
-//                    contentDescription = "Add Contact",
-//                    tint = MaterialTheme.colorScheme.onPrimary,
-//                    modifier = Modifier
-//                        .size(26.dp)
-//                        .padding(bottom = 10.dp, start = 12.dp)
-//                        .align(Alignment.CenterVertically)
-//                )
-//            }
         },
         colors = TopAppBarDefaults.smallTopAppBarColors(
             containerColor = MaterialTheme.colorScheme.primary,
@@ -186,7 +176,7 @@ fun AddUsers(appViewModel: AppViewModel){
 //    ManageContacts(navController = navController, appViewModel = appViewModel)
 //}
 
-fun getUsers(): MutableSet<UserDTO> {
+fun getUsersExample(): Set<UserDTO> {
     val users = mutableSetOf<UserDTO>()
     for (i in 0 until 10) {
         val user = UserDTO(

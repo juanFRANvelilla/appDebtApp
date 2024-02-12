@@ -86,7 +86,7 @@ fun LoginForm(
                         val totalPhoneNumber = countryPrefix + phoneNumber
                         val response: ServerResponseDTO = service.login(LoginRequestDTO(username = totalPhoneNumber, password = password))
                         errorMessage = null
-//                        appViewModel.setToken(response.message)
+                        appViewModel.setToken(response.message)
                         onNavigateMainMenu()
                     } catch (e: Exception) {
                         when (e) {

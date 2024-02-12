@@ -14,9 +14,8 @@ import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 class AppViewModel(
-    private val useCase: UseCaseManageContact,
-    private val getToken: GetToken,
-    private val saveToken: SaveToken,
+//    private val getToken: GetToken,
+//    private val saveToken: SaveToken,
     private val jwToken: MutableLiveData<String>
 ) : ViewModel() {
     private val viewModelScope =  CoroutineScope(Dispatchers.Default)
