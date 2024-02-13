@@ -42,6 +42,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.example.apptfgandroid.models.CreateUserDTO
+import com.example.apptfgandroid.ui.screens.Register.RegisterViewModel
 import com.example.tfgapp.models.ServerResponseDTO
 import com.example.tfgapp.models.toServerResponseDTO
 import com.example.tfgapp.service.RetrofitService
@@ -53,7 +54,8 @@ import retrofit2.HttpException
 @Composable
 fun EnterSeguritySmsCodeDialog(
     onDismiss: () -> Unit,
-    data: CreateUserDTO
+    data: CreateUserDTO,
+    viewModel: RegisterViewModel
 ) {
     var codeSms by remember { mutableStateOf("") }
     var attempts by remember { mutableStateOf(2) }
@@ -125,8 +127,7 @@ fun EnterSeguritySmsCodeDialog(
 
                     TextButton(
                         onClick = {
-                            SendSms(
-                                scope = scope,
+                            viewModel.validatePhone(
                                 codeSms = codeSms,
                                 onCodeSmsChanged = {
                                     codeSms = it
@@ -177,77 +178,20 @@ fun EnterSeguritySmsCodeDialog(
 
 
 
-fun SendSms(
-    scope: CoroutineScope,
-    onCodeSmsChanged: (String) -> Unit,
-    codeSms: String,
-    data: CreateUserDTO,
-    onIsMessageDialogVisibleChange: (Boolean) -> Unit,
-    onResponseChange: (ServerResponseDTO) -> Unit,
-    onAttemptsChanged: (Int) -> Unit,
-    onWarningAttempts: (String) -> Unit,
-    attempts: Int
-) {
-    scope.launch {
-        try {
-            val updateData = data.copy(verificationCode = codeSms)
-            val service = RetrofitService.accessCalls()
-            val responseServer : Map<String, Any> = service.validatePhone(updateData)
-            val responseDTO = responseServer.toServerResponseDTO()
-            onResponseChange(responseDTO)
-            println("Buena respuesta --> ${responseDTO.toString()}")
-            onIsMessageDialogVisibleChange(true)
 
 
-        } catch (e: Exception) {
-            when (e) {
-                is HttpException -> {
-                    when (e.code()) {
-                        401 -> {
-                            onAttemptsChanged
-                            onAttemptsChanged(attempts - 1)
-                            onCodeSmsChanged("")
-                            if(attempts == 1){
-                                onWarningAttempts("Codigo incorrecto. Te queda " + attempts + " intento")
-                            } else{
-                                onWarningAttempts("Codigo incorrecto. Te quedan " + attempts + " intentos")
-                            }
-
-                        }
-                        400 -> {
-                            val responseDTO = ServerResponseDTO(
-                                "error",
-                                "Te has quedado sin intentos para verificar tu numero de telefono"
-                            )
-                            onResponseChange(responseDTO)
-                            onIsMessageDialogVisibleChange(true)
-                        }
-                        else -> {
-                            println(e.message)
-                        }
-                    }
-                }
-                else -> {
-                    println(e.message)
-                }
-            }
-        }
-    }
-}
-
-
-@Preview
-@Composable
-fun sfdsf(){
-    val user = CreateUserDTO(
-        username = "exampleUser",
-        password = "examplePassword",
-        email = "example@email.com",
-        firstName = "John",
-        lastName = "Doe",
-        verificationCode = "123456"
-    )
-
-    EnterSeguritySmsCodeDialog(onDismiss = {
-    }, data = user)
-}
+//@Preview
+//@Composable
+//fun sfdsf(){
+//    val user = CreateUserDTO(
+//        username = "exampleUser",
+//        password = "examplePassword",
+//        email = "example@email.com",
+//        firstName = "John",
+//        lastName = "Doe",
+//        verificationCode = "123456"
+//    )
+//
+//    EnterSeguritySmsCodeDialog(onDismiss = {
+//    }, data = user)
+//}

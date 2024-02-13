@@ -1,4 +1,4 @@
-package com.example.apptfgandroid.ui.screens
+package com.example.apptfgandroid.ui.screens.Register
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -31,8 +31,10 @@ import com.example.apptfgandroid.models.PhoneValidationDTO
 import com.example.apptfgandroid.ui.composables.PasswordTextField
 import com.example.apptfgandroid.ui.composables.TelephoneTextField
 import com.example.apptfgandroid.ui.popups.EnterSeguritySmsCodeDialog
+import com.example.apptfgandroid.ui.screens.Login.LoginViewModel
 import com.example.tfgapp.service.RetrofitService
 import kotlinx.coroutines.launch
+import org.koin.androidx.compose.getViewModel
 import retrofit2.HttpException
 import kotlin.random.Random
 
@@ -42,6 +44,8 @@ fun RegisterForm(
     onNavigateRegister: () -> Unit,
     onNavigateBack: () -> Unit
 ) {
+    val viewModel: RegisterViewModel = getViewModel()
+
     var firstName by remember { mutableStateOf("") }
     var lastName by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
@@ -126,46 +130,64 @@ fun RegisterForm(
         }
         Button(
             onClick = {
-                scope.launch {
-                    try {
-                        errorMessage = null
-                        if(!password.equals(confirmPassword)){
-                            errorMessage = "La contraseña no coincide"
-                        }
-                        else{
-                            val service = RetrofitService.accessCalls()
-                            val randomNumber = Random.nextInt(0, 1000000)
-                            verificationCode = String.format("%06d", randomNumber)
-                            val phoneValidationDTO = PhoneValidationDTO(
-                                username = countryPrefix + phoneNumber,
-                                verificationCode = verificationCode
-                            )
-
-                            val response = service.confirmPhone(phoneValidationDTO)
-
-                            println("Respuestaa 1: " + response)
-                            isDialogVisible = true;
-                        }
-                    } catch (e: Exception) {
-                        when (e) {
-                            is HttpException -> {
-                                when (e.code()) {
-                                    409 -> {
-                                        errorMessage = "El numero ya esta registrado en la base de datos"
-                                    }
-                                    else -> {
-                                        errorMessage = "Error de servidor"
-                                    }
-                                }
-                            }
-                            else -> {
-                                errorMessage = "Error de servidor" + e.message
-                                println(e.message)
-                                password = ""
-                            }
-                        }
-                    }
+                if(!password.equals(confirmPassword)){
+                    errorMessage = "La contraseña no coincide"
+                }else {
+                    val randomNumber = Random.nextInt(0, 1000000)
+                    verificationCode = String.format("%06d", randomNumber)
+                    val phoneValidationDTO = PhoneValidationDTO(
+                        username = countryPrefix + phoneNumber,
+                        verificationCode = verificationCode
+                    )
+                    viewModel.confirmPhone(
+                        phoneValidationDTO = phoneValidationDTO,
+                        onErrorMessageChange = {
+                            errorMessage = it
+                        },
+                        onIsDialogVisibleChange = {
+                            isDialogVisible = it
+                        })
                 }
+
+//                scope.launch {
+//                    try {
+//                        errorMessage = null
+//                        if(!password.equals(confirmPassword)){
+//                            errorMessage = "La contraseña no coincide"
+//                        }
+//                        else{
+//                            val randomNumber = Random.nextInt(0, 1000000)
+//                            verificationCode = String.format("%06d", randomNumber)
+//                            val phoneValidationDTO = PhoneValidationDTO(
+//                                username = countryPrefix + phoneNumber,
+//                                verificationCode = verificationCode
+//                            )
+//
+////                            val response = service.confirmPhone(phoneValidationDTO)
+//
+//                            println("Respuestaa 1: " + response)
+//                            isDialogVisible = true;
+//                        }
+//                    } catch (e: Exception) {
+//                        when (e) {
+//                            is HttpException -> {
+//                                when (e.code()) {
+//                                    409 -> {
+//                                        errorMessage = "El numero ya esta registrado en la base de datos"
+//                                    }
+//                                    else -> {
+//                                        errorMessage = "Error de servidor"
+//                                    }
+//                                }
+//                            }
+//                            else -> {
+//                                errorMessage = "Error de servidor" + e.message
+//                                println(e.message)
+//                                password = ""
+//                            }
+//                        }
+//                    }
+//                }
             },
             modifier = Modifier
                 .width(180.dp)
@@ -195,7 +217,8 @@ fun RegisterForm(
                     isDialogVisible = false
                     onNavigateRegister()
                 },
-                data = createUserDTO
+                data = createUserDTO,
+                viewModel = viewModel
             )
         }
         GoBack(onNavigateBack)

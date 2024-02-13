@@ -9,5 +9,4 @@ class RepositoryLogin(
     suspend fun doLogin(loginRequest: LoginRequestDTO){
         dataSourceLogin.doLogin(loginRequest)
     }
-
 }

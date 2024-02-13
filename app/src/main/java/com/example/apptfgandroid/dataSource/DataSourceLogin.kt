@@ -10,7 +10,6 @@ class DataSourceLogin(
     private val appViewModel: AppViewModel,
     private val retrofit: Retrofit
 ) {
-
     private val apiService: ApiService by lazy {
         retrofit.create(ApiService::class.java)
     }

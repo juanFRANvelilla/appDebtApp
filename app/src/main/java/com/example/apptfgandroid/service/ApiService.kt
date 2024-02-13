@@ -1,6 +1,5 @@
 package com.example.tfgapp.service
 
-import com.example.apptfgandroid.R
 import com.example.apptfgandroid.models.CreateUserDTO
 import com.example.apptfgandroid.models.LoginRequestDTO
 import com.example.apptfgandroid.models.PhoneValidationDTO
@@ -20,10 +19,10 @@ interface ApiService {
     @POST("login")
     suspend fun login(@Body data: LoginRequestDTO): ServerResponseDTO
 
-    @POST("confirmPhone")
+    @POST("api/confirmPhone")
     suspend fun confirmPhone(@Body data: PhoneValidationDTO): ServerResponseDTO
 
-    @POST("validatePhone")
+    @POST("api/validatePhone")
     suspend fun validatePhone(@Body data: CreateUserDTO): Map<String, Any>
 
     @GET("showContacts")
@@ -38,15 +37,6 @@ interface ApiService {
 
 
 object RetrofitService{
-
-    fun accessCalls(): ApiService{
-        return Retrofit.Builder()
-            .baseUrl("http://192.168.0.128:8080/api/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(ApiService::class.java)
-    }
-
     fun contactsCallsJwt(token: String): ApiService{
         val okHttpClient = OkHttpClient.Builder()
             .addInterceptor(TokenInterceptor(token))

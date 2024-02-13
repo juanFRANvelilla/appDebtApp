@@ -19,13 +19,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.ViewModel
-import com.example.apptfgandroid.appViewModel.AppViewModel
 import com.example.apptfgandroid.models.LoginRequestDTO
 import com.example.apptfgandroid.ui.composables.PasswordTextField
 import com.example.apptfgandroid.ui.composables.TelephoneTextField
 import org.koin.androidx.compose.getViewModel
-import retrofit2.HttpException
 
 
 
@@ -40,7 +37,6 @@ fun LoginForm(
     var phoneNumber by remember { mutableStateOf("") }
     var countryPrefix by remember { mutableStateOf("+34") }
 
-    val scope = rememberCoroutineScope()
 
     var errorMessage by remember { mutableStateOf<String?>(null) }
 

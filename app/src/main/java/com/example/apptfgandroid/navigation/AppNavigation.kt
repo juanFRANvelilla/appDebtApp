@@ -8,7 +8,7 @@ import com.example.apptfgandroid.appViewModel.AppViewModel
 import com.example.apptfgandroid.ui.screens.Login.LoginForm
 import com.example.apptfgandroid.ui.screens.MainMenu
 import com.example.apptfgandroid.ui.screens.ManageContacts.ManageContacts
-import com.example.apptfgandroid.ui.screens.RegisterForm
+import com.example.apptfgandroid.ui.screens.Register.RegisterForm
 
 
 
