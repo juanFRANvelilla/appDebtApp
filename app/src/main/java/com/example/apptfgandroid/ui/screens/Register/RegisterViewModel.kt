@@ -43,7 +43,6 @@ class RegisterViewModel(
         onAttemptsChanged: (Int) -> Unit,
         onWarningAttempts: (String) -> Unit,
         attempts: Int
-
     ) {
         viewModelScope.launch {
             withContext(Dispatchers.Main) {

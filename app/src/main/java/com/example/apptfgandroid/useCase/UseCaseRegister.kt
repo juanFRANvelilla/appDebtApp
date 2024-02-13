@@ -12,5 +12,4 @@ class UseCaseRegister(
 
     suspend fun validatePhone(createUserDTO: CreateUserDTO): ServerResponseDTO = repositoryRegister.validatePhone(createUserDTO)
 
-    
 }
