@@ -16,6 +16,7 @@ class DataSourceLogin(
 
     suspend fun doLogin(loginRequest: LoginRequestDTO){
         val response: ServerResponseDTO = apiService.login(loginRequest)
+        print("respuesta login: $response")
         appViewModel.setToken(response.message)
     }
 

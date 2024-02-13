@@ -8,9 +8,7 @@ import com.example.tfgapp.models.ServerResponseDTO
 class RepositoryRegister(
     private val dataSourceRegister: DataSourceRegister
 ) {
-    suspend fun confirmPhone(phoneValidationDTO: PhoneValidationDTO){
-        dataSourceRegister.confirmPhone(phoneValidationDTO)
-    }
+    suspend fun confirmPhone(phoneValidationDTO: PhoneValidationDTO): ServerResponseDTO = dataSourceRegister.confirmPhone(phoneValidationDTO)
 
     suspend fun validatePhone(createUserDTO: CreateUserDTO): ServerResponseDTO = dataSourceRegister.validatePhone(createUserDTO)
 }

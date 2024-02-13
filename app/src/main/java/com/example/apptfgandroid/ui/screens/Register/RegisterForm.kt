@@ -55,9 +55,6 @@ fun RegisterForm(
     var countryPrefix by remember { mutableStateOf("+34") }
     var verificationCode by remember { mutableStateOf("") }
     var isDialogVisible by remember { mutableStateOf(false) }
-
-    val scope = rememberCoroutineScope()
-
     var errorMessage by remember { mutableStateOf<String?>(null) }
 
     Column(
@@ -148,46 +145,6 @@ fun RegisterForm(
                             isDialogVisible = it
                         })
                 }
-
-//                scope.launch {
-//                    try {
-//                        errorMessage = null
-//                        if(!password.equals(confirmPassword)){
-//                            errorMessage = "La contraseña no coincide"
-//                        }
-//                        else{
-//                            val randomNumber = Random.nextInt(0, 1000000)
-//                            verificationCode = String.format("%06d", randomNumber)
-//                            val phoneValidationDTO = PhoneValidationDTO(
-//                                username = countryPrefix + phoneNumber,
-//                                verificationCode = verificationCode
-//                            )
-//
-////                            val response = service.confirmPhone(phoneValidationDTO)
-//
-//                            println("Respuestaa 1: " + response)
-//                            isDialogVisible = true;
-//                        }
-//                    } catch (e: Exception) {
-//                        when (e) {
-//                            is HttpException -> {
-//                                when (e.code()) {
-//                                    409 -> {
-//                                        errorMessage = "El numero ya esta registrado en la base de datos"
-//                                    }
-//                                    else -> {
-//                                        errorMessage = "Error de servidor"
-//                                    }
-//                                }
-//                            }
-//                            else -> {
-//                                errorMessage = "Error de servidor" + e.message
-//                                println(e.message)
-//                                password = ""
-//                            }
-//                        }
-//                    }
-//                }
             },
             modifier = Modifier
                 .width(180.dp)

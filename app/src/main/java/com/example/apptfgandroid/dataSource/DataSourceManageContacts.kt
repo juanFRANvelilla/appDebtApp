@@ -30,15 +30,11 @@ class DataSourceManageContacts(
         } catch (e: Exception) {
             when (e) {
                 is HttpException -> {
-                    when (e.code()) {
-                        400 -> {
-                            val responseDTO = ConvertResponseToServerResponseDTO(
-                                e.response()?.errorBody()?.string()
-                            )
-                            return responseDTO
-                        }
-                    }
+                    val responseDTO = ConvertResponseToServerResponseDTO(
+                        e.response()?.errorBody()?.string())
+                    return responseDTO
                 }
+                else -> println(e.message)
             }
         }
         return null

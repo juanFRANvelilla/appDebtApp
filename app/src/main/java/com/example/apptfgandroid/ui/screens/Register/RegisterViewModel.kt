@@ -5,8 +5,6 @@ import com.example.apptfgandroid.models.CreateUserDTO
 import com.example.apptfgandroid.models.PhoneValidationDTO
 import com.example.apptfgandroid.useCase.UseCaseRegister
 import com.example.tfgapp.models.ServerResponseDTO
-import com.example.tfgapp.models.toServerResponseDTO
-import com.example.tfgapp.service.RetrofitService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -25,28 +23,12 @@ class RegisterViewModel(
     ) {
         viewModelScope.launch {
             withContext(Dispatchers.Main) {
-                try {
-                    useCaseRegister.confirmPhone(phoneValidationDTO)
+                val serverResponseDTO = useCaseRegister.confirmPhone(phoneValidationDTO)
+                if(serverResponseDTO.status.equals("error")){
+                    onErrorMessageChange(serverResponseDTO.message)
+                }
+                else{
                     onIsDialogVisibleChange(true)
-                } catch (e: Exception) {
-                    when (e) {
-                        is HttpException -> {
-                            when (e.code()) {
-                                409 -> {
-                                    onErrorMessageChange("El numero ya esta registrado en la base de datos")
-                                }
-
-                                else -> {
-                                    onErrorMessageChange("Error de servidor")
-                                }
-                            }
-                        }
-
-                        else -> {
-                            onErrorMessageChange("Error de servidor" + e.message)
-                            println(e.message)
-                        }
-                    }
                 }
             }
         }
@@ -69,7 +51,6 @@ class RegisterViewModel(
                     val updateData = data.copy(verificationCode = codeSms)
                     val responseDTO = useCaseRegister.validatePhone(updateData)
                     onResponseChange(responseDTO)
-                    println("Buena respuesta --> ${responseDTO.toString()}")
                     onIsMessageDialogVisibleChange(true)
                 }catch (e: Exception) {
                     when (e) {

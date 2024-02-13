@@ -20,7 +20,7 @@ interface ApiService {
     suspend fun login(@Body data: LoginRequestDTO): ServerResponseDTO
 
     @POST("api/confirmPhone")
-    suspend fun confirmPhone(@Body data: PhoneValidationDTO): ServerResponseDTO
+    suspend fun confirmPhone(@Body data: PhoneValidationDTO): Map<String, Any>
 
     @POST("api/validatePhone")
     suspend fun validatePhone(@Body data: CreateUserDTO): Map<String, Any>

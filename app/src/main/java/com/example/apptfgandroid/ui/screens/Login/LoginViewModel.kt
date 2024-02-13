@@ -34,14 +34,10 @@ class LoginViewModel(
                                     onErrorMessageChange("Credenciales incorrectas")
                                     onPasswordChange("")
                                 }
-                                else -> {
-                                    onErrorMessageChange("Error de servidor")
-                                    onPasswordChange("")
-                                }
                             }
                         }
                         else -> {
-                            onErrorMessageChange("Error de servidor" + e.message)
+                            onErrorMessageChange("Error de servidor")
                             println(e.message)
                         }
                     }
