@@ -92,7 +92,7 @@ fun LoginForm(
 //                        password = it
 //                    })
 
-                viewModel.saveName(totalPhoneNumber)
+//                viewModel.saveName(totalPhoneNumber)
 
 
             },
@@ -108,14 +108,15 @@ fun LoginForm(
         }
         Button(
             onClick = {
-                scope.launch {
-                    val nameValue = viewModel.nameFlow.firstOrNull()
-                    if (nameValue != null) {
-                        Log.d("TAG", "Nombre actual: $nameValue")
-                    } else {
-                        Log.d("TAG", "El nombre es nulo o no está disponible en este momento.")
-                    }
-                }
+//                scope.launch {
+//                    val nameValue = viewModel.nameFlow.firstOrNull()
+//                    if (nameValue != null) {
+//                        Log.d("TAG", "Nombre actual: $nameValue")
+//                    } else {
+//                        Log.d("TAG", "El nombre es nulo o no está disponible en este momento.")
+//                    }
+//                }
+                viewModel.changeDarkMode(true)
             }
         ){}
         ClickableText(

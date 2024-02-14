@@ -17,6 +17,7 @@ import retrofit2.HttpException
 
 import android.content.Context
 import androidx.datastore.preferences.preferencesDataStore
+import kotlinx.coroutines.flow.firstOrNull
 
 
 class LoginViewModel(
@@ -27,14 +28,32 @@ class LoginViewModel(
 
     val Context.datastore: DataStore<Preferences> by preferencesDataStore(name = "preferences")
 
-    val nameFlow: Flow<String?> = context.datastore.data.map { preferences ->
-        preferences[PreferenceKey.NAME]
+//    val nameFlow: Flow<String?> = context.datastore.data.map { preferences ->
+//        preferences[PreferenceKey.NAME]
+//    }
+
+    val darkModeFlow: Flow<Boolean?> = context.datastore.data.map { darkMode ->
+        darkMode[PreferenceKey.DARKMODE]
+    }
+
+    suspend fun getDarkModeValue(): Boolean {
+        return context.datastore.data.map { darkmode ->
+            darkmode[PreferenceKey.DARKMODE] ?: false
+        }.firstOrNull() ?: false
     }
 
     fun saveName(name: String){
         viewModelScope.launch(Dispatchers.IO) {
             context.datastore.edit { preferences ->
                 preferences[PreferenceKey.NAME] = name
+            }
+        }
+    }
+
+    fun changeDarkMode(value: Boolean){
+        viewModelScope.launch(Dispatchers.IO) {
+            context.datastore.edit { darkMode ->
+                darkMode[PreferenceKey.DARKMODE] = value
             }
         }
     }
