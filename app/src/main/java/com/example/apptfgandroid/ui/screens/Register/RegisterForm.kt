@@ -125,6 +125,7 @@ fun RegisterForm(
                 modifier = Modifier.padding(top = 4.dp)
             )
         }
+
         Button(
             onClick = {
                 if(!password.equals(confirmPassword)){

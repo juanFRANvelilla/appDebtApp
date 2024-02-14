@@ -1,18 +1,14 @@
 package com.example.apptfgandroid.ui.screens.ManageContacts
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.apptfgandroid.models.RequestContactDTO
 import com.example.apptfgandroid.models.UserDTO
 import com.example.apptfgandroid.useCase.UseCaseManageContact
-import com.example.apptfgandroid.useCase.preferences.GetToken
-import com.example.apptfgandroid.useCase.preferences.SaveToken
 import com.example.tfgapp.models.ServerResponseDTO
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 

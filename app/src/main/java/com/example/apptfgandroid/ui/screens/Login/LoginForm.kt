@@ -1,5 +1,6 @@
 package com.example.apptfgandroid.ui.screens.Login
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -22,6 +23,8 @@ import androidx.compose.ui.unit.dp
 import com.example.apptfgandroid.models.LoginRequestDTO
 import com.example.apptfgandroid.ui.composables.PasswordTextField
 import com.example.apptfgandroid.ui.composables.TelephoneTextField
+import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 
 
@@ -39,6 +42,8 @@ fun LoginForm(
 
 
     var errorMessage by remember { mutableStateOf<String?>(null) }
+
+    val scope = rememberCoroutineScope()
 
     Column(
         modifier = Modifier
@@ -77,15 +82,19 @@ fun LoginForm(
         Button(
             onClick = {
                 val totalPhoneNumber = countryPrefix + phoneNumber
-                viewModel.doLogin(
-                    loginRequest = LoginRequestDTO(username = totalPhoneNumber, password = password),
-                    onNavigateMain = onNavigateMainMenu,
-                    onErrorMessageChange = {
-                        errorMessage = it
-                    },
-                    onPasswordChange = {
-                        password = it
-                    })
+//                viewModel.doLogin(
+//                    loginRequest = LoginRequestDTO(username = totalPhoneNumber, password = password),
+//                    onNavigateMain = onNavigateMainMenu,
+//                    onErrorMessageChange = {
+//                        errorMessage = it
+//                    },
+//                    onPasswordChange = {
+//                        password = it
+//                    })
+
+                viewModel.saveName(totalPhoneNumber)
+
+
             },
             modifier = Modifier
                 .width(180.dp)
@@ -97,6 +106,18 @@ fun LoginForm(
         ) {
             Text("Login")
         }
+        Button(
+            onClick = {
+                scope.launch {
+                    val nameValue = viewModel.nameFlow.firstOrNull()
+                    if (nameValue != null) {
+                        Log.d("TAG", "Nombre actual: $nameValue")
+                    } else {
+                        Log.d("TAG", "El nombre es nulo o no está disponible en este momento.")
+                    }
+                }
+            }
+        ){}
         ClickableText(
             text = AnnotatedString("Aun no estas registrado?, click aqui"),
             onClick = {

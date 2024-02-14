@@ -3,8 +3,6 @@ package com.example.apptfgandroid.appViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.apptfgandroid.useCase.UseCaseManageContact
-import com.example.apptfgandroid.useCase.preferences.GetToken
-import com.example.apptfgandroid.useCase.preferences.SaveToken
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async

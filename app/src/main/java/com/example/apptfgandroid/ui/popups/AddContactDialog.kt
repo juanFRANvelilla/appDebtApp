@@ -40,10 +40,6 @@ fun AddContactDialog(
     var isMessageDialogVisible by remember { mutableStateOf(false) }
     var responseDTO by remember { mutableStateOf<ServerResponseDTO>(ServerResponseDTO("","")) }
 
-
-    val scope = rememberCoroutineScope()
-
-
     Dialog(
         onDismissRequest = {
             onDismiss()
