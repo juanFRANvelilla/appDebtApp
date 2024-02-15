@@ -6,7 +6,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.apptfgandroid.appViewModel.AppViewModel
 import com.example.apptfgandroid.ui.screens.Login.LoginForm
-import com.example.apptfgandroid.ui.screens.MainMenu
+import com.example.apptfgandroid.ui.screens.MainMenu.MainMenu
 import com.example.apptfgandroid.ui.screens.ManageContacts.ManageContacts
 import com.example.apptfgandroid.ui.screens.Register.RegisterForm
 

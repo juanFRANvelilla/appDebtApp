@@ -21,9 +21,7 @@ class ManageContactsViewModel(
 
     init {
         viewModelScope.launch {
-            withContext(Dispatchers.Main) {
-                getUsers()
-            }
+            getUsers()
         }
     }
 

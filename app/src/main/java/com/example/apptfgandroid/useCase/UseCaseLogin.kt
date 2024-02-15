@@ -9,4 +9,13 @@ class UseCaseLogin(
     suspend fun doLogin(loginRequest: LoginRequestDTO){
         repositoryLogin.doLogin(loginRequest)
     }
+
+//    suspend fun saveToken(token: String){
+//        repositoryLogin.saveToken(token)
+//    }
+
+//    fun getNameFlow(): Flow<String?> {
+//        return repositoryLogin.getNameFlow()
+//    }
+
 }

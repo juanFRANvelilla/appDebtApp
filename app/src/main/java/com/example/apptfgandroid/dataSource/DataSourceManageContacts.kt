@@ -1,6 +1,5 @@
 package com.example.apptfgandroid.dataSource
 
-import androidx.lifecycle.MutableLiveData
 import com.example.apptfgandroid.appViewModel.AppViewModel
 import com.example.apptfgandroid.models.RequestContactDTO
 import com.example.apptfgandroid.models.UserDTO
@@ -13,10 +12,19 @@ import retrofit2.HttpException
 class DataSourceManageContacts(
     val appViewModel: AppViewModel
 ) {
-    suspend fun getUsers(): Set<UserDTO> {
+    suspend fun getContacts(): Set<UserDTO> {
         val apiService = contactsCallsJwt(appViewModel.getToken())
         return try {
             apiService.showContacts()
+        } catch (e: Exception) {
+            emptySet()
+        }
+    }
+
+    suspend fun getRequest(): Set<UserDTO> {
+        val apiService = contactsCallsJwt(appViewModel.getToken())
+        return try {
+            apiService.showRequestContact()
         } catch (e: Exception) {
             emptySet()
         }

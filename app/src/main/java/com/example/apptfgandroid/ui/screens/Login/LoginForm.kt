@@ -82,17 +82,17 @@ fun LoginForm(
         Button(
             onClick = {
                 val totalPhoneNumber = countryPrefix + phoneNumber
-//                viewModel.doLogin(
-//                    loginRequest = LoginRequestDTO(username = totalPhoneNumber, password = password),
-//                    onNavigateMain = onNavigateMainMenu,
-//                    onErrorMessageChange = {
-//                        errorMessage = it
-//                    },
-//                    onPasswordChange = {
-//                        password = it
-//                    })
+                viewModel.doLogin(
+                    loginRequest = LoginRequestDTO(username = totalPhoneNumber, password = password),
+                    onNavigateMain = onNavigateMainMenu,
+                    onErrorMessageChange = {
+                        errorMessage = it
+                    },
+                    onPasswordChange = {
+                        password = it
+                    })
 
-                viewModel.saveName(totalPhoneNumber)
+//                viewModel.saveToken(totalPhoneNumber)
 
 
             },
@@ -106,18 +106,20 @@ fun LoginForm(
         ) {
             Text("Login")
         }
-        Button(
-            onClick = {
-                scope.launch {
-                    val nameValue = viewModel.nameFlow.firstOrNull()
-                    if (nameValue != null) {
-                        Log.d("TAG", "Nombre actual: $nameValue")
-                    } else {
-                        Log.d("TAG", "El nombre es nulo o no está disponible en este momento.")
-                    }
-                }
-            }
-        ){}
+//        Button(
+//            onClick = {
+//                println("nombre del datastore: ${viewModel.getName()}")
+//                viewModel.getName()
+//                scope.launch {
+//                    val nameValue = viewModel.nameFlow.firstOrNull()
+//                    if (nameValue != null) {
+//                        Log.d("TAG", "Nombre actual: $nameValue")
+//                    } else {
+//                        Log.d("TAG", "El nombre es nulo o no está disponible en este momento.")
+//                    }
+//                }
+//            }
+//        ){}
         ClickableText(
             text = AnnotatedString("Aun no estas registrado?, click aqui"),
             onClick = {

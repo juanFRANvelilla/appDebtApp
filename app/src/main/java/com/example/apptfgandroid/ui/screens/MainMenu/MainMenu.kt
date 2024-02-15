@@ -1,4 +1,4 @@
-package com.example.apptfgandroid.ui.screens
+package com.example.apptfgandroid.ui.screens.MainMenu
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background

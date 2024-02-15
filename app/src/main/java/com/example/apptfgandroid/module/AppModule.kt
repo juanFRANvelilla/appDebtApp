@@ -1,6 +1,7 @@
 package com.example.apptfgandroid.module
 
 import android.content.Context
+import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.MutableLiveData
 import com.example.apptfgandroid.appViewModel.AppViewModel
 import com.example.apptfgandroid.dataSource.DataSourceLogin
@@ -41,10 +42,11 @@ val appModule = module {
     //dependencias para el view model de login
     val context: Context = getKoin().get()
     single { context }
-    single<DataSourceLogin> { DataSourceLogin(get(), get()) }
-    single<RepositoryLogin> { RepositoryLogin(get()) }
+    single{ preferencesDataStore(name = "preferences") }
+    single<DataSourceLogin> { DataSourceLogin(get()) }
+    single<RepositoryLogin> { RepositoryLogin(get(), get()) }
     single<UseCaseLogin> { UseCaseLogin(get()) }
-    viewModel { LoginViewModel(get(), get()) }
+    viewModel { LoginViewModel(get()) }
 
     //dependencias para el view model de register
     single<DataSourceRegister> { DataSourceRegister(get()) }
@@ -58,19 +60,6 @@ val appModule = module {
     single<RepositoryManageContacts>{ RepositoryManageContacts(get()) }
     single<UseCaseManageContact>{ UseCaseManageContact(get()) }
     viewModel { ManageContactsViewModel(get()) }
-
-
-
-
-
-
-
-
-
-//    single<PreferenceToken> { PreferenceTokenImpl(androidContext()) }
-//    single<JWTokenRepository> { JWTokenRepositoryImpl(get()) }
-//    single { GetToken(get()) }
-//    single { SaveToken(get()) }
 
 }
 

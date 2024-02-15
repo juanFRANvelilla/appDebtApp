@@ -25,12 +25,14 @@ interface ApiService {
     @POST("api/validatePhone")
     suspend fun validatePhone(@Body data: CreateUserDTO): Map<String, Any>
 
-    @GET("showContacts")
+    @GET("api2/showContacts")
     suspend fun showContacts(): Set<UserDTO>
 
     @POST("requestContact")
     suspend fun sendContactRequest(@Body data: RequestContactDTO): Map<String, Any>
 
+    @GET("api2/showRequestContact")
+    suspend fun showRequestContact(): Set<UserDTO>
 
 }
 
@@ -43,7 +45,7 @@ object RetrofitService{
             .build()
 
         return Retrofit.Builder()
-            .baseUrl("http://192.168.0.128:8080/api2/")
+            .baseUrl("http://192.168.0.128:8080/")
             .addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClient)
             .build()
