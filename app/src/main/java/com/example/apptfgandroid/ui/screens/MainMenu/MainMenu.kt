@@ -9,9 +9,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material3.Badge
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -22,15 +26,65 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.apptfgandroid.appViewModel.AppViewModel
-import com.example.apptfgandroid.models.UserDTO
+
+@Preview
+@Composable
+fun Preview(){
+    MainMenu(
+        onNavigateLogin = {},
+        onNavigateManageContact = {}
+    )
+}
+
+
+
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun MainMenu(
+    onNavigateLogin: () -> Unit,
+    onNavigateManageContact: () -> Unit
+){
+    Scaffold (
+        topBar = { ToolBar(onNavigateLogin) },
+        content = { MainMenuContent(onNavigateManageContact) }
+    )
+}
+
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@Composable
+fun MainMenuContent(
+    onNavigateManageContact: () -> Unit,
+) {
+    Box(
+        modifier = Modifier
+            .background(MaterialTheme.colorScheme.background)
+            .height(280.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .wrapContentSize(Alignment.Center),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Spacer(modifier = Modifier.height(16.dp))
+            Button(
+                onClick = {
+                    onNavigateManageContact()
+                }
+            ) {
+                Text("Contactos")
+            }
+        }
+    }
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -48,6 +102,32 @@ fun ToolBar(onNavigateLogin: () -> Unit,){
                 )
             }
         },
+        actions = {
+            IconButton(
+                onClick = {
+//                    onNotificationClick()
+                },
+                modifier = Modifier
+                    .padding(end = 10.dp)
+                    .width(50.dp)
+//                    .background(Color.Red)
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Notifications,
+                    contentDescription = "Notifications",
+                    tint = MaterialTheme.colorScheme.onPrimary,
+                    modifier = Modifier
+                        .padding(end = 18.dp),
+                )
+                Text(
+                    text = "9+",
+                    modifier = Modifier
+                        .padding(start = 14.dp, bottom = 14.dp),
+                    color = Color.White,
+                    fontWeight = FontWeight.Bold
+                )
+            }
+        },
         colors = TopAppBarDefaults.smallTopAppBarColors(
             containerColor = MaterialTheme.colorScheme.primary,
             titleContentColor = MaterialTheme.colorScheme.onPrimary
@@ -55,82 +135,7 @@ fun ToolBar(onNavigateLogin: () -> Unit,){
     )
 }
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun MainMenu(
-    onNavigateLogin: () -> Unit,
-    onNavigateManageContact: () -> Unit,
-    appViewModel: AppViewModel
-){
-    Scaffold (
-        topBar = { ToolBar(onNavigateLogin) },
-        content = { MainMenuContent(onNavigateManageContact, appViewModel) }
-    )
-}
-
-
-
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@Composable
-fun MainMenuContent(
-    onNavigateManageContact: () -> Unit,
-    appViewModel: AppViewModel,
-) {
-    Box(
-        modifier = Modifier
-            .background(MaterialTheme.colorScheme.background)
-            .height(280.dp),
-        contentAlignment = Alignment.Center
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .wrapContentSize(Alignment.Center),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text(text = "data")
-            Spacer(modifier = Modifier.height(16.dp))
-            getContacts("appViewModel.getToken()", onNavigateManageContact, appViewModel)
-        }
-    }
-}
 
 
 
 
-@Composable
-fun getContacts(token: String, onNavigateManageContact: () -> Unit, appViewModel: AppViewModel){
-    var response by remember { mutableStateOf<Set<UserDTO>?>(null) }
-    val scope = rememberCoroutineScope()
-    Button(
-        onClick = {
-            onNavigateManageContact()
-//            scope.launch {
-//                try {
-//                    val service = RetrofitService.contactsCallsJwt(token)
-//                    response = service.showContacts()
-////                    appViewModel.setContacts(response!!)
-//                    onNavigateManageContact()
-//                    println("respuesta contactos: " + response.toString())
-//
-//                } catch (e: Exception) {
-//                    println("Error: " + e.message)
-//                }
-//            }
-        }
-    ) {
-        Text("Contactos")
-    }
-}
-
-
-//@Preview
-//@Composable
-//fun preview(){
-//    val a: String = "hola"
-//    val navController = rememberNavController()
-//    MainMenu(navController,a)
-////    ToolBar()
-//}

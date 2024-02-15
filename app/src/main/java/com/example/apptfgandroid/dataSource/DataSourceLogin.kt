@@ -1,8 +1,6 @@
 package com.example.apptfgandroid.dataSource
 
-import com.example.apptfgandroid.appViewModel.AppViewModel
 import com.example.apptfgandroid.models.LoginRequestDTO
-import com.example.tfgapp.models.ServerResponseDTO
 import com.example.tfgapp.service.ApiService
 import retrofit2.Retrofit
 
