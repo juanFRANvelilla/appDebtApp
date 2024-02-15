@@ -1,21 +1,16 @@
 package com.example.apptfgandroid.useCase
 
 import com.example.apptfgandroid.models.LoginRequestDTO
+import com.example.apptfgandroid.repository.PreferencesRepository
 import com.example.apptfgandroid.repository.RepositoryLogin
 
 class UseCaseLogin(
-    private val repositoryLogin: RepositoryLogin
+    private val repositoryLogin: RepositoryLogin,
+    private val preferencesRepository: PreferencesRepository
 ) {
     suspend fun doLogin(loginRequest: LoginRequestDTO){
-        repositoryLogin.doLogin(loginRequest)
+        val token = repositoryLogin.doLogin(loginRequest)
+        preferencesRepository.saveToken(token)
     }
-
-//    suspend fun saveToken(token: String){
-//        repositoryLogin.saveToken(token)
-//    }
-
-//    fun getNameFlow(): Flow<String?> {
-//        return repositoryLogin.getNameFlow()
-//    }
 
 }

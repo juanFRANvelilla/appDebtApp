@@ -34,7 +34,7 @@ fun LoginForm(
     onNavigateRegister: () -> Unit,
     onNavigateMainMenu: () -> Unit,
 ) {
-    val viewModel: LoginViewModel = getViewModel()
+    val viewModel: LoginViewModel by getViewModel()
 
     var password by remember { mutableStateOf("") }
     var phoneNumber by remember { mutableStateOf("") }
@@ -43,7 +43,6 @@ fun LoginForm(
 
     var errorMessage by remember { mutableStateOf<String?>(null) }
 
-    val scope = rememberCoroutineScope()
 
     Column(
         modifier = Modifier

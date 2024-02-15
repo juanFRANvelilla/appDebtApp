@@ -7,19 +7,19 @@ import com.example.apptfgandroid.appViewModel.AppViewModel
 import com.example.apptfgandroid.dataSource.DataSourceLogin
 import com.example.apptfgandroid.dataSource.DataSourceManageContacts
 import com.example.apptfgandroid.dataSource.DataSourceRegister
-import com.example.apptfgandroid.module.Qualifier.*
+import com.example.apptfgandroid.repository.PreferencesRepository
 import com.example.apptfgandroid.repository.RepositoryLogin
 import com.example.apptfgandroid.repository.RepositoryManageContacts
 import com.example.apptfgandroid.repository.RepositoryRegister
 import com.example.apptfgandroid.ui.screens.Login.LoginViewModel
+import com.example.apptfgandroid.ui.screens.MainMenu.MainMenuViewModel
 import com.example.apptfgandroid.ui.screens.ManageContacts.ManageContactsViewModel
 import com.example.apptfgandroid.ui.screens.Register.RegisterViewModel
 import com.example.apptfgandroid.useCase.UseCaseLogin
+import com.example.apptfgandroid.useCase.UseCaseMainMenu
 import com.example.apptfgandroid.useCase.UseCaseManageContact
 import com.example.apptfgandroid.useCase.UseCaseRegister
-import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
-import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import org.koin.java.KoinJavaComponent.getKoin
 import retrofit2.Retrofit
@@ -27,9 +27,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 
 val appModule = module {
-    single(named(JWToken)) { MutableLiveData<String>().apply { value = "" } }
-    viewModel { AppViewModel(get(named(JWToken))) }
-
+    single { MutableLiveData<String>().apply { value = "" } }
+    viewModel { AppViewModel(get()) }
 
 
     single {
@@ -39,13 +38,18 @@ val appModule = module {
             .build()
     }
 
-    //dependencias para el view model de login
+
+    //dependencias para el preferenceRepository
     val context: Context = getKoin().get()
     single { context }
+    single<PreferencesRepository> {PreferencesRepository(get())}
+
+
+    //dependencias para el view model de login
     single{ preferencesDataStore(name = "preferences") }
     single<DataSourceLogin> { DataSourceLogin(get()) }
-    single<RepositoryLogin> { RepositoryLogin(get(), get()) }
-    single<UseCaseLogin> { UseCaseLogin(get()) }
+    single<RepositoryLogin> { RepositoryLogin(get()) }
+    single<UseCaseLogin> { UseCaseLogin(get(), get()) }
     viewModel { LoginViewModel(get()) }
 
     //dependencias para el view model de register
@@ -61,11 +65,13 @@ val appModule = module {
     single<UseCaseManageContact>{ UseCaseManageContact(get()) }
     viewModel { ManageContactsViewModel(get()) }
 
+    //dependencias para el view model de mainMenu
+    single<UseCaseMainMenu> { UseCaseMainMenu(get()) }
+    viewModel { MainMenuViewModel(get(), get()) }
+
+
 }
 
-enum class Qualifier{
-    JWToken,
-}
 
 
 

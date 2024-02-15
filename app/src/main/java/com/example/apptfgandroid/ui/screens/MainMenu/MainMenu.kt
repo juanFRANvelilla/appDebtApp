@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Notifications
-import androidx.compose.material3.Badge
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -26,11 +25,14 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.apptfgandroid.ui.screens.Login.LoginViewModel
+import org.koin.androidx.compose.getViewModel
 
 @Preview
 @Composable
@@ -50,49 +52,25 @@ fun MainMenu(
     onNavigateLogin: () -> Unit,
     onNavigateManageContact: () -> Unit
 ){
+    val viewModel: MainMenuViewModel by getViewModel()
     Scaffold (
-        topBar = { ToolBar(onNavigateLogin) },
+        topBar = { ToolBar(onNavigateLogin, viewModel) },
         content = { MainMenuContent(onNavigateManageContact) }
     )
 }
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@Composable
-fun MainMenuContent(
-    onNavigateManageContact: () -> Unit,
-) {
-    Box(
-        modifier = Modifier
-            .background(MaterialTheme.colorScheme.background)
-            .height(280.dp),
-        contentAlignment = Alignment.Center
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .wrapContentSize(Alignment.Center),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Spacer(modifier = Modifier.height(16.dp))
-            Button(
-                onClick = {
-                    onNavigateManageContact()
-                }
-            ) {
-                Text("Contactos")
-            }
-        }
-    }
-}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ToolBar(onNavigateLogin: () -> Unit,){
+fun ToolBar(
+    onNavigateLogin: () -> Unit,
+    viewModel: MainMenuViewModel
+){
     TopAppBar(
         title = { Text(text = "Main Menu") },
         navigationIcon = {
             IconButton(onClick = {
+                viewModel.deleteToken()
                 onNavigateLogin()
             }) {
                 Icon(
@@ -134,6 +112,38 @@ fun ToolBar(onNavigateLogin: () -> Unit,){
         )
     )
 }
+
+
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@Composable
+fun MainMenuContent(
+    onNavigateManageContact: () -> Unit,
+) {
+    Box(
+        modifier = Modifier
+            .background(MaterialTheme.colorScheme.background)
+            .height(280.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .wrapContentSize(Alignment.Center),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Spacer(modifier = Modifier.height(16.dp))
+            Button(
+                onClick = {
+                    onNavigateManageContact()
+                }
+            ) {
+                Text("Contactos")
+            }
+        }
+    }
+}
+
 
 
 
