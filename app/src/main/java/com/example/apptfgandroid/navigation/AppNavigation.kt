@@ -18,10 +18,14 @@ fun AppNavigation(appViewModel: AppViewModel) {
 
     NavHost(navController = navController, startDestination = AppScreens.LoginForm.route){
         composable(route= AppScreens.LoginForm.route){
-            LoginForm(
-                onNavigateRegister = { navController.navigate(AppScreens.RegisterForm.route) },
-                onNavigateMainMenu = { navController.navigate(AppScreens.MainMenu.route) }
+            MainMenu(
+                onNavigateLogin = { navController.navigate(AppScreens.LoginForm.route) },
+                onNavigateManageContact = { navController.navigate(AppScreens.ManageContacs.route) },
             )
+//            LoginForm(
+//                onNavigateRegister = { navController.navigate(AppScreens.RegisterForm.route) },
+//                onNavigateMainMenu = { navController.navigate(AppScreens.MainMenu.route) }
+//            )
         }
         composable(route= AppScreens.RegisterForm.route){
             RegisterForm(
@@ -34,7 +38,6 @@ fun AppNavigation(appViewModel: AppViewModel) {
             MainMenu(
                 onNavigateLogin = { navController.navigate(AppScreens.LoginForm.route) },
                 onNavigateManageContact = { navController.navigate(AppScreens.ManageContacs.route) },
-                appViewModel = appViewModel
             )
         }
         composable(route= AppScreens.ManageContacs.route){

@@ -50,10 +50,10 @@ fun ManageContacts(
     onNavigateBack: () -> Unit
 ) {
     val viewModel: ManageContactsViewModel = getViewModel()
-    val users: StateFlow<Set<UserDTO>> = viewModel.contacts
+    val contacts: StateFlow<Set<UserDTO>> = viewModel.contacts
 
     Scaffold(
-        content = { ManageContactsContent(users) } ,
+        content = { ManageContactsContent(contacts) } ,
         topBar = { ToolBarContacts(onNavigateBack, viewModel) }
     )
 }
@@ -61,14 +61,15 @@ fun ManageContacts(
 
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
-fun ManageContactsContent(users: StateFlow<Set<UserDTO>>){
-    val usersList by rememberUpdatedState(users.value.toList())
+fun ManageContactsContent(contacts: StateFlow<Set<UserDTO>>){
+//    val contactsList by rememberUpdatedState(contacts.value.toList())
+    val contactsList by rememberUpdatedState(contacts.value)
     LazyColumn(
         modifier = Modifier
             .background(Color.White)
             .padding(top = 70.dp)
     ) {
-        items(usersList.toList()) { user ->
+        items(contactsList.toList()) { user ->
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -157,7 +158,7 @@ fun AddUsers(viewModel: ManageContactsViewModel){
 
 fun getUsersExample(): Set<UserDTO> {
     val users = mutableSetOf<UserDTO>()
-    for (i in 0 until 10) {
+    for (i in 0 until 5) {
         val user = UserDTO(
             firstName = "First Name $i",
             lastName = "Last Name $i",

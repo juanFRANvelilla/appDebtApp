@@ -25,13 +25,11 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.apptfgandroid.ui.screens.Login.LoginViewModel
 import org.koin.androidx.compose.getViewModel
 
 @Preview
@@ -52,7 +50,7 @@ fun MainMenu(
     onNavigateLogin: () -> Unit,
     onNavigateManageContact: () -> Unit
 ){
-    val viewModel: MainMenuViewModel by getViewModel()
+    val viewModel: MainMenuViewModel = getViewModel()
     Scaffold (
         topBar = { ToolBar(onNavigateLogin, viewModel) },
         content = { MainMenuContent(onNavigateManageContact) }
@@ -97,8 +95,9 @@ fun ToolBar(
                     modifier = Modifier
                         .padding(end = 18.dp),
                 )
+                val numberNotification = viewModel.request.size
                 Text(
-                    text = "9+",
+                    text = if (numberNotification < 10) numberNotification.toString() else " 9+",
                     modifier = Modifier
                         .padding(start = 14.dp, bottom = 14.dp),
                     color = Color.White,

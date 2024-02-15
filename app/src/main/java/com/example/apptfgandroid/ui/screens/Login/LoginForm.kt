@@ -34,7 +34,7 @@ fun LoginForm(
     onNavigateRegister: () -> Unit,
     onNavigateMainMenu: () -> Unit,
 ) {
-    val viewModel: LoginViewModel by getViewModel()
+    val viewModel: LoginViewModel = getViewModel()
 
     var password by remember { mutableStateOf("") }
     var phoneNumber by remember { mutableStateOf("") }
@@ -90,10 +90,6 @@ fun LoginForm(
                     onPasswordChange = {
                         password = it
                     })
-
-//                viewModel.saveToken(totalPhoneNumber)
-
-
             },
             modifier = Modifier
                 .width(180.dp)
