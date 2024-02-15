@@ -1,6 +1,5 @@
 package com.example.apptfgandroid.dataSource
 
-import com.example.apptfgandroid.appViewModel.AppViewModel
 import com.example.apptfgandroid.models.RequestContactDTO
 import com.example.apptfgandroid.models.UserDTO
 import com.example.tfgapp.models.ConvertResponseToServerResponseDTO
@@ -9,11 +8,9 @@ import com.example.tfgapp.models.toServerResponseDTO
 import com.example.tfgapp.service.RetrofitService.contactsCallsJwt
 import retrofit2.HttpException
 
-class DataSourceManageContacts(
-    val appViewModel: AppViewModel
-) {
-    suspend fun getContacts(): Set<UserDTO> {
-        val apiService = contactsCallsJwt(appViewModel.getToken())
+class DataSourceManageContacts() {
+    suspend fun getContacts(token: String): Set<UserDTO> {
+        val apiService = contactsCallsJwt(token)
         return try {
             apiService.showContacts()
         } catch (e: Exception) {
@@ -21,8 +18,8 @@ class DataSourceManageContacts(
         }
     }
 
-    suspend fun getRequest(): Set<UserDTO> {
-        val apiService = contactsCallsJwt(appViewModel.getToken())
+    suspend fun getRequest(token: String): Set<UserDTO> {
+        val apiService = contactsCallsJwt(token)
         return try {
             apiService.showRequestContact()
         } catch (e: Exception) {
@@ -30,8 +27,8 @@ class DataSourceManageContacts(
         }
     }
 
-    suspend fun sendContactRequest(request: RequestContactDTO): ServerResponseDTO? {
-        val apiService = contactsCallsJwt(appViewModel.getToken())
+    suspend fun sendContactRequest(request: RequestContactDTO, token: String): ServerResponseDTO? {
+        val apiService = contactsCallsJwt(token)
         try {
             val responseServer: Map<String, Any> = apiService.sendContactRequest(request)
             return responseServer.toServerResponseDTO()

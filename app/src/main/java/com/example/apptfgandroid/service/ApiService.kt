@@ -28,7 +28,7 @@ interface ApiService {
     @GET("api2/showContacts")
     suspend fun showContacts(): Set<UserDTO>
 
-    @POST("requestContact")
+    @POST("api2/requestContact")
     suspend fun sendContactRequest(@Body data: RequestContactDTO): Map<String, Any>
 
     @GET("api2/showRequestContact")

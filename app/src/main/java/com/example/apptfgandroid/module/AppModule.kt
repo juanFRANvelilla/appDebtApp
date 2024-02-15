@@ -60,9 +60,9 @@ val appModule = module {
 
 
     //dependencias para el view model de manageContacts
-    single<DataSourceManageContacts> { DataSourceManageContacts(get()) }
+    single<DataSourceManageContacts> { DataSourceManageContacts() }
     single<RepositoryManageContacts>{ RepositoryManageContacts(get()) }
-    single<UseCaseManageContact>{ UseCaseManageContact(get()) }
+    single<UseCaseManageContact>{ UseCaseManageContact(get(), get()) }
     viewModel { ManageContactsViewModel(get()) }
 
     //dependencias para el view model de mainMenu

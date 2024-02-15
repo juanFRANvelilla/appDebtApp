@@ -19,8 +19,8 @@ class MainMenuViewModel(
 ): ViewModel() {
     private val viewModelScope =  CoroutineScope(Dispatchers.Main)
     private val _request = MutableStateFlow<Set<UserDTO>>(emptySet())
-//    val request: StateFlow<Set<UserDTO>> = _request
-    val request: Set<UserDTO> = getUsersExample()
+    val request: StateFlow<Set<UserDTO>> = _request
+//    val request: Set<UserDTO> = getUsersExample()
 
     init {
         viewModelScope.launch {
@@ -35,10 +35,21 @@ class MainMenuViewModel(
     }
 
     private suspend fun getRequest(){
-        useCaseManageContact.getUsers().collect {request ->
-            withContext(Dispatchers.Main){
-                _request.value = request
+        useCaseManageContact.getTokenFlow().collect { tokenValue ->
+            tokenValue?.let {
+                useCaseManageContact.getRequest(it).collect {contacts ->
+                    withContext(Dispatchers.Main) {
+                        _request.value = contacts
+                    }
+                }
             }
         }
+
+
+//        useCaseManageContact.getUsers().collect {request ->
+//            withContext(Dispatchers.Main){
+//                _request.value = request
+//            }
+//        }
     }
 }

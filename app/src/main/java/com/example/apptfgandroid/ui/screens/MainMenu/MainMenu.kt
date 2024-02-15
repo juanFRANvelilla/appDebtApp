@@ -25,11 +25,14 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.flow.firstOrNull
 import org.koin.androidx.compose.getViewModel
 
 @Preview
@@ -58,12 +61,14 @@ fun MainMenu(
 }
 
 
+@SuppressLint("StateFlowValueCalledInComposition")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ToolBar(
     onNavigateLogin: () -> Unit,
     viewModel: MainMenuViewModel
 ){
+    val contactsList by rememberUpdatedState(viewModel.request.value)
     TopAppBar(
         title = { Text(text = "Main Menu") },
         navigationIcon = {
@@ -86,7 +91,6 @@ fun ToolBar(
                 modifier = Modifier
                     .padding(end = 10.dp)
                     .width(50.dp)
-//                    .background(Color.Red)
             ) {
                 Icon(
                     imageVector = Icons.Default.Notifications,
@@ -95,7 +99,7 @@ fun ToolBar(
                     modifier = Modifier
                         .padding(end = 18.dp),
                 )
-                val numberNotification = viewModel.request.size
+                val numberNotification = contactsList.size
                 Text(
                     text = if (numberNotification < 10) numberNotification.toString() else " 9+",
                     modifier = Modifier

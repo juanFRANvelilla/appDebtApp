@@ -16,12 +16,13 @@ class ManageContactsViewModel(
     private val useCase: UseCaseManageContact,
 ): ViewModel() {
     private val viewModelScope =  CoroutineScope(Dispatchers.Main)
+
     private val _contacts = MutableStateFlow<Set<UserDTO>>(emptySet())
     val contacts: StateFlow<Set<UserDTO>> = _contacts
 
     init {
         viewModelScope.launch {
-            getUsers()
+            getContacts()
         }
     }
 
@@ -31,20 +32,28 @@ class ManageContactsViewModel(
         onIsMessageDialogVisibleChange: (Boolean) -> Unit
     ){
         viewModelScope.launch {
-            withContext(Dispatchers.Default) {
-                val responseDTO = useCase.sendContactRequest(request)
-                if (responseDTO != null) {
-                    onResponseChange(responseDTO)
-                    onIsMessageDialogVisibleChange(true)
+            withContext(Dispatchers.Main) {
+                useCase.getTokenFlow().collect { tokenValue ->
+                    tokenValue?.let {
+                        val responseDTO = useCase.sendContactRequest(request, it)
+                        if (responseDTO != null) {
+                            onResponseChange(responseDTO)
+                            onIsMessageDialogVisibleChange(true)
+                        }
+                    }
                 }
             }
         }
     }
 
-    private suspend fun getUsers(){
-        useCase.getUsers().collect {contacts ->
-            withContext(Dispatchers.Main) {
-                _contacts.value = contacts
+    private suspend fun getContacts(){
+        useCase.getTokenFlow().collect { tokenValue ->
+            tokenValue?.let {
+                useCase.getContacts(it).collect {contacts ->
+                    withContext(Dispatchers.Main) {
+                        _contacts.value = contacts
+                    }
+                }
             }
         }
     }

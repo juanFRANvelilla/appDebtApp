@@ -10,18 +10,18 @@ import kotlinx.coroutines.flow.flow
 class RepositoryManageContacts(
     private val dataSourceManageContacts: DataSourceManageContacts
 ) {
-    suspend fun getContacts(): Flow<Set<UserDTO>> = flow {
-        val contacts = dataSourceManageContacts.getContacts()
+    suspend fun getContacts(token: String): Flow<Set<UserDTO>> = flow {
+        val contacts = dataSourceManageContacts.getContacts(token)
         emit(contacts.toSet())
     }
 
-    suspend fun getRequest(): Flow<Set<UserDTO>> = flow{
-        val request = dataSourceManageContacts.getRequest()
+    suspend fun getRequest(token: String): Flow<Set<UserDTO>> = flow{
+        val request = dataSourceManageContacts.getRequest(token)
         emit(request.toSet())
     }
 
 
-    suspend fun sendContactRequest(request: RequestContactDTO): ServerResponseDTO? {
-        return dataSourceManageContacts.sendContactRequest(request)
+    suspend fun sendContactRequest(request: RequestContactDTO, token: String): ServerResponseDTO? {
+        return dataSourceManageContacts.sendContactRequest(request, token)
     }
 }
