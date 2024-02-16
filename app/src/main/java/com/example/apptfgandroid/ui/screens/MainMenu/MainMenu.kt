@@ -40,6 +40,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import com.example.apptfgandroid.models.ContactRequestDTO
 import com.example.apptfgandroid.ui.popups.ShowNotifications
 import org.koin.androidx.compose.getViewModel
 
@@ -59,12 +60,11 @@ import org.koin.androidx.compose.getViewModel
 @Composable
 fun MainMenu(
     onNavigateLogin: () -> Unit,
-    onNavigateManageContact: () -> Unit,
-    onRefreshPage: () -> Unit
+    onNavigateManageContact: () -> Unit
 ){
     val viewModel: MainMenuViewModel = getViewModel()
     Scaffold (
-        topBar = { ToolBar(onNavigateLogin, onRefreshPage, viewModel ) },
+        topBar = { ToolBar(onNavigateLogin, viewModel ) },
         content = { MainMenuContent(onNavigateManageContact) }
     )
 }
@@ -75,7 +75,6 @@ fun MainMenu(
 @Composable
 fun ToolBar(
     onNavigateLogin: () -> Unit,
-    onRefreshPage: () -> Unit,
     viewModel: MainMenuViewModel
 ){
     val contactsList by rememberUpdatedState(viewModel.request.value)
@@ -102,9 +101,6 @@ fun ToolBar(
                 modifier = Modifier
                     .padding(end = 10.dp)
                     .width(50.dp)
-//                    .clickable {
-//                        expandedRequest = !expandedRequest
-//                    }
             ) {
                 Icon(
                     imageVector = Icons.Default.Notifications,
@@ -133,7 +129,8 @@ fun ToolBar(
             onDismiss = { expandedRequest = false },
             request = contactsList.toList(),
             onAcceptRequest = {
-                viewModel.acceptContactRequest(it, onRefreshPage)
+
+                viewModel.acceptContactRequest(it)
             }
         )
     }

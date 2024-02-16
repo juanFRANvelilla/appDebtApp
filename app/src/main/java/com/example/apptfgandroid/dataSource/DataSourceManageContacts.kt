@@ -35,9 +35,16 @@ class DataSourceManageContacts() {
         } catch (e: Exception) {
             when (e) {
                 is HttpException -> {
-                    val responseDTO = ConvertResponseToServerResponseDTO(
-                        e.response()?.errorBody()?.string())
-                    return responseDTO
+                    val errorMessage = e.response()?.errorBody()?.string()
+                    println("Respuesta de error $errorMessage")
+                    if(!errorMessage.equals("")){
+                        val responseDTO = ConvertResponseToServerResponseDTO(errorMessage)
+                        return responseDTO
+                    }
+                    else{
+                        return null
+                    }
+
                 }
                 else -> println(e.message)
             }
@@ -53,9 +60,15 @@ class DataSourceManageContacts() {
         } catch (e: Exception) {
             when (e) {
                 is HttpException -> {
-                    val responseDTO = ConvertResponseToServerResponseDTO(
-                        e.response()?.errorBody()?.string())
-                    return responseDTO
+                    val errorMessage = e.response()?.errorBody()?.string()
+                    println("Respuesta de error $errorMessage")
+                    if(!errorMessage.equals("")){
+                        val responseDTO = ConvertResponseToServerResponseDTO(errorMessage)
+                        return responseDTO
+                    }
+                    else{
+                        return null
+                    }
                 }
                 else -> println(e.message)
             }

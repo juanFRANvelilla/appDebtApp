@@ -38,7 +38,7 @@ import com.example.apptfgandroid.ui.screens.ManageContacts.getUsersExample
 fun ShowNotifications(
     onDismiss: () -> Unit,
     request: List<UserDTO>,
-    onAcceptRequest: (ContactRequestDTO) -> Unit
+    onAcceptRequest: (UserDTO) -> Unit
 ) {
     Dialog(
         onDismissRequest = {
@@ -64,8 +64,7 @@ fun ShowNotifications(
                         Text(text = "${user.firstName} ${user.lastName} ha solicitado ser tu contacto")
                         Button(
                             onClick = {
-                                val contactRequestDTO = ContactRequestDTO(username = user.username)
-                                onAcceptRequest(contactRequestDTO)
+                                onAcceptRequest(user)
                             }
                         ) {
                             Text(text = "ACEPTAR")

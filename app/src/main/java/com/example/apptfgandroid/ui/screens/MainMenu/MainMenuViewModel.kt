@@ -46,17 +46,26 @@ class MainMenuViewModel(
         }
     }
 
-    fun acceptContactRequest(request: ContactRequestDTO, onRefreshPage:() -> Unit){
-        viewModelScope.launch(Dispatchers.IO) {
+    fun acceptContactRequest(userDTOToAccept: UserDTO){
+        val contactRequestDTO = ContactRequestDTO(username = userDTOToAccept.username)
+        viewModelScope.launch(Dispatchers.Main) {
             useCaseManageContact.getTokenFlow().collect { tokenValue ->
                 tokenValue?.let {
-                    val responseDTO = useCaseManageContact.acceptContactRequest(request, it)
+                    val responseDTO = useCaseManageContact.acceptContactRequest(contactRequestDTO, it)
                     if (responseDTO != null) {
-                        onRefreshPage()
+                        deleteRequest(userDTOToAccept)
                     }
                 }
             }
         }
+    }
 
+    private fun deleteRequest(userToDelete: UserDTO) {
+        val currentContacts = _request.value.toMutableSet()
+
+        if (currentContacts.remove(userToDelete)) {
+            // Si el usuario estaba presente y se eliminó, actualiza el MutableStateFlow
+            _request.value = currentContacts.toSet()
+        }
     }
 }
