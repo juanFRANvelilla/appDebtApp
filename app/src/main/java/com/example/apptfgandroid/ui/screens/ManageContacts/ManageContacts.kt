@@ -47,14 +47,14 @@ import org.koin.androidx.compose.getViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ManageContacts(
-    onNavigateBack: () -> Unit
+    onNavigateMainMenu: () -> Unit
 ) {
     val viewModel: ManageContactsViewModel = getViewModel()
     val contacts: StateFlow<Set<UserDTO>> = viewModel.contacts
 
     Scaffold(
         content = { ManageContactsContent(contacts) } ,
-        topBar = { ToolBarContacts(onNavigateBack, viewModel) }
+        topBar = { ToolBarContacts(onNavigateMainMenu, viewModel) }
     )
 }
 
@@ -103,12 +103,12 @@ fun ManageContactsContent(contacts: StateFlow<Set<UserDTO>>){
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ToolBarContacts(ononNavigateBack: () -> Unit, viewModel: ManageContactsViewModel) {
+fun ToolBarContacts(onNavigateMainMenu: () -> Unit, viewModel: ManageContactsViewModel) {
     TopAppBar(
         title = { Text(text = "Contactos Menu") },
         navigationIcon = {
             IconButton(onClick = {
-                ononNavigateBack()
+                onNavigateMainMenu()
             }) {
                 Icon(
                     imageVector = Icons.Default.Home,

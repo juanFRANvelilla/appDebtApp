@@ -2,7 +2,6 @@ package com.example.apptfgandroid.ui.screens.MainMenu
 
 import androidx.lifecycle.ViewModel
 import com.example.apptfgandroid.models.UserDTO
-import com.example.apptfgandroid.ui.screens.ManageContacts.getUsersExample
 import com.example.apptfgandroid.useCase.UseCaseMainMenu
 import com.example.apptfgandroid.useCase.UseCaseManageContact
 import kotlinx.coroutines.CoroutineScope
