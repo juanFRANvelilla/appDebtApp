@@ -3,7 +3,7 @@ package com.example.tfgapp.service
 import com.example.apptfgandroid.models.CreateUserDTO
 import com.example.apptfgandroid.models.LoginRequestDTO
 import com.example.apptfgandroid.models.PhoneValidationDTO
-import com.example.apptfgandroid.models.RequestContactDTO
+import com.example.apptfgandroid.models.ContactRequestDTO
 import com.example.apptfgandroid.models.UserDTO
 import com.example.tfgapp.models.ServerResponseDTO
 import okhttp3.Interceptor
@@ -29,10 +29,13 @@ interface ApiService {
     suspend fun showContacts(): Set<UserDTO>
 
     @POST("api2/requestContact")
-    suspend fun sendContactRequest(@Body data: RequestContactDTO): Map<String, Any>
+    suspend fun sendContactRequest(@Body data: ContactRequestDTO): Map<String, Any>
+
+    @POST("api2/acceptRequestContact")
+    suspend fun acceptContactRequest(@Body data: ContactRequestDTO): Map<String, Any>
 
     @GET("api2/showRequestContact")
-    suspend fun showRequestContact(): Set<UserDTO>
+    suspend fun showContactRequest(): Set<UserDTO>
 
 }
 

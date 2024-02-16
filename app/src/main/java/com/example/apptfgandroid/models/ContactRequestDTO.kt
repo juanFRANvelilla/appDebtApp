@@ -1,5 +1,5 @@
 package com.example.apptfgandroid.models
 
-data class RequestContactDTO (
+data class ContactRequestDTO (
     private val username: String
 )

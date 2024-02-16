@@ -1,7 +1,7 @@
 package com.example.apptfgandroid.ui.screens.ManageContacts
 
 import androidx.lifecycle.ViewModel
-import com.example.apptfgandroid.models.RequestContactDTO
+import com.example.apptfgandroid.models.ContactRequestDTO
 import com.example.apptfgandroid.models.UserDTO
 import com.example.apptfgandroid.useCase.UseCaseManageContact
 import com.example.tfgapp.models.ServerResponseDTO
@@ -27,7 +27,7 @@ class ManageContactsViewModel(
     }
 
     fun sendContactRequest(
-        request: RequestContactDTO,
+        request: ContactRequestDTO,
         onResponseChange: (ServerResponseDTO) -> Unit,
         onIsMessageDialogVisibleChange: (Boolean) -> Unit
     ){

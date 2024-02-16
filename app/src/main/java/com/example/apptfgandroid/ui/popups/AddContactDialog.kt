@@ -19,12 +19,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import com.example.apptfgandroid.models.RequestContactDTO
+import com.example.apptfgandroid.models.ContactRequestDTO
 import com.example.apptfgandroid.ui.composables.TelephoneTextField
 import com.example.apptfgandroid.ui.screens.ManageContacts.ManageContactsViewModel
 import com.example.tfgapp.models.ServerResponseDTO
@@ -87,7 +86,7 @@ fun AddContactDialog(
 
                     TextButton(
                         onClick = {
-                            val request = RequestContactDTO(countryPrefix + phoneNumber)
+                            val request = ContactRequestDTO(countryPrefix + phoneNumber)
                             viewModel.sendContactRequest(request = request,
                                 onResponseChange = {
                                     responseDTO = it

@@ -1,6 +1,7 @@
 package com.example.apptfgandroid.ui.screens.MainMenu
 
 import androidx.lifecycle.ViewModel
+import com.example.apptfgandroid.models.ContactRequestDTO
 import com.example.apptfgandroid.models.UserDTO
 import com.example.apptfgandroid.useCase.UseCaseMainMenu
 import com.example.apptfgandroid.useCase.UseCaseManageContact
@@ -43,12 +44,19 @@ class MainMenuViewModel(
                 }
             }
         }
+    }
 
+    fun acceptContactRequest(request: ContactRequestDTO, onRefreshPage:() -> Unit){
+        viewModelScope.launch(Dispatchers.IO) {
+            useCaseManageContact.getTokenFlow().collect { tokenValue ->
+                tokenValue?.let {
+                    val responseDTO = useCaseManageContact.acceptContactRequest(request, it)
+                    if (responseDTO != null) {
+                        onRefreshPage()
+                    }
+                }
+            }
+        }
 
-//        useCaseManageContact.getUsers().collect {request ->
-//            withContext(Dispatchers.Main){
-//                _request.value = request
-//            }
-//        }
     }
 }

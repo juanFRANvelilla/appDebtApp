@@ -18,10 +18,6 @@ fun AppNavigation(appViewModel: AppViewModel) {
 
     NavHost(navController = navController, startDestination = AppScreens.LoginForm.route){
         composable(route= AppScreens.LoginForm.route){
-//            MainMenu(
-//                onNavigateLogin = { navController.navigate(AppScreens.LoginForm.route) },
-//                onNavigateManageContact = { navController.navigate(AppScreens.ManageContacs.route) },
-//            )
             LoginForm(
                 onNavigateRegister = { navController.navigate(AppScreens.RegisterForm.route) },
                 onNavigateMainMenu = { navController.navigate(AppScreens.MainMenu.route) }
@@ -38,6 +34,7 @@ fun AppNavigation(appViewModel: AppViewModel) {
             MainMenu(
                 onNavigateLogin = { navController.navigate(AppScreens.LoginForm.route) },
                 onNavigateManageContact = { navController.navigate(AppScreens.ManageContacs.route) },
+                onRefreshPage = { navController.navigate(AppScreens.MainMenu.route) }
             )
         }
         composable(route= AppScreens.ManageContacs.route){

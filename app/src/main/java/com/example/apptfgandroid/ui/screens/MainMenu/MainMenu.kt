@@ -5,13 +5,17 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.ui.Alignment
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Notifications
@@ -26,23 +30,27 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.flow.firstOrNull
+import androidx.compose.ui.window.Dialog
+import com.example.apptfgandroid.ui.popups.ShowNotifications
 import org.koin.androidx.compose.getViewModel
 
-@Preview
-@Composable
-fun Preview(){
-    MainMenu(
-        onNavigateLogin = {},
-        onNavigateManageContact = {}
-    )
-}
+//@Preview
+//@Composable
+//fun Preview(){
+//    MainMenu(
+//        onNavigateLogin = {},
+//        onNavigateManageContact = {}
+//    )
+//}
 
 
 
@@ -51,11 +59,12 @@ fun Preview(){
 @Composable
 fun MainMenu(
     onNavigateLogin: () -> Unit,
-    onNavigateManageContact: () -> Unit
+    onNavigateManageContact: () -> Unit,
+    onRefreshPage: () -> Unit
 ){
     val viewModel: MainMenuViewModel = getViewModel()
     Scaffold (
-        topBar = { ToolBar(onNavigateLogin, viewModel) },
+        topBar = { ToolBar(onNavigateLogin, onRefreshPage, viewModel ) },
         content = { MainMenuContent(onNavigateManageContact) }
     )
 }
@@ -66,9 +75,11 @@ fun MainMenu(
 @Composable
 fun ToolBar(
     onNavigateLogin: () -> Unit,
+    onRefreshPage: () -> Unit,
     viewModel: MainMenuViewModel
 ){
     val contactsList by rememberUpdatedState(viewModel.request.value)
+    var expandedRequest by remember { mutableStateOf(false) }
     TopAppBar(
         title = { Text(text = "Main Menu") },
         navigationIcon = {
@@ -86,11 +97,14 @@ fun ToolBar(
         actions = {
             IconButton(
                 onClick = {
-//                    onNotificationClick()
+                    expandedRequest = !expandedRequest
                 },
                 modifier = Modifier
                     .padding(end = 10.dp)
                     .width(50.dp)
+//                    .clickable {
+//                        expandedRequest = !expandedRequest
+//                    }
             ) {
                 Icon(
                     imageVector = Icons.Default.Notifications,
@@ -114,6 +128,15 @@ fun ToolBar(
             titleContentColor = MaterialTheme.colorScheme.onPrimary
         )
     )
+    if(expandedRequest){
+        ShowNotifications(
+            onDismiss = { expandedRequest = false },
+            request = contactsList.toList(),
+            onAcceptRequest = {
+                viewModel.acceptContactRequest(it, onRefreshPage)
+            }
+        )
+    }
 }
 
 

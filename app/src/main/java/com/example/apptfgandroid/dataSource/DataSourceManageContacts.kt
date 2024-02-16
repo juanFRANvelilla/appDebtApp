@@ -1,6 +1,6 @@
 package com.example.apptfgandroid.dataSource
 
-import com.example.apptfgandroid.models.RequestContactDTO
+import com.example.apptfgandroid.models.ContactRequestDTO
 import com.example.apptfgandroid.models.UserDTO
 import com.example.tfgapp.models.ConvertResponseToServerResponseDTO
 import com.example.tfgapp.models.ServerResponseDTO
@@ -21,13 +21,13 @@ class DataSourceManageContacts() {
     suspend fun getRequest(token: String): Set<UserDTO> {
         val apiService = contactsCallsJwt(token)
         return try {
-            apiService.showRequestContact()
+            apiService.showContactRequest()
         } catch (e: Exception) {
             emptySet()
         }
     }
 
-    suspend fun sendContactRequest(request: RequestContactDTO, token: String): ServerResponseDTO? {
+    suspend fun sendContactRequest(request: ContactRequestDTO, token: String): ServerResponseDTO? {
         val apiService = contactsCallsJwt(token)
         try {
             val responseServer: Map<String, Any> = apiService.sendContactRequest(request)
@@ -44,4 +44,23 @@ class DataSourceManageContacts() {
         }
         return null
     }
+
+    suspend fun acceptContactRequest(request: ContactRequestDTO, token: String): ServerResponseDTO? {
+        val apiService = contactsCallsJwt(token)
+        try {
+            val responseServer: Map<String, Any> = apiService.acceptContactRequest(request)
+            return responseServer.toServerResponseDTO()
+        } catch (e: Exception) {
+            when (e) {
+                is HttpException -> {
+                    val responseDTO = ConvertResponseToServerResponseDTO(
+                        e.response()?.errorBody()?.string())
+                    return responseDTO
+                }
+                else -> println(e.message)
+            }
+        }
+        return null
+    }
+
 }
