@@ -52,6 +52,7 @@ fun ManageContacts(
     val viewModel: ManageContactsViewModel = getViewModel()
     val contacts: StateFlow<Set<UserDTO>> = viewModel.contacts
 
+
     Scaffold(
         content = { ManageContactsContent(contacts) } ,
         topBar = { ToolBarContacts(onNavigateMainMenu, viewModel) }
@@ -63,13 +64,13 @@ fun ManageContacts(
 @Composable
 fun ManageContactsContent(contacts: StateFlow<Set<UserDTO>>){
 //    val contactsList by rememberUpdatedState(contacts.value.toList())
-    val contactsList by rememberUpdatedState(contacts.value)
+    val contactsList by rememberUpdatedState(contacts.value.toList())
     LazyColumn(
         modifier = Modifier
             .background(Color.White)
             .padding(top = 70.dp)
     ) {
-        items(contactsList.toList()) { user ->
+        items(contactsList) { user ->
             Row(
                 modifier = Modifier
                     .fillMaxWidth()

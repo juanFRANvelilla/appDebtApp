@@ -33,7 +33,8 @@ fun AppNavigation(appViewModel: AppViewModel) {
             route = AppScreens.MainMenu.route ) {
             MainMenu(
                 onNavigateLogin = { navController.navigate(AppScreens.LoginForm.route) },
-                onNavigateManageContact = { navController.navigate(AppScreens.ManageContacs.route) }
+                onNavigateManageContact = { navController.navigate(AppScreens.ManageContacs.route) },
+                onRefreshPage = { navController.navigate(AppScreens.MainMenu.route) }
             )
         }
         composable(route= AppScreens.ManageContacs.route){

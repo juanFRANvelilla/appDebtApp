@@ -52,20 +52,11 @@ class MainMenuViewModel(
             useCaseManageContact.getTokenFlow().collect { tokenValue ->
                 tokenValue?.let {
                     val responseDTO = useCaseManageContact.acceptContactRequest(contactRequestDTO, it)
+                    getRequest()
                     if (responseDTO != null) {
-                        deleteRequest(userDTOToAccept)
                     }
                 }
             }
-        }
-    }
-
-    private fun deleteRequest(userToDelete: UserDTO) {
-        val currentContacts = _request.value.toMutableSet()
-
-        if (currentContacts.remove(userToDelete)) {
-            // Si el usuario estaba presente y se eliminó, actualiza el MutableStateFlow
-            _request.value = currentContacts.toSet()
         }
     }
 }

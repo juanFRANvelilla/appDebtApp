@@ -22,6 +22,10 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -38,33 +42,38 @@ import com.example.apptfgandroid.ui.screens.ManageContacts.getUsersExample
 fun ShowNotifications(
     onDismiss: () -> Unit,
     request: List<UserDTO>,
-    onAcceptRequest: (UserDTO) -> Unit
+    onAcceptRequest: (UserDTO) -> Unit,
+    onRefreshPage: () -> Unit
 ) {
+    var mutableRequestList by remember { mutableStateOf(request) }
+
     Dialog(
         onDismissRequest = {
             onDismiss()
         }
-        ) {
+    ) {
         Box(
             modifier = Modifier
-//                .padding(30.dp)
                 .background(
                     color = MaterialTheme.colorScheme.background,
                     shape = RoundedCornerShape(14.dp)
                 )
-
-        ){
+        ) {
             LazyColumn(
                 modifier = Modifier
                     .padding(14.dp)
             ) {
-                items(request) { user ->
+                items(mutableRequestList) { user ->
                     Column {
                         Text(text = user.username, color = Color.Red)
                         Text(text = "${user.firstName} ${user.lastName} ha solicitado ser tu contacto")
                         Button(
                             onClick = {
                                 onAcceptRequest(user)
+                                mutableRequestList = mutableRequestList.filter { it != user }
+                                if(mutableRequestList.size == 0){
+                                    onDismiss()
+                                }
                             }
                         ) {
                             Text(text = "ACEPTAR")

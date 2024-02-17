@@ -60,11 +60,12 @@ import org.koin.androidx.compose.getViewModel
 @Composable
 fun MainMenu(
     onNavigateLogin: () -> Unit,
-    onNavigateManageContact: () -> Unit
+    onNavigateManageContact: () -> Unit,
+    onRefreshPage: () -> Unit
 ){
     val viewModel: MainMenuViewModel = getViewModel()
     Scaffold (
-        topBar = { ToolBar(onNavigateLogin, viewModel ) },
+        topBar = { ToolBar(onNavigateLogin, viewModel, onRefreshPage ) },
         content = { MainMenuContent(onNavigateManageContact) }
     )
 }
@@ -75,9 +76,11 @@ fun MainMenu(
 @Composable
 fun ToolBar(
     onNavigateLogin: () -> Unit,
-    viewModel: MainMenuViewModel
+    viewModel: MainMenuViewModel,
+    onRefreshPage: () -> Unit
 ){
     val contactsList by rememberUpdatedState(viewModel.request.value)
+    var numberOfRequest by remember { mutableStateOf(0) }
     var expandedRequest by remember { mutableStateOf(false) }
     TopAppBar(
         title = { Text(text = "Main Menu") },
@@ -109,9 +112,9 @@ fun ToolBar(
                     modifier = Modifier
                         .padding(end = 18.dp),
                 )
-                val numberNotification = contactsList.size
+                numberOfRequest = contactsList.size
                 Text(
-                    text = if (numberNotification < 10) numberNotification.toString() else " 9+",
+                    text = if (numberOfRequest < 10) numberOfRequest.toString() else " 9+",
                     modifier = Modifier
                         .padding(start = 14.dp, bottom = 14.dp),
                     color = Color.White,
@@ -126,11 +129,16 @@ fun ToolBar(
     )
     if(expandedRequest){
         ShowNotifications(
-            onDismiss = { expandedRequest = false },
+            onDismiss = {
+                expandedRequest = false
+                numberOfRequest = 0
+            },
             request = contactsList.toList(),
             onAcceptRequest = {
-
                 viewModel.acceptContactRequest(it)
+            },
+            onRefreshPage = {
+                numberOfRequest -= 1
             }
         )
     }
