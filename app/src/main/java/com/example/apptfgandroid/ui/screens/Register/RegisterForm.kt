@@ -42,7 +42,7 @@ import kotlin.random.Random
 @Composable
 fun RegisterForm(
     onNavigateRegister: () -> Unit,
-    onNavigateBack: () -> Unit
+    onNavigateLogin: () -> Unit
 ) {
     val viewModel: RegisterViewModel = getViewModel()
 
@@ -179,13 +179,13 @@ fun RegisterForm(
                 viewModel = viewModel
             )
         }
-        GoBack(onNavigateBack)
+        GoBack(onNavigateLogin)
     }
 }
 
 
 @Composable
-fun GoBack(onNavigateBack: () -> Unit) {
+fun GoBack(onNavigateLogin: () -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -194,7 +194,7 @@ fun GoBack(onNavigateBack: () -> Unit) {
     ) {
         TextButton(
             onClick = {
-                onNavigateBack()
+                onNavigateLogin()
             }
         ) {
             Icon(

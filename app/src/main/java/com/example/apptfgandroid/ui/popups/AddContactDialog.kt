@@ -87,7 +87,8 @@ fun AddContactDialog(
                     TextButton(
                         onClick = {
                             val request = ContactRequestDTO(countryPrefix + phoneNumber)
-                            viewModel.sendContactRequest(request = request,
+                            viewModel.sendContactRequest(
+                                request = request,
                                 onResponseChange = {
                                     responseDTO = it
                                 },

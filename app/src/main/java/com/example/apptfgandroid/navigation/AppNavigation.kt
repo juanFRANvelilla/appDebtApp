@@ -26,7 +26,7 @@ fun AppNavigation(appViewModel: AppViewModel) {
         composable(route= AppScreens.RegisterForm.route){
             RegisterForm(
                 onNavigateRegister = { navController.navigate(AppScreens.RegisterForm.route) },
-                onNavigateBack = { navController.popBackStack() }
+                onNavigateLogin = { navController.navigate(AppScreens.LoginForm.route) }
             )
         }
         composable(

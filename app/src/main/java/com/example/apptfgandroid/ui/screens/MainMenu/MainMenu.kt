@@ -79,8 +79,7 @@ fun ToolBar(
     viewModel: MainMenuViewModel,
     onRefreshPage: () -> Unit
 ){
-    val contactsList by rememberUpdatedState(viewModel.request.value)
-    var numberOfRequest by remember { mutableStateOf(0) }
+    val contactsList by rememberUpdatedState(viewModel.request.value.toList())
     var expandedRequest by remember { mutableStateOf(false) }
     TopAppBar(
         title = { Text(text = "Main Menu") },
@@ -112,7 +111,7 @@ fun ToolBar(
                     modifier = Modifier
                         .padding(end = 18.dp),
                 )
-                numberOfRequest = contactsList.size
+                val numberOfRequest = contactsList.size
                 Text(
                     text = if (numberOfRequest < 10) numberOfRequest.toString() else " 9+",
                     modifier = Modifier
@@ -131,14 +130,12 @@ fun ToolBar(
         ShowNotifications(
             onDismiss = {
                 expandedRequest = false
-                numberOfRequest = 0
             },
-            request = contactsList.toList(),
+            viewModel = viewModel,
             onAcceptRequest = {
                 viewModel.acceptContactRequest(it)
             },
             onRefreshPage = {
-                numberOfRequest -= 1
             }
         )
     }

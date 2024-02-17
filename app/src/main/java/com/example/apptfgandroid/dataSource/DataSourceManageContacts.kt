@@ -31,12 +31,13 @@ class DataSourceManageContacts() {
         val apiService = contactsCallsJwt(token)
         try {
             val responseServer: Map<String, Any> = apiService.sendContactRequest(request)
+            println("Respuesta mandar request EXITOSA: ${responseServer.toString()}")
             return responseServer.toServerResponseDTO()
         } catch (e: Exception) {
             when (e) {
                 is HttpException -> {
                     val errorMessage = e.response()?.errorBody()?.string()
-                    println("Respuesta de error $errorMessage")
+                    println("Respuesta mandar request ERROR: $errorMessage")
                     if(!errorMessage.equals("")){
                         val responseDTO = ConvertResponseToServerResponseDTO(errorMessage)
                         return responseDTO
@@ -44,7 +45,6 @@ class DataSourceManageContacts() {
                     else{
                         return null
                     }
-
                 }
                 else -> println(e.message)
             }

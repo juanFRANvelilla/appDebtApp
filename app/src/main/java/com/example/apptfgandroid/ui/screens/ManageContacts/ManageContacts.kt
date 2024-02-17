@@ -63,7 +63,6 @@ fun ManageContacts(
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun ManageContactsContent(contacts: StateFlow<Set<UserDTO>>){
-//    val contactsList by rememberUpdatedState(contacts.value.toList())
     val contactsList by rememberUpdatedState(contacts.value.toList())
     LazyColumn(
         modifier = Modifier
