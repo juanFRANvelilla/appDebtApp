@@ -1,9 +1,9 @@
 package com.example.apptfgandroid.useCase
 
-import com.example.apptfgandroid.repository.PreferencesRepository
+//import com.example.apptfgandroid.repository.PreferencesRepository
 
 class UseCaseMainMenu(
-    private val preferencesRepository: PreferencesRepository
+//    private val preferencesRepository: PreferencesRepository
 ) {
-    suspend fun deleteToken() = preferencesRepository.saveToken("")
+//    suspend fun deleteToken() = preferencesRepository.saveToken("")
 }

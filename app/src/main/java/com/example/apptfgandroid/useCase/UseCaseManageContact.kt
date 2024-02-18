@@ -2,17 +2,17 @@ package com.example.apptfgandroid.useCase
 
 import com.example.apptfgandroid.models.ContactRequestDTO
 import com.example.apptfgandroid.models.UserDTO
-import com.example.apptfgandroid.repository.PreferencesRepository
+//import com.example.apptfgandroid.repository.PreferencesRepository
 import com.example.apptfgandroid.repository.RepositoryManageContacts
 import com.example.tfgapp.models.ServerResponseDTO
 import kotlinx.coroutines.flow.Flow
 
 class UseCaseManageContact(
     private val repository: RepositoryManageContacts,
-    private val preferencesRepository: PreferencesRepository
+//    private val preferencesRepository: PreferencesRepository
 ) {
 
-    suspend fun getTokenFlow(): Flow<String?> = preferencesRepository.getNameFlow()
+//    suspend fun getTokenFlow(): Flow<String?> = preferencesRepository.getNameFlow()
 
     suspend fun getContacts(token: String): Flow<Set<UserDTO>> = repository.getContacts(token)
 

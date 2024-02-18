@@ -47,8 +47,10 @@ class RegisterViewModel(
         viewModelScope.launch {
             withContext(Dispatchers.Main) {
                 try {
+                    println("vas a hacer register")
                     val updateData = data.copy(verificationCode = codeSms)
                     val responseDTO = useCaseRegister.validatePhone(updateData)
+
                     onResponseChange(responseDTO)
                     onIsMessageDialogVisibleChange(true)
                 }catch (e: Exception) {

@@ -7,7 +7,7 @@ import com.example.apptfgandroid.appViewModel.AppViewModel
 import com.example.apptfgandroid.dataSource.DataSourceLogin
 import com.example.apptfgandroid.dataSource.DataSourceManageContacts
 import com.example.apptfgandroid.dataSource.DataSourceRegister
-import com.example.apptfgandroid.repository.PreferencesRepository
+//import com.example.apptfgandroid.repository.PreferencesRepository
 import com.example.apptfgandroid.repository.RepositoryLogin
 import com.example.apptfgandroid.repository.RepositoryManageContacts
 import com.example.apptfgandroid.repository.RepositoryRegister
@@ -42,14 +42,14 @@ val appModule = module {
     //dependencias para el preferenceRepository
     val context: Context = getKoin().get()
     single { context }
-    single<PreferencesRepository> {PreferencesRepository(get())}
+//    single<PreferencesRepository> {PreferencesRepository(get())}
 
 
     //dependencias para el view model de login
     single{ preferencesDataStore(name = "preferences") }
     single<DataSourceLogin> { DataSourceLogin(get()) }
     single<RepositoryLogin> { RepositoryLogin(get()) }
-    single<UseCaseLogin> { UseCaseLogin(get(), get()) }
+    single<UseCaseLogin> { UseCaseLogin(get(),) }
     viewModel { LoginViewModel(get()) }
 
     //dependencias para el view model de register
@@ -62,11 +62,11 @@ val appModule = module {
     //dependencias para el view model de manageContacts
     single<DataSourceManageContacts> { DataSourceManageContacts() }
     single<RepositoryManageContacts>{ RepositoryManageContacts(get()) }
-    single<UseCaseManageContact>{ UseCaseManageContact(get(), get()) }
+    single<UseCaseManageContact>{ UseCaseManageContact(get()) }
     viewModel { ManageContactsViewModel(get()) }
 
     //dependencias para el view model de mainMenu
-    single<UseCaseMainMenu> { UseCaseMainMenu(get()) }
+    single<UseCaseMainMenu> { UseCaseMainMenu() }
     viewModel { MainMenuViewModel(get(), get()) }
 
 

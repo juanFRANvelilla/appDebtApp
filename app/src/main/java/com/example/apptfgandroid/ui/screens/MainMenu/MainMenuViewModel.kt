@@ -22,41 +22,46 @@ class MainMenuViewModel(
     val request: StateFlow<Set<UserDTO>> = _request
 //    val request: Set<UserDTO> = getUsersExample()
 
-    init {
-        viewModelScope.launch {
-            getRequest()
-        }
-    }
+//    init {
+//        viewModelScope.launch(Dispatchers.Main) {
+//            getRequest()
+//        }
+//    }
 
     fun deleteToken(){
         viewModelScope.launch(Dispatchers.IO) {
-            useCaseMainMenu.deleteToken()
+//            useCaseMainMenu.deleteToken()
         }
     }
 
-    private suspend fun getRequest(){
-        useCaseManageContact.getTokenFlow().collect { tokenValue ->
-            tokenValue?.let {
-                useCaseManageContact.getRequest(it).collect {contacts ->
-                    withContext(Dispatchers.Main) {
-                        _request.value = contacts
-                    }
+    fun getRequest(){
+//        useCaseManageContact.getTokenFlow().collect { tokenValue ->
+//            tokenValue?.let {
+        viewModelScope.launch(Dispatchers.Main) {
+            val token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIrMzQxIiwiaWF0IjoxNzA4MjA3Mjk3LCJleHAiOjE3MDgyOTM2OTd9.LV14Vay-sIB9vaRmgMyNgxN6Ha37TCeBGNG2Re-N6w4"
+            useCaseManageContact.getRequest(token).collect {contacts ->
+                withContext(Dispatchers.Main) {
+                    _request.value = contacts
+//                    }
+//                }
                 }
             }
         }
+
+
     }
 
     fun acceptContactRequest(userDTOToAccept: UserDTO){
-        val contactRequestDTO = ContactRequestDTO(username = userDTOToAccept.username)
-        viewModelScope.launch(Dispatchers.Main) {
-            useCaseManageContact.getTokenFlow().collect { tokenValue ->
-                tokenValue?.let {
-                    val responseDTO = useCaseManageContact.acceptContactRequest(contactRequestDTO, it)
-                    getRequest()
-                    if (responseDTO != null) {
-                    }
-                }
-            }
-        }
+//        val contactRequestDTO = ContactRequestDTO(username = userDTOToAccept.username)
+//        viewModelScope.launch(Dispatchers.Main) {
+//            useCaseManageContact.getTokenFlow().collect { tokenValue ->
+//                tokenValue?.let {
+//                    val responseDTO = useCaseManageContact.acceptContactRequest(contactRequestDTO, it)
+//                    getRequest()
+//                    if (responseDTO != null) {
+//                    }
+//                }
+//            }
+//        }
     }
 }

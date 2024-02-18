@@ -21,6 +21,10 @@ class DataSourceManageContacts() {
     suspend fun getRequest(token: String): Set<UserDTO> {
         val apiService = contactsCallsJwt(token)
         return try {
+            println("se hace request de notificaciones")
+            val  request: Set<UserDTO> = apiService.showContactRequest()
+            println("response: $request")
+            println("despues")
             apiService.showContactRequest()
         } catch (e: Exception) {
             emptySet()
