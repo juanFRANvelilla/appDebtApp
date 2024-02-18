@@ -49,11 +49,12 @@ class ManageContactsViewModel(
     private suspend fun getContacts(){
 //        useCase.getTokenFlow().collect { tokenValue ->
 //            tokenValue?.let {
-//                useCase.getContacts(it).collect {contacts ->
-//                    withContext(Dispatchers.Main) {
-//                        _contacts.value = contacts
-//                    }
-//                }
+        val token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIrMzQxIiwiaWF0IjoxNzA4MjA3Mjk3LCJleHAiOjE3MDgyOTM2OTd9.LV14Vay-sIB9vaRmgMyNgxN6Ha37TCeBGNG2Re-N6w4"
+                useCase.getContacts(token).collect {contacts ->
+                    withContext(Dispatchers.Main) {
+                        _contacts.value = contacts
+                    }
+                }
 //            }
 //        }
     }
