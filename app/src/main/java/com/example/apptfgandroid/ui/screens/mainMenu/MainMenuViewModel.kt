@@ -29,12 +29,12 @@ class MainMenuViewModel(
     }
 
     fun deleteToken(){
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.Main) {
             useCaseMainMenu.deleteToken()
         }
     }
 
-    fun getRequest(){
+    private fun getRequest(){
         viewModelScope.launch(Dispatchers.Main) {
             useCaseManageContact.getRequest().collect {contacts ->
                 withContext(Dispatchers.Main) {
@@ -47,10 +47,14 @@ class MainMenuViewModel(
     fun acceptContactRequest(userDTOToAccept: UserDTO){
         val contactRequestDTO = ContactRequestDTO(username = userDTOToAccept.username)
         viewModelScope.launch(Dispatchers.Main) {
-            val responseDTO = useCaseManageContact.acceptContactRequest(contactRequestDTO)
-            getRequest()
-            if (responseDTO != null) {
-            }
+            useCaseManageContact.acceptContactRequest(contactRequestDTO)
+            removeUser(userDTOToAccept)
         }
+    }
+
+    private fun removeUser(userToRemove: UserDTO) {
+        val currentSet = _request.value
+        val updatedSet = currentSet - userToRemove
+        _request.value = updatedSet
     }
 }

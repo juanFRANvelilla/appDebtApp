@@ -9,17 +9,16 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.foundation.lazy.items
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.example.apptfgandroid.models.UserDTO
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberUpdatedState
-import com.example.apptfgandroid.ui.screens.mainMenu.MainMenuViewModel
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.remember
 
 //@Preview
 //@Composable
@@ -31,11 +30,11 @@ import com.example.apptfgandroid.ui.screens.mainMenu.MainMenuViewModel
 @Composable
 fun ShowNotifications(
     onDismiss: () -> Unit,
-    viewModel: MainMenuViewModel,
     onAcceptRequest: (UserDTO) -> Unit,
-    onRefreshPage: () -> Unit
+    onRefreshPage: () -> Unit,
+    requestList: MutableList<UserDTO>
 ) {
-    val contactsList by rememberUpdatedState(viewModel.request.value.toList())
+    val requestListState = remember { mutableStateListOf(*requestList.toTypedArray()) }
 
     Dialog(
         onDismissRequest = {
@@ -53,19 +52,24 @@ fun ShowNotifications(
                 modifier = Modifier
                     .padding(14.dp)
             ) {
-                items(contactsList) { user ->
+
+                items(requestListState) { user ->
+                    if(requestListState.size == 0){
+                            Text("no tienes notificaciones")
+                        }
                     Column {
                         Text(text = user.username, color = Color.Red)
                         Text(text = "${user.firstName} ${user.lastName} ha solicitado ser tu contacto")
                         Button(
                             onClick = {
                                 onAcceptRequest(user)
-//                                contactsList = contactsList.filter { it != user }
-//                                if(contactsList.size == 0){
-//                                    onDismiss()
-//                                }
+                                requestListState.remove(user)
+                                if(requestListState.size == 0){
+                                    onRefreshPage()
+                                }
                             }
-                        ) {
+                        )
+                        {
                             Text(text = "ACEPTAR")
                         }
                     }
@@ -74,3 +78,4 @@ fun ShowNotifications(
         }
     }
 }
+

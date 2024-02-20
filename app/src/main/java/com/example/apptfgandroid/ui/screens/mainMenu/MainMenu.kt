@@ -124,11 +124,12 @@ fun ToolBar(
             onDismiss = {
                 expandedRequest = false
             },
-            viewModel = viewModel,
+            requestList = requestList.toMutableList(),
             onAcceptRequest = {
                 viewModel.acceptContactRequest(it)
             },
             onRefreshPage = {
+                onRefreshPage()
             }
         )
     }
