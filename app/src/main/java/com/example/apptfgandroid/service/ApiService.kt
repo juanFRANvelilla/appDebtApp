@@ -17,7 +17,7 @@ import retrofit2.http.POST
 
 interface ApiService {
     @POST("login")
-    suspend fun login(@Body data: LoginRequestDTO): ServerResponseDTO
+    suspend fun login(@Body data: LoginRequestDTO): Map<String, Any>
 
     @POST("api/confirmPhone")
     suspend fun confirmPhone(@Body data: PhoneValidationDTO): Map<String, Any>

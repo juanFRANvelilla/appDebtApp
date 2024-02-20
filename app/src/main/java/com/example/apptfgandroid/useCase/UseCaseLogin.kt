@@ -11,9 +11,9 @@ class UseCaseLogin(
 //    private val preferencesRepository: PreferencesRepository
 ) {
     suspend fun doLogin(loginRequest: LoginRequestDTO){
-        val token = repositoryLogin.doLogin(loginRequest)
-        manageTokenViewModel.setToken(token)
-//        preferencesRepository.saveToken(token)
+        val responseLogin = repositoryLogin.doLogin(loginRequest)
+        manageTokenViewModel.setToken(responseLogin.message)
+//        preferencesRepository.saveToken(responseLogin.message)
     }
 
 }
