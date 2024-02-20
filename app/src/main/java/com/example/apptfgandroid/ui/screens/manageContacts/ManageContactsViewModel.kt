@@ -1,4 +1,4 @@
-package com.example.apptfgandroid.ui.screens.ManageContacts
+package com.example.apptfgandroid.ui.screens.manageContacts
 
 import androidx.lifecycle.ViewModel
 import com.example.apptfgandroid.models.ContactRequestDTO

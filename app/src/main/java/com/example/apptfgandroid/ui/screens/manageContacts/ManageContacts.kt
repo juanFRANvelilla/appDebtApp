@@ -1,4 +1,4 @@
-package com.example.apptfgandroid.ui.screens.ManageContacts
+package com.example.apptfgandroid.ui.screens.manageContacts
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background

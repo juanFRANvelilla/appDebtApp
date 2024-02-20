@@ -1,4 +1,4 @@
-package com.example.apptfgandroid.ui.screens.Register
+package com.example.apptfgandroid.ui.screens.register
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

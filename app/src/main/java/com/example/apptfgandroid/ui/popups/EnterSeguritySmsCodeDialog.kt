@@ -33,7 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.example.apptfgandroid.models.CreateUserDTO
-import com.example.apptfgandroid.ui.screens.Register.RegisterViewModel
+import com.example.apptfgandroid.ui.screens.register.RegisterViewModel
 import com.example.tfgapp.models.ServerResponseDTO
 
 @OptIn(ExperimentalMaterial3Api::class)
