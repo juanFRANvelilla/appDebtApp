@@ -1,4 +1,4 @@
-package com.example.apptfgandroid.ui.screens.login
+package com.example.apptfgandroid.ui.screens.Login
 
 import androidx.lifecycle.ViewModel
 import com.example.apptfgandroid.models.LoginRequestDTO

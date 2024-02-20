@@ -1,4 +1,4 @@
-package com.example.apptfgandroid.ui.screens.login
+package com.example.apptfgandroid.ui.screens.Login
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth

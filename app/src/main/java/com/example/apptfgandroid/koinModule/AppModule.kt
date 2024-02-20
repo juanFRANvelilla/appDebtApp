@@ -10,10 +10,10 @@ import com.example.apptfgandroid.dataSource.DataSourceRegister
 import com.example.apptfgandroid.repository.RepositoryLogin
 import com.example.apptfgandroid.repository.RepositoryManageContacts
 import com.example.apptfgandroid.repository.RepositoryRegister
-import com.example.apptfgandroid.ui.screens.login.LoginViewModel
-import com.example.apptfgandroid.ui.screens.MainMenu.MainMenuViewModel
-import com.example.apptfgandroid.ui.screens.manageContacts.ManageContactsViewModel
+import com.example.apptfgandroid.ui.screens.mainMenu.MainMenuViewModel
 import com.example.apptfgandroid.ui.screens.Register.RegisterViewModel
+import com.example.apptfgandroid.ui.screens.Login.LoginViewModel
+import com.example.apptfgandroid.ui.screens.ManageContacts.ManageContactsViewModel
 import com.example.apptfgandroid.useCase.UseCaseLogin
 import com.example.apptfgandroid.useCase.UseCaseMainMenu
 import com.example.apptfgandroid.useCase.UseCaseManageContact

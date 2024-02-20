@@ -1,7 +1,6 @@
-package com.example.apptfgandroid.ui.screens.MainMenu
+package com.example.apptfgandroid.ui.screens.mainMenu
 
 import androidx.lifecycle.ViewModel
-import com.example.apptfgandroid.commonViewModel.ManageTokenViewModel
 import com.example.apptfgandroid.models.ContactRequestDTO
 import com.example.apptfgandroid.models.UserDTO
 import com.example.apptfgandroid.useCase.UseCaseMainMenu
