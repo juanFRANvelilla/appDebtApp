@@ -1,5 +1,6 @@
 package com.example.apptfgandroid.useCase
 
+import com.example.apptfgandroid.commonViewModel.ManageTokenViewModel
 import com.example.apptfgandroid.models.ContactRequestDTO
 import com.example.apptfgandroid.models.UserDTO
 //import com.example.apptfgandroid.repository.PreferencesRepository
@@ -9,17 +10,18 @@ import kotlinx.coroutines.flow.Flow
 
 class UseCaseManageContact(
     private val repository: RepositoryManageContacts,
+    private val manageTokenViewModel: ManageTokenViewModel
 //    private val preferencesRepository: PreferencesRepository
 ) {
 
 //    suspend fun getTokenFlow(): Flow<String?> = preferencesRepository.getNameFlow()
 
-    suspend fun getContacts(token: String): Flow<Set<UserDTO>> = repository.getContacts(token)
+    suspend fun getContacts(): Flow<Set<UserDTO>> = repository.getContacts(manageTokenViewModel.getToken())
 
-    suspend fun getRequest(token: String): Flow<Set<UserDTO>> = repository.getRequest(token)
+    suspend fun getRequest(): Flow<Set<UserDTO>> = repository.getRequest(manageTokenViewModel.getToken())
 
-    suspend fun sendContactRequest(request: ContactRequestDTO, token: String): ServerResponseDTO? = repository.sendContactRequest(request, token)
+    suspend fun sendContactRequest(request: ContactRequestDTO): ServerResponseDTO? = repository.sendContactRequest(request, manageTokenViewModel.getToken())
 
-    suspend fun acceptContactRequest(request: ContactRequestDTO, token: String): ServerResponseDTO? = repository.acceptContactRequest(request, token)
+    suspend fun acceptContactRequest(request: ContactRequestDTO): ServerResponseDTO? = repository.acceptContactRequest(request, manageTokenViewModel.getToken())
 
 }

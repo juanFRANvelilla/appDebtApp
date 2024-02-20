@@ -4,16 +4,16 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.apptfgandroid.appViewModel.AppViewModel
-import com.example.apptfgandroid.ui.screens.Login.LoginForm
+import com.example.apptfgandroid.commonViewModel.ManageTokenViewModel
+import com.example.apptfgandroid.ui.screens.login.LoginForm
 import com.example.apptfgandroid.ui.screens.MainMenu.MainMenu
-import com.example.apptfgandroid.ui.screens.ManageContacts.ManageContacts
+import com.example.apptfgandroid.ui.screens.manageContacts.ManageContacts
 import com.example.apptfgandroid.ui.screens.Register.RegisterForm
 
 
 
 @Composable
-fun AppNavigation(appViewModel: AppViewModel) {
+fun AppNavigation(manageTokenViewModel: ManageTokenViewModel) {
     val navController = rememberNavController()
 
     NavHost(navController = navController, startDestination = AppScreens.LoginForm.route){

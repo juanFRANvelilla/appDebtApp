@@ -20,7 +20,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -31,11 +30,7 @@ import com.example.apptfgandroid.models.PhoneValidationDTO
 import com.example.apptfgandroid.ui.composables.PasswordTextField
 import com.example.apptfgandroid.ui.composables.TelephoneTextField
 import com.example.apptfgandroid.ui.popups.EnterSeguritySmsCodeDialog
-import com.example.apptfgandroid.ui.screens.Login.LoginViewModel
-import com.example.tfgapp.service.RetrofitService
-import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
-import retrofit2.HttpException
 import kotlin.random.Random
 
 @OptIn(ExperimentalMaterial3Api::class)

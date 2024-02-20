@@ -1,4 +1,4 @@
-package com.example.apptfgandroid.ui.screens.ManageContacts
+package com.example.apptfgandroid.ui.screens.manageContacts
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
@@ -39,7 +39,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.apptfgandroid.models.UserDTO
 import com.example.apptfgandroid.ui.popups.AddContactDialog
-import kotlinx.coroutines.flow.StateFlow
 import org.koin.androidx.compose.getViewModel
 
 
@@ -50,11 +49,8 @@ fun ManageContacts(
     onNavigateMainMenu: () -> Unit
 ) {
     val viewModel: ManageContactsViewModel = getViewModel()
-    val contacts: StateFlow<Set<UserDTO>> = viewModel.contacts
-
-
     Scaffold(
-        content = { ManageContactsContent(contacts) } ,
+        content = { ManageContactsContent(viewModel) } ,
         topBar = { ToolBarContacts(onNavigateMainMenu, viewModel) }
     )
 }
@@ -62,8 +58,8 @@ fun ManageContacts(
 
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
-fun ManageContactsContent(contacts: StateFlow<Set<UserDTO>>){
-    val contactsList by rememberUpdatedState(contacts.value.toList())
+fun ManageContactsContent(viewModel: ManageContactsViewModel){
+    val contactsList by rememberUpdatedState(viewModel.contacts.value.toList())
     LazyColumn(
         modifier = Modifier
             .background(Color.White)

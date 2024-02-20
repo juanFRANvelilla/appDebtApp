@@ -1,9 +1,8 @@
-package com.example.apptfgandroid.module
+package com.example.apptfgandroid.koinModule
 
-import android.content.Context
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.MutableLiveData
-import com.example.apptfgandroid.appViewModel.AppViewModel
+import com.example.apptfgandroid.commonViewModel.ManageTokenViewModel
 import com.example.apptfgandroid.dataSource.DataSourceLogin
 import com.example.apptfgandroid.dataSource.DataSourceManageContacts
 import com.example.apptfgandroid.dataSource.DataSourceRegister
@@ -11,9 +10,9 @@ import com.example.apptfgandroid.dataSource.DataSourceRegister
 import com.example.apptfgandroid.repository.RepositoryLogin
 import com.example.apptfgandroid.repository.RepositoryManageContacts
 import com.example.apptfgandroid.repository.RepositoryRegister
-import com.example.apptfgandroid.ui.screens.Login.LoginViewModel
+import com.example.apptfgandroid.ui.screens.login.LoginViewModel
 import com.example.apptfgandroid.ui.screens.MainMenu.MainMenuViewModel
-import com.example.apptfgandroid.ui.screens.ManageContacts.ManageContactsViewModel
+import com.example.apptfgandroid.ui.screens.manageContacts.ManageContactsViewModel
 import com.example.apptfgandroid.ui.screens.Register.RegisterViewModel
 import com.example.apptfgandroid.useCase.UseCaseLogin
 import com.example.apptfgandroid.useCase.UseCaseMainMenu
@@ -21,14 +20,13 @@ import com.example.apptfgandroid.useCase.UseCaseManageContact
 import com.example.apptfgandroid.useCase.UseCaseRegister
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
-import org.koin.java.KoinJavaComponent.getKoin
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 
 val appModule = module {
     single { MutableLiveData<String>().apply { value = "" } }
-    viewModel { AppViewModel(get()) }
+    viewModel { ManageTokenViewModel(get()) }
 
 
     single {
@@ -40,8 +38,8 @@ val appModule = module {
 
 
     //dependencias para el preferenceRepository
-    val context: Context = getKoin().get()
-    single { context }
+//    val context: Context = getKoin().get()
+//    single { context }
 //    single<PreferencesRepository> {PreferencesRepository(get())}
 
 
@@ -49,7 +47,7 @@ val appModule = module {
     single{ preferencesDataStore(name = "preferences") }
     single<DataSourceLogin> { DataSourceLogin(get()) }
     single<RepositoryLogin> { RepositoryLogin(get()) }
-    single<UseCaseLogin> { UseCaseLogin(get(),) }
+    single<UseCaseLogin> { UseCaseLogin(get(), get()) }
     viewModel { LoginViewModel(get()) }
 
     //dependencias para el view model de register
@@ -62,11 +60,11 @@ val appModule = module {
     //dependencias para el view model de manageContacts
     single<DataSourceManageContacts> { DataSourceManageContacts() }
     single<RepositoryManageContacts>{ RepositoryManageContacts(get()) }
-    single<UseCaseManageContact>{ UseCaseManageContact(get()) }
+    single<UseCaseManageContact>{ UseCaseManageContact(get(), get()) }
     viewModel { ManageContactsViewModel(get()) }
 
     //dependencias para el view model de mainMenu
-    single<UseCaseMainMenu> { UseCaseMainMenu() }
+    single<UseCaseMainMenu> { UseCaseMainMenu(get()) }
     viewModel { MainMenuViewModel(get(), get()) }
 
 

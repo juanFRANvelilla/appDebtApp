@@ -1,9 +1,11 @@
 package com.example.apptfgandroid.useCase
 
+import com.example.apptfgandroid.commonViewModel.ManageTokenViewModel
+
 //import com.example.apptfgandroid.repository.PreferencesRepository
 
 class UseCaseMainMenu(
-//    private val preferencesRepository: PreferencesRepository
+    private val manageTokenViewModel: ManageTokenViewModel
 ) {
-//    suspend fun deleteToken() = preferencesRepository.saveToken("")
+    suspend fun deleteToken() = manageTokenViewModel.setToken("")
 }

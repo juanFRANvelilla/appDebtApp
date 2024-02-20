@@ -63,9 +63,9 @@ fun MainMenu(
     onNavigateManageContact: () -> Unit,
     onRefreshPage: () -> Unit
 ){
-
+    val viewModel: MainMenuViewModel = getViewModel()
     Scaffold (
-        topBar = { ToolBar(onNavigateLogin, onRefreshPage ) },
+        topBar = { ToolBar(onNavigateLogin, viewModel, onRefreshPage ) },
         content = { MainMenuContent(onNavigateManageContact) }
     )
 }
@@ -76,12 +76,10 @@ fun MainMenu(
 @Composable
 fun ToolBar(
     onNavigateLogin: () -> Unit,
-//    viewModel: MainMenuViewModel,
+    viewModel: MainMenuViewModel,
     onRefreshPage: () -> Unit
 ){
-    val viewModel: MainMenuViewModel = getViewModel()
-    viewModel.getRequest()
-    val contactsList by rememberUpdatedState(viewModel.request.value.toList())
+    val requestList by rememberUpdatedState(viewModel.request.value.toList())
     var expandedRequest by remember { mutableStateOf(false) }
     TopAppBar(
         title = { Text(text = "Main Menu") },
@@ -113,7 +111,7 @@ fun ToolBar(
                     modifier = Modifier
                         .padding(end = 18.dp),
                 )
-                val numberOfRequest = contactsList.size
+                val numberOfRequest = requestList.size
                 Text(
                     text = if (numberOfRequest < 10) numberOfRequest.toString() else " 9+",
                     modifier = Modifier

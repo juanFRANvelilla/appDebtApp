@@ -12,9 +12,8 @@ import androidx.compose.ui.Modifier
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
-import androidx.lifecycle.lifecycleScope
-import com.example.apptfgandroid.appViewModel.AppViewModel
-import com.example.apptfgandroid.module.appModule
+import com.example.apptfgandroid.commonViewModel.ManageTokenViewModel
+import com.example.apptfgandroid.koinModule.appModule
 import com.example.apptfgandroid.navigation.AppNavigation
 import com.example.apptfgandroid.ui.theme.AppTfgAndroidTheme
 import org.koin.android.ext.koin.androidContext
@@ -34,8 +33,8 @@ class MainActivity : ComponentActivity() {
                 darkTheme = false
             ) {
                 Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
-                    val appViewModel = getViewModel<AppViewModel>()
-                    AppNavigation(appViewModel)
+                    val manageTokenViewModel = getViewModel<ManageTokenViewModel>()
+                    AppNavigation(manageTokenViewModel)
                 }
 
             }
