@@ -21,7 +21,6 @@ class DataSourceManageContacts() {
     suspend fun getRequest(token: String): Set<UserDTO> {
         val apiService = contactsCallsJwt(token)
         return try {
-            val  request: Set<UserDTO> = apiService.showContactRequest()
             apiService.showContactRequest()
         } catch (e: Exception) {
             emptySet()
@@ -31,7 +30,7 @@ class DataSourceManageContacts() {
     suspend fun sendContactRequest(request: ContactRequestDTO, token: String): ServerResponseDTO? {
         val apiService = contactsCallsJwt(token)
         try {
-            val responseServer: Map<String, Any> = apiService.sendContactRequest(request)
+            val responseServer: Map<String, Any> = apiService.sendContactRequest(request.username)
             println("Respuesta mandar request EXITOSA: ${responseServer.toString()}")
             return responseServer.toServerResponseDTO()
         } catch (e: Exception) {
@@ -56,7 +55,7 @@ class DataSourceManageContacts() {
     suspend fun acceptContactRequest(request: ContactRequestDTO, token: String): ServerResponseDTO? {
         val apiService = contactsCallsJwt(token)
         try {
-            val responseServer: Map<String, Any> = apiService.acceptContactRequest(request)
+            val responseServer: Map<String, Any> = apiService.acceptContactRequest(request.username)
             return responseServer.toServerResponseDTO()
         } catch (e: Exception) {
             when (e) {

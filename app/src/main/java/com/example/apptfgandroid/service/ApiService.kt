@@ -3,9 +3,7 @@ package com.example.tfgapp.service
 import com.example.apptfgandroid.models.CreateUserDTO
 import com.example.apptfgandroid.models.LoginRequestDTO
 import com.example.apptfgandroid.models.PhoneValidationDTO
-import com.example.apptfgandroid.models.ContactRequestDTO
 import com.example.apptfgandroid.models.UserDTO
-import com.example.tfgapp.models.ServerResponseDTO
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
@@ -14,6 +12,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Query
 
 interface ApiService {
     @POST("login")
@@ -28,11 +27,11 @@ interface ApiService {
     @GET("api2/showContacts")
     suspend fun showContacts(): Set<UserDTO>
 
-    @POST("api2/requestContact")
-    suspend fun sendContactRequest(@Body data: ContactRequestDTO): Map<String, Any>
+    @GET("api2/requestContact")
+    suspend fun sendContactRequest(@Query("contactUsername") contactUsername: String): Map<String, Any>
 
-    @POST("api2/acceptRequestContact")
-    suspend fun acceptContactRequest(@Body data: ContactRequestDTO): Map<String, Any>
+    @GET("api2/acceptRequestContact")
+    suspend fun acceptContactRequest(@Query("contactUsername") contactUsername: String): Map<String, Any>
 
     @GET("api2/showRequestContact")
     suspend fun showContactRequest(): Set<UserDTO>

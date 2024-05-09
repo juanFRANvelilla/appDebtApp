@@ -60,20 +60,18 @@ class RegisterViewModel(
                                 401 -> {
                                     onAttemptsChanged(attempts - 1)
                                     onCodeSmsChanged("")
-                                    if(attempts == 1){
-                                        onWarningAttempts("Codigo incorrecto. Te queda " + attempts + " intento")
-                                    } else{
-                                        onWarningAttempts("Codigo incorrecto. Te quedan " + attempts + " intentos")
+                                    when(attempts){
+                                        0 -> {
+                                            val responseDTO = ServerResponseDTO(
+                                                "error",
+                                                "Te has quedado sin intentos para verificar tu numero de telefono"
+                                            )
+                                            onResponseChange(responseDTO)
+                                            onIsMessageDialogVisibleChange(true)
+                                        }
+                                        1 -> onWarningAttempts("Codigo incorrecto. Te queda " + attempts + " intento")
+                                        else -> onWarningAttempts("Codigo incorrecto. Te quedan " + attempts + " intentos")
                                     }
-
-                                }
-                                400 -> {
-                                    val responseDTO = ServerResponseDTO(
-                                        "error",
-                                        "Te has quedado sin intentos para verificar tu numero de telefono"
-                                    )
-                                    onResponseChange(responseDTO)
-                                    onIsMessageDialogVisibleChange(true)
                                 }
                                 else -> {
                                     println(e.message)
