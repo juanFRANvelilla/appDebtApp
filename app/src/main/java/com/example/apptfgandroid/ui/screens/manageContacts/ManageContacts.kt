@@ -26,10 +26,11 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -49,9 +50,10 @@ fun ManageContacts(
     onNavigateMainMenu: () -> Unit
 ) {
     val viewModel: ManageContactsViewModel = getViewModel()
+    val state = viewModel.state.collectAsState()
     Scaffold(
         content = { ManageContactsContent(viewModel) } ,
-        topBar = { ToolBarContacts(onNavigateMainMenu, viewModel) }
+        topBar = { ToolBarContacts(onNavigateMainMenu, state) }
     )
 }
 
@@ -59,7 +61,7 @@ fun ManageContacts(
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun ManageContactsContent(viewModel: ManageContactsViewModel){
-    val contactsList by rememberUpdatedState(viewModel.contacts.value.toList())
+    val contactsList = emptyList<UserDTO>()
     LazyColumn(
         modifier = Modifier
             .background(Color.White)
@@ -99,7 +101,7 @@ fun ManageContactsContent(viewModel: ManageContactsViewModel){
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ToolBarContacts(onNavigateMainMenu: () -> Unit, viewModel: ManageContactsViewModel) {
+fun ToolBarContacts(onNavigateMainMenu: () -> Unit, state: State<ManageContactsState>) {
     TopAppBar(
         title = { Text(text = "Contactos Menu") },
         navigationIcon = {
@@ -114,7 +116,7 @@ fun ToolBarContacts(onNavigateMainMenu: () -> Unit, viewModel: ManageContactsVie
             }
         },
         actions = {
-            AddUsers(viewModel)
+            AddUsers(state)
         },
         colors = TopAppBarDefaults.smallTopAppBarColors(
             containerColor = MaterialTheme.colorScheme.primary,
@@ -124,7 +126,7 @@ fun ToolBarContacts(onNavigateMainMenu: () -> Unit, viewModel: ManageContactsVie
 }
 
 @Composable
-fun AddUsers(viewModel: ManageContactsViewModel){
+fun AddUsers(state: State<ManageContactsState>){
     var addDialog by remember { mutableStateOf(false) }
     IconButton(onClick = {
         addDialog = true
@@ -147,7 +149,7 @@ fun AddUsers(viewModel: ManageContactsViewModel){
         )
     }
     if (addDialog){
-        AddContactDialog(onDismiss = { addDialog = false }, viewModel = viewModel)
+        AddContactDialog(onDismiss = { addDialog = false }, viewModel = state)
     }
 }
 

@@ -16,6 +16,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -24,14 +25,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.example.apptfgandroid.ui.composables.TelephoneTextField
-import com.example.apptfgandroid.ui.screens.manageContacts.ManageContactsViewModel
+import com.example.apptfgandroid.ui.screens.manageContacts.ManageContactsState
 import com.example.tfgapp.models.ServerResponseDTO
 
 
 @Composable
 fun AddContactDialog(
     onDismiss: () -> Unit,
-    viewModel: ManageContactsViewModel
+    state: State<ManageContactsState>
 ) {
     var phoneNumber by remember { mutableStateOf("") }
     var countryPrefix by remember { mutableStateOf("+34") }
@@ -86,14 +87,15 @@ fun AddContactDialog(
                     TextButton(
                         onClick = {
                             val contactRequest: String = countryPrefix + phoneNumber
-                            viewModel.sendContactRequest(
-                                contactRequest = contactRequest,
-                                onResponseChange = {
-                                    responseDTO = it
-                                },
-                                onIsMessageDialogVisibleChange = {
-                                    isMessageDialogVisible = it
-                                })
+//                            viewModel.sendContactRequest(
+//                                contactRequest = contactRequest,
+//                                onResponseChange = {
+//                                    responseDTO = it
+//                                },
+//                                onIsMessageDialogVisibleChange = {
+//                                    isMessageDialogVisible = it
+//                                }
+//                            )
                         }
                     ) {
                         Icon(imageVector = Icons.Default.Check, contentDescription = null)
