@@ -1,7 +1,6 @@
 package com.example.apptfgandroid.ui.screens.manageContacts
 
 import androidx.lifecycle.ViewModel
-import com.example.apptfgandroid.models.ContactRequestDTO
 import com.example.apptfgandroid.models.UserDTO
 import com.example.apptfgandroid.useCase.UseCaseManageContact
 import com.example.tfgapp.models.ServerResponseDTO
@@ -27,13 +26,13 @@ class ManageContactsViewModel(
     }
 
     fun sendContactRequest(
-        request: ContactRequestDTO,
+        contactRequest: String,
         onResponseChange: (ServerResponseDTO) -> Unit,
         onIsMessageDialogVisibleChange: (Boolean) -> Unit
     ){
         viewModelScope.launch {
             withContext(Dispatchers.Main) {
-                val responseDTO = useCase.sendContactRequest(request)
+                val responseDTO = useCase.sendContactRequest(contactRequest)
                 if (responseDTO != null) {
                     onResponseChange(responseDTO)
                     onIsMessageDialogVisibleChange(true)

@@ -1,7 +1,6 @@
 package com.example.apptfgandroid.ui.screens.mainMenu
 
 import androidx.lifecycle.ViewModel
-import com.example.apptfgandroid.models.ContactRequestDTO
 import com.example.apptfgandroid.models.UserDTO
 import com.example.apptfgandroid.useCase.UseCaseMainMenu
 import com.example.apptfgandroid.useCase.UseCaseManageContact
@@ -45,9 +44,8 @@ class MainMenuViewModel(
     }
 
     fun acceptContactRequest(userDTOToAccept: UserDTO){
-        val contactRequestDTO = ContactRequestDTO(username = userDTOToAccept.username)
         viewModelScope.launch(Dispatchers.Main) {
-            useCaseManageContact.acceptContactRequest(contactRequestDTO)
+            useCaseManageContact.acceptContactRequest(userDTOToAccept.username)
             removeUser(userDTOToAccept)
         }
     }

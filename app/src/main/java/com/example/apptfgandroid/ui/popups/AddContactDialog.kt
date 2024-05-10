@@ -23,7 +23,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import com.example.apptfgandroid.models.ContactRequestDTO
 import com.example.apptfgandroid.ui.composables.TelephoneTextField
 import com.example.apptfgandroid.ui.screens.manageContacts.ManageContactsViewModel
 import com.example.tfgapp.models.ServerResponseDTO
@@ -86,9 +85,9 @@ fun AddContactDialog(
 
                     TextButton(
                         onClick = {
-                            val request = ContactRequestDTO(countryPrefix + phoneNumber)
+                            val contactRequest: String = countryPrefix + phoneNumber
                             viewModel.sendContactRequest(
-                                request = request,
+                                contactRequest = contactRequest,
                                 onResponseChange = {
                                     responseDTO = it
                                 },

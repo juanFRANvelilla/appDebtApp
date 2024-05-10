@@ -1,6 +1,5 @@
 package com.example.apptfgandroid.dataSource
 
-import com.example.apptfgandroid.models.ContactRequestDTO
 import com.example.apptfgandroid.models.UserDTO
 import com.example.tfgapp.models.ConvertResponseToServerResponseDTO
 import com.example.tfgapp.models.ServerResponseDTO
@@ -27,10 +26,10 @@ class DataSourceManageContacts() {
         }
     }
 
-    suspend fun sendContactRequest(request: ContactRequestDTO, token: String): ServerResponseDTO? {
+    suspend fun sendContactRequest(contactRequest: String, token: String): ServerResponseDTO? {
         val apiService = contactsCallsJwt(token)
         try {
-            val responseServer: Map<String, Any> = apiService.sendContactRequest(request.username)
+            val responseServer: Map<String, Any> = apiService.sendContactRequest(contactRequest)
             println("Respuesta mandar request EXITOSA: ${responseServer.toString()}")
             return responseServer.toServerResponseDTO()
         } catch (e: Exception) {
@@ -52,10 +51,10 @@ class DataSourceManageContacts() {
         return null
     }
 
-    suspend fun acceptContactRequest(request: ContactRequestDTO, token: String): ServerResponseDTO? {
+    suspend fun acceptContactRequest(contactRequest: String, token: String): ServerResponseDTO? {
         val apiService = contactsCallsJwt(token)
         try {
-            val responseServer: Map<String, Any> = apiService.acceptContactRequest(request.username)
+            val responseServer: Map<String, Any> = apiService.acceptContactRequest(contactRequest)
             return responseServer.toServerResponseDTO()
         } catch (e: Exception) {
             when (e) {

@@ -1,7 +1,6 @@
 package com.example.apptfgandroid.useCase
 
 import com.example.apptfgandroid.commonViewModel.ManageTokenViewModel
-import com.example.apptfgandroid.models.ContactRequestDTO
 import com.example.apptfgandroid.models.UserDTO
 //import com.example.apptfgandroid.repository.PreferencesRepository
 import com.example.apptfgandroid.repository.RepositoryManageContacts
@@ -20,8 +19,8 @@ class UseCaseManageContact(
 
     suspend fun getRequest(): Flow<Set<UserDTO>> = repository.getRequest(manageTokenViewModel.getToken())
 
-    suspend fun sendContactRequest(request: ContactRequestDTO): ServerResponseDTO? = repository.sendContactRequest(request, manageTokenViewModel.getToken())
+    suspend fun sendContactRequest(contactRequest: String): ServerResponseDTO? = repository.sendContactRequest(contactRequest, manageTokenViewModel.getToken())
 
-    suspend fun acceptContactRequest(request: ContactRequestDTO): ServerResponseDTO? = repository.acceptContactRequest(request, manageTokenViewModel.getToken())
+    suspend fun acceptContactRequest(contactRequest: String): ServerResponseDTO? = repository.acceptContactRequest(contactRequest, manageTokenViewModel.getToken())
 
 }
