@@ -25,6 +25,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -57,8 +58,9 @@ fun MainMenu(
     onRefreshPage: () -> Unit
 ){
     val viewModel: MainMenuViewModel = getViewModel()
+    val state by viewModel.state.collectAsState()
     Scaffold (
-        topBar = { ToolBar(onNavigateLogin, viewModel, onRefreshPage ) },
+        topBar = { ToolBar(onNavigateLogin, state, onRefreshPage ) },
         content = { MainMenuContent(onNavigateManageContact) }
     )
 }
@@ -69,16 +71,17 @@ fun MainMenu(
 @Composable
 fun ToolBar(
     onNavigateLogin: () -> Unit,
-    viewModel: MainMenuViewModel,
+    state: MainMenuState,
     onRefreshPage: () -> Unit
 ){
-    val requestList by rememberUpdatedState(viewModel.request.value.toList())
+//    val requestList by rememberUpdatedState(viewModel.request.value.toList())
+    val requestList = state.contactRequest
     var expandedRequest by remember { mutableStateOf(false) }
     TopAppBar(
         title = { Text(text = "Main Menu") },
         navigationIcon = {
             IconButton(onClick = {
-                viewModel.deleteToken()
+                state.deleteToken()
                 onNavigateLogin()
             }) {
                 Icon(
@@ -119,14 +122,14 @@ fun ToolBar(
             titleContentColor = MaterialTheme.colorScheme.onPrimary
         )
     )
-    if(expandedRequest){
+    if(expandedRequest && state.contactRequest.isNotEmpty()){
         ShowNotifications(
             onDismiss = {
                 expandedRequest = false
             },
             requestList = requestList.toMutableList(),
             onAcceptRequest = {
-                viewModel.acceptContactRequest(it)
+                state.acceptContactRequest(it)
             },
             onRefreshPage = {
                 onRefreshPage()
