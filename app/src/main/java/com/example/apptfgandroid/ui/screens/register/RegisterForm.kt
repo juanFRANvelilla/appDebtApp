@@ -27,8 +27,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.apptfgandroid.models.CreateUserDTO
 import com.example.apptfgandroid.models.PhoneValidationDTO
-import com.example.apptfgandroid.ui.composables.PasswordTextField
-import com.example.apptfgandroid.ui.composables.TelephoneTextField
+import com.example.apptfgandroid.ui.common.composables.PasswordTextField
+import com.example.apptfgandroid.ui.common.composables.TelephoneTextField
 import com.example.apptfgandroid.ui.popups.EnterSeguritySmsCodeDialog
 import org.koin.androidx.compose.getViewModel
 import kotlin.random.Random

@@ -1,4 +1,4 @@
-package com.example.apptfgandroid.ui.composables
+package com.example.apptfgandroid.ui.common.composables
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

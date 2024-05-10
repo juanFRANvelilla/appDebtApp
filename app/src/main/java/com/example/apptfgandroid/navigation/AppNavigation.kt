@@ -15,7 +15,7 @@ import com.example.apptfgandroid.ui.screens.register.RegisterForm
 fun AppNavigation(manageTokenViewModel: ManageTokenViewModel) {
     val navController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = AppScreens.LoginForm.route){
+    NavHost(navController = navController, startDestination = AppScreens.MainMenu.route){
         composable(route= AppScreens.LoginForm.route){
             LoginForm(
                 onNavigateRegister = { navController.navigate(AppScreens.RegisterForm.route) },
@@ -31,15 +31,15 @@ fun AppNavigation(manageTokenViewModel: ManageTokenViewModel) {
         composable(
             route = AppScreens.MainMenu.route ) {
             MainMenu(
-                onNavigateLogin = { navController.navigate(AppScreens.LoginForm.route) },
-                onNavigateManageContact = { navController.navigate(AppScreens.ManageContacs.route) },
+                navController = navController,
                 onRefreshPage = { navController.navigate(AppScreens.MainMenu.route) }
             )
         }
         composable(route= AppScreens.ManageContacs.route){
             ManageContacts(
-                onNavigateMainMenu = { navController.navigate(AppScreens.MainMenu.route) }
+                navController = navController
             )
+
         }
 //        composable(
 //            route = AppScreens.MainMenu.route + "/{data}",

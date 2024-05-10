@@ -1,4 +1,4 @@
-package com.example.apptfgandroid.ui.screens.mainMenu
+package com.example.apptfgandroid.ui.common
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.AccountBox

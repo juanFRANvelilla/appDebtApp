@@ -15,14 +15,11 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Notifications
-import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -38,6 +35,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import com.example.apptfgandroid.navigation.AppScreens
+import com.example.apptfgandroid.ui.common.composables.BottomBar
 import com.example.apptfgandroid.ui.popups.ShowNotifications
 import org.koin.androidx.compose.getViewModel
 
@@ -45,9 +45,8 @@ import org.koin.androidx.compose.getViewModel
 @Composable
 fun Preview(){
     MainMenu(
+        null,
         {},
-        {},
-        {}
     )
 }
 
@@ -57,52 +56,29 @@ fun Preview(){
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainMenu(
-    onNavigateLogin: () -> Unit,
-    onNavigateManageContact: () -> Unit,
+    navController: NavController?,
     onRefreshPage: () -> Unit
 ){
     val viewModel: MainMenuViewModel = getViewModel()
     val state by viewModel.state.collectAsState()
     Scaffold (
-        topBar = { ToolBar(onNavigateLogin, state, onRefreshPage ) },
-        content = { MainMenuContent(onNavigateManageContact) },
-//        bottomBar = { BottomBar() }
+        topBar = { TopBar(navController, state, onRefreshPage ) },
+        content = { MainMenuContent(navController) },
+        bottomBar = { BottomBar(navController) }
     )
 }
 
-//@Composable
-//fun BottomBar(){
-//    val itemBottom = listOf(
-//        ItemBottomNav.MainMenuHome,
-//        ItemBottomNav.CurrentDebts,
-//        ItemBottomNav.Contacts
-//    )
-//
-//    BottomAppBar {
-//        NavigationBar {
-//            itemBottom.forEach{item ->
-//                NavigationBarItem(
-//                    selected = item.title.equals("Home"),
-//                    onClick = { /*TODO*/ },
-//                    icon = {
-//                        Icon(imageVector = item.icon, contentDescription = item.title)
-//                    })
-//            }
-//
-//        }
-//    }
-//}
+
 
 
 @SuppressLint("StateFlowValueCalledInComposition")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ToolBar(
-    onNavigateLogin: () -> Unit,
+fun TopBar(
+    navController: NavController?,
     state: MainMenuState,
     onRefreshPage: () -> Unit
 ){
-//    val requestList by rememberUpdatedState(viewModel.request.value.toList())
     val requestList = state.contactRequest
     var expandedRequest by remember { mutableStateOf(false) }
     TopAppBar(
@@ -110,7 +86,11 @@ fun ToolBar(
         navigationIcon = {
             IconButton(onClick = {
                 state.deleteToken()
-                onNavigateLogin()
+                navController?.navigate(AppScreens.LoginForm.route) {
+                    popUpTo(AppScreens.LoginForm.route) {
+                        inclusive = true
+                    }
+                }
             }) {
                 Icon(
                     imageVector = Icons.Default.ArrowBack,
@@ -170,7 +150,7 @@ fun ToolBar(
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun MainMenuContent(
-    onNavigateManageContact: () -> Unit,
+    navController: NavController?
 ) {
     Box(
         modifier = Modifier
@@ -188,15 +168,13 @@ fun MainMenuContent(
             Spacer(modifier = Modifier.height(16.dp))
             Button(
                 onClick = {
-                    onNavigateManageContact()
+                    navController?.navigate(AppScreens.ManageContacs.route)
                 }
             ) {
                 Text("Contactos")
             }
         }
     }
-
-
 }
 
 

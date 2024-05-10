@@ -38,22 +38,25 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.apptfgandroid.models.UserDTO
+import com.example.apptfgandroid.ui.common.composables.BottomBar
 import com.example.apptfgandroid.ui.popups.AddContactDialog
 import org.koin.androidx.compose.getViewModel
 
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun ManageContacts(
-    onNavigateMainMenu: () -> Unit
+    navController: NavController?,
 ) {
     val viewModel: ManageContactsViewModel = getViewModel()
     val state = viewModel.state.collectAsState()
     Scaffold(
         content = { ManageContactsContent(state) } ,
-        topBar = { ToolBarContacts(onNavigateMainMenu, state) }
+        topBar = {  },
+        bottomBar = { BottomBar(navController) }
     )
 }
 
@@ -99,31 +102,31 @@ fun ManageContactsContent(state: State<ManageContactsState>){
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun ToolBarContacts(onNavigateMainMenu: () -> Unit, state: State<ManageContactsState>) {
-    TopAppBar(
-        title = { Text(text = "Contactos Menu") },
-        navigationIcon = {
-            IconButton(onClick = {
-                onNavigateMainMenu()
-            }) {
-                Icon(
-                    imageVector = Icons.Default.Home,
-                    contentDescription = "Home",
-                    tint = MaterialTheme.colorScheme.onPrimary
-                )
-            }
-        },
-        actions = {
-            AddUsers(state)
-        },
-        colors = TopAppBarDefaults.smallTopAppBarColors(
-            containerColor = MaterialTheme.colorScheme.primary,
-            titleContentColor = MaterialTheme.colorScheme.onPrimary
-        )
-    )
-}
+//@OptIn(ExperimentalMaterial3Api::class)
+//@Composable
+//fun ToolBarContacts(onNavigateMainMenu: NavController?, state: State<ManageContactsState>) {
+//    TopAppBar(
+//        title = { Text(text = "Contactos Menu") },
+//        navigationIcon = {
+//            IconButton(onClick = {
+//                onNavigateMainMenu()
+//            }) {
+//                Icon(
+//                    imageVector = Icons.Default.Home,
+//                    contentDescription = "Home",
+//                    tint = MaterialTheme.colorScheme.onPrimary
+//                )
+//            }
+//        },
+//        actions = {
+//            AddUsers(state)
+//        },
+//        colors = TopAppBarDefaults.smallTopAppBarColors(
+//            containerColor = MaterialTheme.colorScheme.primary,
+//            titleContentColor = MaterialTheme.colorScheme.onPrimary
+//        )
+//    )
+//}
 
 @Composable
 fun AddUsers(state: State<ManageContactsState>){
