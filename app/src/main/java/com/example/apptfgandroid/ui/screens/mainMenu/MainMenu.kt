@@ -39,6 +39,11 @@ import com.example.apptfgandroid.navigation.AppScreens
 import com.example.apptfgandroid.ui.common.composables.BottomBar
 import com.example.apptfgandroid.ui.popups.ShowNotifications
 import org.koin.androidx.compose.getViewModel
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.drawscope.Stroke
+import kotlin.math.PI
 
 @Preview
 @Composable
@@ -58,7 +63,7 @@ fun MainMenu(
 ){
     val viewModel: MainMenuViewModel = getViewModel()
     val state by viewModel.state.collectAsState()
-    println("cargamos main menu: ${state.balance.toString()}")
+
     Scaffold (
         topBar = { TopBar(navController, state) },
         content = { MainMenuContent(navController) },
@@ -146,28 +151,21 @@ fun TopBar(
 fun MainMenuContent(
     navController: NavController?
 ) {
-    Box(
-        modifier = Modifier
-            .background(MaterialTheme.colorScheme.background)
-            .height(280.dp),
-        contentAlignment = Alignment.Center
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .wrapContentSize(Alignment.Center),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Spacer(modifier = Modifier.height(16.dp))
+        // Preview with sample data
+        PieChart(
+            data = mapOf(
+                Pair("Sample-1", 150),
+                Pair("Sample-2", 120),
+//                            Pair("Sample-3", 110),
+//                            Pair("Sample-4", 170),
+//                            Pair("Sample-5", 120),
+            )
+        )
 
-        }
     }
 }
-
-
-
-
-
-
 
