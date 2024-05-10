@@ -1,13 +1,13 @@
 package com.example.apptfgandroid.ui.screens.manageContacts
 
 import androidx.lifecycle.ViewModel
-import com.example.apptfgandroid.models.UserDTO
+import com.example.apptfgandroid.toCommonMutableStateFlow
 import com.example.apptfgandroid.useCase.UseCaseManageContact
 import com.example.tfgapp.models.ServerResponseDTO
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -16,16 +16,18 @@ class ManageContactsViewModel(
 ): ViewModel() {
     private val viewModelScope =  CoroutineScope(Dispatchers.Default)
 
-    private val _contacts = MutableStateFlow<Set<UserDTO>>(emptySet())
-    val contacts: StateFlow<Set<UserDTO>> = _contacts
+    private val _state = MutableStateFlow(ManageContactsState())
+    val state = _state.toCommonMutableStateFlow()
+
 
     init {
         viewModelScope.launch {
             getContacts()
         }
+        _state.value.sendContactRequest = {contactRequest, onResponseChange, onIsMessageDialogVisibleChange -> sendContactRequest(contactRequest, onResponseChange, onIsMessageDialogVisibleChange)}
     }
 
-    fun sendContactRequest(
+    private fun sendContactRequest(
         contactRequest: String,
         onResponseChange: (ServerResponseDTO) -> Unit,
         onIsMessageDialogVisibleChange: (Boolean) -> Unit
@@ -44,7 +46,11 @@ class ManageContactsViewModel(
     private suspend fun getContacts(){
         useCase.getContacts().collect {contacts ->
             withContext(Dispatchers.Main) {
-                _contacts.value = contacts
+                _state.update {
+                    it.copy(
+                        contacts = contacts
+                    )
+                }
             }
         }
     }
