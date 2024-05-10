@@ -11,7 +11,6 @@ import com.example.apptfgandroid.ui.screens.manageContacts.ManageContacts
 import com.example.apptfgandroid.ui.screens.register.RegisterForm
 
 
-
 @Composable
 fun AppNavigation(manageTokenViewModel: ManageTokenViewModel) {
     val navController = rememberNavController()
