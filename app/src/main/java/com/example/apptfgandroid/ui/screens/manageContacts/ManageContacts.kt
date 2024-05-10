@@ -55,7 +55,7 @@ fun ManageContacts(
     val state = viewModel.state.collectAsState()
     Scaffold(
         content = { ManageContactsContent(state) } ,
-        topBar = {  },
+        topBar = { ToolBarContacts(state = state) },
         bottomBar = { BottomBar(navController) }
     )
 }
@@ -102,31 +102,20 @@ fun ManageContactsContent(state: State<ManageContactsState>){
     }
 }
 
-//@OptIn(ExperimentalMaterial3Api::class)
-//@Composable
-//fun ToolBarContacts(onNavigateMainMenu: NavController?, state: State<ManageContactsState>) {
-//    TopAppBar(
-//        title = { Text(text = "Contactos Menu") },
-//        navigationIcon = {
-//            IconButton(onClick = {
-//                onNavigateMainMenu()
-//            }) {
-//                Icon(
-//                    imageVector = Icons.Default.Home,
-//                    contentDescription = "Home",
-//                    tint = MaterialTheme.colorScheme.onPrimary
-//                )
-//            }
-//        },
-//        actions = {
-//            AddUsers(state)
-//        },
-//        colors = TopAppBarDefaults.smallTopAppBarColors(
-//            containerColor = MaterialTheme.colorScheme.primary,
-//            titleContentColor = MaterialTheme.colorScheme.onPrimary
-//        )
-//    )
-//}
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun ToolBarContacts(state: State<ManageContactsState>) {
+    TopAppBar(
+        title = { Text(text = "Contactos") },
+        actions = {
+            AddUsers(state)
+        },
+        colors = TopAppBarDefaults.smallTopAppBarColors(
+            containerColor = MaterialTheme.colorScheme.primary,
+            titleContentColor = MaterialTheme.colorScheme.onPrimary
+        )
+    )
+}
 
 @Composable
 fun AddUsers(state: State<ManageContactsState>){

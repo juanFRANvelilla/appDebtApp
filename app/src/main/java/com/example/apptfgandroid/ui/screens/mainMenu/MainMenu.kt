@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Notifications
-import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -46,7 +45,6 @@ import org.koin.androidx.compose.getViewModel
 fun Preview(){
     MainMenu(
         null,
-        {},
     )
 }
 
@@ -56,13 +54,13 @@ fun Preview(){
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainMenu(
-    navController: NavController?,
-    onRefreshPage: () -> Unit
+    navController: NavController?
 ){
     val viewModel: MainMenuViewModel = getViewModel()
     val state by viewModel.state.collectAsState()
+    println("cargamos main menu: ${state.balance.toString()}")
     Scaffold (
-        topBar = { TopBar(navController, state, onRefreshPage ) },
+        topBar = { TopBar(navController, state) },
         content = { MainMenuContent(navController) },
         bottomBar = { BottomBar(navController) }
     )
@@ -76,13 +74,12 @@ fun MainMenu(
 @Composable
 fun TopBar(
     navController: NavController?,
-    state: MainMenuState,
-    onRefreshPage: () -> Unit
+    state: MainMenuState
 ){
     val requestList = state.contactRequest
     var expandedRequest by remember { mutableStateOf(false) }
     TopAppBar(
-        title = { Text(text = "Main Menu") },
+        title = { Text(text = "Debt App") },
         navigationIcon = {
             IconButton(onClick = {
                 state.deleteToken()
@@ -138,9 +135,6 @@ fun TopBar(
             requestList = requestList.toMutableList(),
             onAcceptRequest = {
                 state.acceptContactRequest(it)
-            },
-            onRefreshPage = {
-                onRefreshPage()
             }
         )
     }
@@ -166,16 +160,11 @@ fun MainMenuContent(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Spacer(modifier = Modifier.height(16.dp))
-            Button(
-                onClick = {
-                    navController?.navigate(AppScreens.ManageContacs.route)
-                }
-            ) {
-                Text("Contactos")
-            }
+
         }
     }
 }
+
 
 
 

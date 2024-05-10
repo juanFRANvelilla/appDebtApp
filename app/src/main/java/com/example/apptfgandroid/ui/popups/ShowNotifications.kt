@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -31,7 +32,6 @@ import androidx.compose.runtime.remember
 fun ShowNotifications(
     onDismiss: () -> Unit,
     onAcceptRequest: (UserDTO) -> Unit,
-    onRefreshPage: () -> Unit,
     requestList: MutableList<UserDTO>
 ) {
     val requestListState = remember { mutableStateListOf(*requestList.toTypedArray()) }
@@ -47,6 +47,7 @@ fun ShowNotifications(
                     color = MaterialTheme.colorScheme.background,
                     shape = RoundedCornerShape(14.dp)
                 )
+                .height(if(requestListState.size < 3) 120.dp * requestListState.size else 360.dp)
         ) {
             LazyColumn(
                 modifier = Modifier
@@ -64,9 +65,6 @@ fun ShowNotifications(
                             onClick = {
                                 onAcceptRequest(user)
                                 requestListState.remove(user)
-                                if(requestListState.size == 0){
-                                    onRefreshPage()
-                                }
                             }
                         )
                         {

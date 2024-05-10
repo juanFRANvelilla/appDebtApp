@@ -25,6 +25,7 @@ class MainMenuViewModel(
     init {
         viewModelScope.launch(Dispatchers.Main) {
             getRequest()
+            getBalance()
         }
         _state.value.deleteToken = { deleteToken() }
         _state.value.acceptContactRequest = { userDTO -> acceptContactRequest(userDTO) }
@@ -33,6 +34,22 @@ class MainMenuViewModel(
     private fun deleteToken(){
         viewModelScope.launch(Dispatchers.Main) {
             useCaseMainMenu.deleteToken()
+        }
+    }
+
+    private fun getBalance(){
+        viewModelScope.launch(Dispatchers.Main) {
+            useCaseMainMenu.getBalance().collect {balance ->
+                withContext(Dispatchers.Main) {
+                    if(balance != null){
+                        _state.update {
+                            it.copy(
+                                balance = balance
+                            )
+                        }
+                    }
+                }
+            }
         }
     }
 

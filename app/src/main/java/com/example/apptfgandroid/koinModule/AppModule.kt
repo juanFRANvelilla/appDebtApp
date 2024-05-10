@@ -6,6 +6,8 @@ import com.example.apptfgandroid.commonViewModel.ManageTokenViewModel
 import com.example.apptfgandroid.dataSource.DataSourceLogin
 import com.example.apptfgandroid.dataSource.DataSourceManageContacts
 import com.example.apptfgandroid.dataSource.DataSourceRegister
+import com.example.apptfgandroid.dataSource.MainMenuRemoteDataSource
+import com.example.apptfgandroid.repository.MainMenuRepository
 //import com.example.apptfgandroid.repository.PreferencesRepository
 import com.example.apptfgandroid.repository.RepositoryLogin
 import com.example.apptfgandroid.repository.RepositoryManageContacts
@@ -64,7 +66,9 @@ val appModule = module {
     viewModel { ManageContactsViewModel(get()) }
 
     //dependencias para el view model de mainMenu
-    single<UseCaseMainMenu> { UseCaseMainMenu(get()) }
+    single<UseCaseMainMenu> { UseCaseMainMenu(get(), get()) }
+    single<MainMenuRepository> { MainMenuRepository(get()) }
+    single<MainMenuRemoteDataSource> { MainMenuRemoteDataSource() }
     viewModel { MainMenuViewModel(get(), get()) }
 
 

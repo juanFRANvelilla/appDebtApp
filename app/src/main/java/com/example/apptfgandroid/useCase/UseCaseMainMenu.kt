@@ -1,11 +1,13 @@
 package com.example.apptfgandroid.useCase
 
 import com.example.apptfgandroid.commonViewModel.ManageTokenViewModel
+import com.example.apptfgandroid.repository.MainMenuRepository
 
-//import com.example.apptfgandroid.repository.PreferencesRepository
 
 class UseCaseMainMenu(
-    private val manageTokenViewModel: ManageTokenViewModel
+    private val manageTokenViewModel: ManageTokenViewModel,
+    private val mainMenuRepository: MainMenuRepository
 ) {
-    suspend fun deleteToken() = manageTokenViewModel.setToken("")
+    fun deleteToken() = manageTokenViewModel.setToken("")
+    suspend fun getBalance() = mainMenuRepository.getBalance(manageTokenViewModel.getToken())
 }

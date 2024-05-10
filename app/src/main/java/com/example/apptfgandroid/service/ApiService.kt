@@ -1,5 +1,6 @@
 package com.example.tfgapp.service
 
+import com.example.apptfgandroid.models.BalanceDTO
 import com.example.apptfgandroid.models.CreateUserDTO
 import com.example.apptfgandroid.models.LoginRequestDTO
 import com.example.apptfgandroid.models.PhoneValidationDTO
@@ -35,6 +36,9 @@ interface ApiService {
 
     @GET("api2/showRequestContact")
     suspend fun showContactRequest(): Set<UserDTO>
+
+    @GET("debt/getBalance")
+    suspend fun getBalance(): BalanceDTO
 
 }
 
