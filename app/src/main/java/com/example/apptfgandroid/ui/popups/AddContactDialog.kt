@@ -87,15 +87,15 @@ fun AddContactDialog(
                     TextButton(
                         onClick = {
                             val contactRequest: String = countryPrefix + phoneNumber
-//                            viewModel.sendContactRequest(
-//                                contactRequest = contactRequest,
-//                                onResponseChange = {
-//                                    responseDTO = it
-//                                },
-//                                onIsMessageDialogVisibleChange = {
-//                                    isMessageDialogVisible = it
-//                                }
-//                            )
+                            state.value.sendContactRequest(
+                                contactRequest,
+                                {
+                                    responseDTO = it
+                                },
+                                {
+                                    isMessageDialogVisible = it
+                                }
+                            )
                         }
                     ) {
                         Icon(imageVector = Icons.Default.Check, contentDescription = null)

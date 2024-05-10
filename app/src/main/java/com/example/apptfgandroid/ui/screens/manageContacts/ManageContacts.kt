@@ -52,7 +52,7 @@ fun ManageContacts(
     val viewModel: ManageContactsViewModel = getViewModel()
     val state = viewModel.state.collectAsState()
     Scaffold(
-        content = { ManageContactsContent(viewModel) } ,
+        content = { ManageContactsContent(state) } ,
         topBar = { ToolBarContacts(onNavigateMainMenu, state) }
     )
 }
@@ -60,8 +60,8 @@ fun ManageContacts(
 
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
-fun ManageContactsContent(viewModel: ManageContactsViewModel){
-    val contactsList = emptyList<UserDTO>()
+fun ManageContactsContent(state: State<ManageContactsState>){
+    val contactsList = state.value.contacts.toList()
     LazyColumn(
         modifier = Modifier
             .background(Color.White)
@@ -149,7 +149,7 @@ fun AddUsers(state: State<ManageContactsState>){
         )
     }
     if (addDialog){
-        AddContactDialog(onDismiss = { addDialog = false }, viewModel = state)
+        AddContactDialog(onDismiss = { addDialog = false }, state = state)
     }
 }
 
