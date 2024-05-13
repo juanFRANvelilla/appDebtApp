@@ -9,7 +9,7 @@ data class MainMenuState(
     var acceptContactRequest: (UserDTO) -> Unit = {_ -> },
     var balance: BalanceDTO = BalanceDTO.empty
     ){
-    companion object {
-        val empty = MainMenuState()
+        companion object {
+            val empty = MainMenuState()
+        }
     }
-}

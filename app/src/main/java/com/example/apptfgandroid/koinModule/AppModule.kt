@@ -3,19 +3,23 @@ package com.example.apptfgandroid.koinModule
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.MutableLiveData
 import com.example.apptfgandroid.commonViewModel.ManageTokenViewModel
+import com.example.apptfgandroid.dataSource.CurrentDebtsRemoteDataSource
 import com.example.apptfgandroid.dataSource.DataSourceLogin
 import com.example.apptfgandroid.dataSource.DataSourceManageContacts
 import com.example.apptfgandroid.dataSource.DataSourceRegister
 import com.example.apptfgandroid.dataSource.MainMenuRemoteDataSource
+import com.example.apptfgandroid.repository.CurrentDebtsRepository
 import com.example.apptfgandroid.repository.MainMenuRepository
 //import com.example.apptfgandroid.repository.PreferencesRepository
 import com.example.apptfgandroid.repository.RepositoryLogin
 import com.example.apptfgandroid.repository.RepositoryManageContacts
 import com.example.apptfgandroid.repository.RepositoryRegister
+import com.example.apptfgandroid.ui.screens.currentDebts.CurrentDebtsViewModel
 import com.example.apptfgandroid.ui.screens.mainMenu.MainMenuViewModel
 import com.example.apptfgandroid.ui.screens.register.RegisterViewModel
 import com.example.apptfgandroid.ui.screens.login.LoginViewModel
 import com.example.apptfgandroid.ui.screens.manageContacts.ManageContactsViewModel
+import com.example.apptfgandroid.useCase.CurrentDebtsUseCase
 import com.example.apptfgandroid.useCase.UseCaseLogin
 import com.example.apptfgandroid.useCase.UseCaseMainMenu
 import com.example.apptfgandroid.useCase.UseCaseManageContact
@@ -70,6 +74,13 @@ val appModule = module {
     single<MainMenuRepository> { MainMenuRepository(get()) }
     single<MainMenuRemoteDataSource> { MainMenuRemoteDataSource() }
     viewModel { MainMenuViewModel(get(), get()) }
+
+
+    //dependencias para el view model de currentDebts
+    single<CurrentDebtsUseCase> { CurrentDebtsUseCase(get(), get()) }
+    single<CurrentDebtsRepository> { CurrentDebtsRepository(get()) }
+    single<CurrentDebtsRemoteDataSource> { CurrentDebtsRemoteDataSource() }
+    viewModel { CurrentDebtsViewModel(get()) }
 
 
 }
