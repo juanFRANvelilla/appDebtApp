@@ -19,12 +19,12 @@ sealed class ItemBottomNav(
     )
     object Contacts: ItemBottomNav(
         icon = Icons.Outlined.AccountBox,
-        title = "Home",
+        title = "Contactos",
         route = AppScreens.ManageContacs.route
     )
     object CurrentDebts: ItemBottomNav(
         icon = Icons.Outlined.List,
-        title = "Home",
-        route = AppScreens.MainMenu.route
+        title = "Deudas Activas",
+        route = AppScreens.CurrentDebtsView.route
     )
 }

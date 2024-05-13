@@ -46,5 +46,4 @@ class MainActivity : ComponentActivity() {
             modules(appModule)
         }
     }
-
 }

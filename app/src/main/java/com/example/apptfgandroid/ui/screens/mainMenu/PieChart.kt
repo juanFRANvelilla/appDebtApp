@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -55,8 +56,8 @@ fun PieChart(
     // add the colors as per the number of data(no. of pie chart entries)
     // so that each data will get a color
     val colors = listOf(
-        Color.Blue,
-        Color.Red
+        MaterialTheme.colorScheme.tertiary,
+        MaterialTheme.colorScheme.primary
     )
 
     var animationPlayed by remember { mutableStateOf(false) }
@@ -141,7 +142,6 @@ fun DetailsPieChart(
             .padding(top = 80.dp)
             .fillMaxWidth()
     ) {
-        // create the data items
         data.values.forEachIndexed { index, value ->
             DetailsPieChartItem(
                 data = Pair(data.keys.elementAt(index), value),

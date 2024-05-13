@@ -1,17 +1,11 @@
 package com.example.apptfgandroid.ui.screens.mainMenu
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.ui.Alignment
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Notifications
@@ -39,11 +33,6 @@ import com.example.apptfgandroid.navigation.AppScreens
 import com.example.apptfgandroid.ui.common.composables.BottomBar
 import com.example.apptfgandroid.ui.popups.ShowNotifications
 import org.koin.androidx.compose.getViewModel
-import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.drawscope.Stroke
-import kotlin.math.PI
 
 @Preview
 @Composable
@@ -155,14 +144,10 @@ fun MainMenuContent(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center
     ) {
-        // Preview with sample data
         PieChart(
             data = mapOf(
-                Pair("Sample-1", 150),
-                Pair("Sample-2", 120),
-//                            Pair("Sample-3", 110),
-//                            Pair("Sample-4", 170),
-//                            Pair("Sample-5", 120),
+                Pair("Te deben", 150),
+                Pair("Debes", 120),
             )
         )
 
