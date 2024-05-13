@@ -10,6 +10,7 @@ class CurrentDebtsRemoteDataSource {
         val apiService = RetrofitService.contactsCallsJwt(token)
         try {
             return apiService.getCurrentDebts()
+
         } catch (e: Exception) {
             when (e) {
                 is HttpException -> {

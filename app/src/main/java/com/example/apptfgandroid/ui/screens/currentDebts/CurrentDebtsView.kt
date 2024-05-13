@@ -37,7 +37,7 @@ fun debt(){
         isCreditor = false,
         counterpartyUser =  userDTO,
         amount = 1000.0,
-        date = LocalDate.now(),
+        date = LocalDate.now().toString(),
         description = "Pago de préstamo Pago de préstamo Pago de préstamoPago de préstamoPago de préstamoPago de préstamoPago de préstamo",
         isPaid = true
     )
@@ -86,12 +86,13 @@ fun CurrentDebtsContent(state: CurrentDebtsState) {
             isCreditor = false,
             counterpartyUser =  userDTO,
             amount = 1000.0,
-            date = LocalDate.now(),
+            date = LocalDate.now().toString(),
             description = "Pago de préstamo Pago de préstamo Pago de préstamoPago de préstamoPago de préstamoPago de préstamoPago de préstamo",
             isPaid = false
         )
 
-        val debtList = listOf<DebtDTO>(debtDTO)
+//        val debtList = listOf<DebtDTO>(debtDTO)
+        val debtList = state.debtList
 
         val filteredDebts: List<DebtDTO> = when (selectedOption) {
             PaymentOption.Owe -> debtList.filter { !it.isCreditor }

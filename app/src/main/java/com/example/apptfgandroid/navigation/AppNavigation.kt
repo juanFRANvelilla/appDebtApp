@@ -16,7 +16,7 @@ import com.example.apptfgandroid.ui.screens.register.RegisterForm
 fun AppNavigation(manageTokenViewModel: ManageTokenViewModel) {
     val navController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = AppScreens.MainMenu.route){
+    NavHost(navController = navController, startDestination = AppScreens.LoginForm.route){
         composable(route= AppScreens.LoginForm.route){
             LoginForm(
                 onNavigateRegister = { navController.navigate(AppScreens.RegisterForm.route) },
