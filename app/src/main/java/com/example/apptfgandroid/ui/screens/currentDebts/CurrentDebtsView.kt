@@ -57,6 +57,7 @@ fun debt(){
 fun CurrentDebtsView(navController: NavHostController?) {
     val viewModel: CurrentDebtsViewModel = getViewModel()
     val state by viewModel.state.collectAsState()
+    println("CurrentDebts state: ${state.debtList}")
 
     Scaffold (
         content = { CurrentDebtsContent(state) },

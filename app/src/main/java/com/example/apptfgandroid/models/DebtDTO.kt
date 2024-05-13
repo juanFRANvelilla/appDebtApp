@@ -1,8 +1,10 @@
 package com.example.apptfgandroid.models
 
-import java.time.LocalDate
+import com.google.gson.annotations.SerializedName
+
 
 data class DebtDTO(
+    @SerializedName("creditor")
     val isCreditor: Boolean,
     val counterpartyUser: UserDTO,
     val amount: Double,
