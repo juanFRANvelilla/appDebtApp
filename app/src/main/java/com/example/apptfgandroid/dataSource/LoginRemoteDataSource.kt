@@ -6,7 +6,7 @@ import com.example.tfgapp.models.toServerResponseDTO
 import com.example.tfgapp.service.ApiService
 import retrofit2.Retrofit
 
-class DataSourceLogin(
+class LoginRemoteDataSource(
     private val retrofit: Retrofit
 ) {
     private val apiService: ApiService by lazy {

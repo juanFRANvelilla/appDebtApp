@@ -16,7 +16,7 @@ fun BottomBar(navController: NavController?) {
         ItemBottomNav.Contacts
     )
 
-    BottomAppBar {
+    BottomAppBar() {
         NavigationBar {
             itemBottom.forEach{item ->
                 NavigationBarItem(

@@ -1,30 +1,30 @@
 package com.example.apptfgandroid.repository
 
-import com.example.apptfgandroid.dataSource.DataSourceManageContacts
+import com.example.apptfgandroid.dataSource.ManageContactsRemoteDataSource
 import com.example.apptfgandroid.models.UserDTO
 import com.example.tfgapp.models.ServerResponseDTO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 class RepositoryManageContacts(
-    private val dataSourceManageContacts: DataSourceManageContacts
+    private val manageContactsRemoteDataSource: ManageContactsRemoteDataSource
 ) {
     suspend fun getContacts(token: String): Flow<Set<UserDTO>> = flow {
-        val contacts = dataSourceManageContacts.getContacts(token)
+        val contacts = manageContactsRemoteDataSource.getContacts(token)
         emit(contacts.toSet())
     }
 
     suspend fun getRequest(token: String): Flow<Set<UserDTO>> = flow{
-        val request = dataSourceManageContacts.getRequest(token)
+        val request = manageContactsRemoteDataSource.getRequest(token)
         emit(request.toSet())
     }
 
 
     suspend fun sendContactRequest(contactRequest: String, token: String): ServerResponseDTO? {
-        return dataSourceManageContacts.sendContactRequest(contactRequest, token)
+        return manageContactsRemoteDataSource.sendContactRequest(contactRequest, token)
     }
 
     suspend fun acceptContactRequest(contactRequest: String, token: String): ServerResponseDTO? {
-        return dataSourceManageContacts.acceptContactRequest(contactRequest, token)
+        return manageContactsRemoteDataSource.acceptContactRequest(contactRequest, token)
     }
 }

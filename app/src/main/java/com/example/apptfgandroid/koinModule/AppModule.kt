@@ -4,9 +4,9 @@ import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.MutableLiveData
 import com.example.apptfgandroid.commonViewModel.ManageTokenViewModel
 import com.example.apptfgandroid.dataSource.CurrentDebtsRemoteDataSource
-import com.example.apptfgandroid.dataSource.DataSourceLogin
-import com.example.apptfgandroid.dataSource.DataSourceManageContacts
-import com.example.apptfgandroid.dataSource.DataSourceRegister
+import com.example.apptfgandroid.dataSource.LoginRemoteDataSource
+import com.example.apptfgandroid.dataSource.ManageContactsRemoteDataSource
+import com.example.apptfgandroid.dataSource.RegisterRemoteDataSource
 import com.example.apptfgandroid.dataSource.MainMenuRemoteDataSource
 import com.example.apptfgandroid.repository.CurrentDebtsRepository
 import com.example.apptfgandroid.repository.MainMenuRepository
@@ -51,20 +51,20 @@ val appModule = module {
 
     //dependencias para el view model de login
     single{ preferencesDataStore(name = "preferences") }
-    single<DataSourceLogin> { DataSourceLogin(get()) }
+    single<LoginRemoteDataSource> { LoginRemoteDataSource(get()) }
     single<RepositoryLogin> { RepositoryLogin(get()) }
     single<UseCaseLogin> { UseCaseLogin(get(), get()) }
     viewModel { LoginViewModel(get()) }
 
     //dependencias para el view model de register
-    single<DataSourceRegister> { DataSourceRegister(get()) }
+    single<RegisterRemoteDataSource> { RegisterRemoteDataSource(get()) }
     single<RepositoryRegister> { RepositoryRegister(get()) }
     single<UseCaseRegister> { UseCaseRegister(get()) }
      viewModel { RegisterViewModel(get()) }
 
 
     //dependencias para el view model de manageContacts
-    single<DataSourceManageContacts> { DataSourceManageContacts() }
+    single<ManageContactsRemoteDataSource> { ManageContactsRemoteDataSource() }
     single<RepositoryManageContacts>{ RepositoryManageContacts(get()) }
     single<UseCaseManageContact>{ UseCaseManageContact(get(), get()) }
     viewModel { ManageContactsViewModel(get()) }

@@ -7,7 +7,7 @@ import com.example.tfgapp.models.toServerResponseDTO
 import com.example.tfgapp.service.RetrofitService.contactsCallsJwt
 import retrofit2.HttpException
 
-class DataSourceManageContacts() {
+class ManageContactsRemoteDataSource() {
     suspend fun getContacts(token: String): Set<UserDTO> {
         val apiService = contactsCallsJwt(token)
         return try {

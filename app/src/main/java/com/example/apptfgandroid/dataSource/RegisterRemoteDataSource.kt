@@ -9,7 +9,7 @@ import com.example.tfgapp.service.ApiService
 import retrofit2.HttpException
 import retrofit2.Retrofit
 
-class DataSourceRegister(
+class RegisterRemoteDataSource(
     private val retrofit: Retrofit
 ){
     private val apiService: ApiService by lazy {
