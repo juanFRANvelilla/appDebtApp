@@ -4,13 +4,17 @@ import androidx.lifecycle.ViewModel
 import com.example.apptfgandroid.models.CreateDebtDTO
 import com.example.apptfgandroid.toCommonMutableStateFlow
 import com.example.apptfgandroid.useCase.SaveDebtUseCase
+import com.example.apptfgandroid.useCase.UseCaseManageContact
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class SaveDebtViewModel(
-    private val saveDebtUseCase: SaveDebtUseCase
+    private val saveDebtUseCase: SaveDebtUseCase,
+    private val useCaseManageContact: UseCaseManageContact
 ):ViewModel() {
     private val viewModelScope =  CoroutineScope(Dispatchers.Main)
 
@@ -18,7 +22,23 @@ class SaveDebtViewModel(
     val state = _state.toCommonMutableStateFlow()
 
     init {
+        getContacts()
         _state.value.saveDebt = { createDebtDTO -> saveDebt(createDebtDTO) }
+    }
+
+
+    private fun getContacts(){
+        viewModelScope.launch {
+            useCaseManageContact.getContacts().collect {contacts ->
+                withContext(Dispatchers.Main) {
+                    _state.update {
+                        it.copy(
+                            contacts = contacts
+                        )
+                    }
+                }
+            }
+        }
     }
 
     private fun saveDebt(createDebtDTO: CreateDebtDTO){

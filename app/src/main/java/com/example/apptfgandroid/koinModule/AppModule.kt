@@ -83,7 +83,7 @@ val appModule = module {
     single<SaveDebtUseCase> { SaveDebtUseCase(get(), get()) }
     single<SaveDebtRepository> { SaveDebtRepository(get()) }
     single<SaveDebtRemoteDataSource> { SaveDebtRemoteDataSource() }
-    viewModel { SaveDebtViewModel(get()) }
+    viewModel { SaveDebtViewModel(get(), get()) }
 
 
     //dependencias para el view model de currentDebts
