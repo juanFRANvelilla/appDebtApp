@@ -12,8 +12,9 @@ import com.example.apptfgandroid.ui.common.ItemBottomNav
 fun BottomBar(navController: NavController?) {
     val itemBottom = listOf(
         ItemBottomNav.MainMenuHome,
+        ItemBottomNav.SaveDebt,
         ItemBottomNav.CurrentDebts,
-        ItemBottomNav.Contacts
+        ItemBottomNav.Contacts,
     )
 
     BottomAppBar() {

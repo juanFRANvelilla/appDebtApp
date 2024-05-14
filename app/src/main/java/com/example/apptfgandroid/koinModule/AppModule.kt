@@ -8,18 +8,22 @@ import com.example.apptfgandroid.dataSource.LoginRemoteDataSource
 import com.example.apptfgandroid.dataSource.ManageContactsRemoteDataSource
 import com.example.apptfgandroid.dataSource.RegisterRemoteDataSource
 import com.example.apptfgandroid.dataSource.MainMenuRemoteDataSource
+import com.example.apptfgandroid.dataSource.SaveDebtRemoteDataSource
 import com.example.apptfgandroid.repository.CurrentDebtsRepository
 import com.example.apptfgandroid.repository.MainMenuRepository
 //import com.example.apptfgandroid.repository.PreferencesRepository
 import com.example.apptfgandroid.repository.RepositoryLogin
 import com.example.apptfgandroid.repository.RepositoryManageContacts
 import com.example.apptfgandroid.repository.RepositoryRegister
+import com.example.apptfgandroid.repository.SaveDebtRepository
 import com.example.apptfgandroid.ui.screens.currentDebts.CurrentDebtsViewModel
 import com.example.apptfgandroid.ui.screens.mainMenu.MainMenuViewModel
 import com.example.apptfgandroid.ui.screens.register.RegisterViewModel
 import com.example.apptfgandroid.ui.screens.login.LoginViewModel
 import com.example.apptfgandroid.ui.screens.manageContacts.ManageContactsViewModel
+import com.example.apptfgandroid.ui.screens.saveDebt.SaveDebtViewModel
 import com.example.apptfgandroid.useCase.CurrentDebtsUseCase
+import com.example.apptfgandroid.useCase.SaveDebtUseCase
 import com.example.apptfgandroid.useCase.UseCaseLogin
 import com.example.apptfgandroid.useCase.UseCaseMainMenu
 import com.example.apptfgandroid.useCase.UseCaseManageContact
@@ -74,6 +78,12 @@ val appModule = module {
     single<MainMenuRepository> { MainMenuRepository(get()) }
     single<MainMenuRemoteDataSource> { MainMenuRemoteDataSource() }
     viewModel { MainMenuViewModel(get(), get()) }
+
+    //dependencias para el view model de saveDebt
+    single<SaveDebtUseCase> { SaveDebtUseCase(get(), get()) }
+    single<SaveDebtRepository> { SaveDebtRepository(get()) }
+    single<SaveDebtRemoteDataSource> { SaveDebtRemoteDataSource() }
+    viewModel { SaveDebtViewModel(get()) }
 
 
     //dependencias para el view model de currentDebts
