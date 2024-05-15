@@ -31,10 +31,12 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.apptfgandroid.models.CreateDebtDTO
 import com.example.apptfgandroid.ui.common.composables.BottomBar
 import org.koin.androidx.compose.getViewModel
@@ -58,6 +60,39 @@ fun SaveDebtView(navController: NavHostController?) {
 @Preview
 fun prev(){
 //    SaveDebtContent(navController = null)
+//    SearchIcon(null, {  })
+}
+
+
+
+@Composable
+fun SearchIcon(
+    isExpanded: Boolean?,
+    onIsExpandedChange: (Boolean) -> Unit
+){
+    val iconExpanded = if(isExpanded!!) Icons.Outlined.KeyboardArrowDown else Icons.Outlined.KeyboardArrowUp
+    IconButton(
+        onClick = {
+            if(isExpanded) onIsExpandedChange(false) else onIsExpandedChange(true)
+        }
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            val iconExpanded = if(isExpanded) Icons.Outlined.KeyboardArrowDown else Icons.Outlined.KeyboardArrowUp
+            Icon(
+                imageVector = iconExpanded,
+                contentDescription = "More"
+            )
+            Icon(
+//            modifier = Modifier.padding(start = 10.dp),
+                imageVector = Icons.Outlined.Search,
+                contentDescription = "More"
+            )
+
+        }
+
+    }
 }
 
 
@@ -67,16 +102,17 @@ fun SelectContact(
     state: State<SaveDebtState>,
     contactSelected: UserDTO,
     onContactSelected: (UserDTO) -> Unit,
-    onIsContactSelectedChange: (Boolean) -> Unit
+    onIsContactSelectedChange: (Boolean) -> Unit,
+    isContactSelected: Boolean
 ) {
     var isExpanded by remember { mutableStateOf(false) }
-    var isSelected by remember { mutableStateOf(false) }
     var contact by remember { mutableStateOf("") }
 
+//    val country = arrayOf("India", "USA", "China", "Japan", "India", "USA", "China",
+//        "Japan","India", "USA", "China", "Japan","India", "USA", "China", "Japan",
+//        "India", "USA", "China", "Japan", "India", "USA", "China")
 
-    val country = arrayOf("India", "USA", "China", "Japan", "India", "USA", "China",
-        "Japan","India", "USA", "China", "Japan","India", "USA", "China", "Japan",
-        "India", "USA", "China", "Japan", "India", "USA", "China")
+    val country = arrayOf("India", "USA", "China")
 
 
     Column {
@@ -87,34 +123,40 @@ fun SelectContact(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            val fieldValue = if(isSelected) contactSelected.username else contact
-            IconButton(
-                onClick = { isExpanded = !isExpanded },
-            ) {
-                val iconExpanded = if(isExpanded) Icons.Outlined.KeyboardArrowDown else Icons.Outlined.KeyboardArrowUp
-                Icon(
-                    imageVector = iconExpanded,
-                    contentDescription = "More"
-                )
-            }
+            val fieldValue = if(isContactSelected) contactSelected.username else contact
+            SearchIcon(
+                isExpanded = isExpanded,
+                onIsExpandedChange = {
+                    isExpanded = it
+                }
+            )
             TextField(
+                modifier = Modifier
+                    .weight(8f)
+                    .padding(start = 5.dp),
                 value = fieldValue,
                 onValueChange = {
-//                    isSelected = false
+//                    isExpanded = true
                     contact = it
                 },
                 label = { Text("Buscar contacto") },
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
             )
 
-            val iconIsSelected = if(!isSelected) Icons.Outlined.Search else Icons.Outlined.Check
-            Icon(
-                modifier = Modifier.padding(start = 10.dp),
-                imageVector = iconIsSelected,
-                contentDescription = "More"
-            )
-        }
+            if(isContactSelected){
+                Icon(
+                    modifier = Modifier
+                        .padding(start = 10.dp)
+                        .weight(1.2f),
+                    imageVector = Icons.Outlined.Check,
+                    contentDescription = "More",
+                    tint = Color.Green
+                )
+            } else {
+                Spacer(modifier = Modifier.weight(1.2f))
+            }
 
+        }
         DropdownMenu(
             expanded = isExpanded,
             onDismissRequest = { isExpanded = false }
@@ -147,14 +189,12 @@ fun SelectContact(
                     onClick = {
 //                        onContactSelected(contact)
                         isExpanded = false
-                        isSelected = true
-                        onIsContactSelectedChange(isSelected)
+                        onIsContactSelectedChange(true)
                     }
                 )
             }
         }
     }
-
 }
 
 
@@ -165,6 +205,9 @@ fun SaveDebtContent(state: State<SaveDebtState>) {
     var isContactSelected by remember { mutableStateOf(false) }
     var description by remember { mutableStateOf("") }
     var amount by remember { mutableStateOf("") }
+    var errorDesc by remember { mutableStateOf("") }
+    var errorAmount by remember { mutableStateOf("") }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -173,61 +216,103 @@ fun SaveDebtContent(state: State<SaveDebtState>) {
     ) {
         SelectContact(
             state = state,
+            isContactSelected = isContactSelected,
+            onIsContactSelectedChange = {
+                isContactSelected = it
+            },
             contactSelected = contactSelected,
             onContactSelected ={
                 contactSelected = it
-            },
-            onIsContactSelectedChange = {
-                isContactSelected = it
             }
         )
 
+        Column(
+            horizontalAlignment = Alignment.Start
+        ){
+            OutlinedTextField(
+                modifier = Modifier.padding(top = 10.dp),
+                value = description,
+                onValueChange = { description = it },
+                label = { Text("Descripción") },
+            )
+            if (!errorDesc.equals("")) {
+                Text(
+                    modifier = Modifier.padding(top = 4.dp, start = 4.dp),
+                    text = errorDesc,
+                    fontSize = 12.sp,
+                    color = Color.Red
+                )
+            }
+        }
 
-        OutlinedTextField(
-            modifier = Modifier.padding(top = 10.dp),
-            value = description,
-            onValueChange ={ description = it },
-            label = { Text("Descripción") },
-        )
 
-        OutlinedTextField(
-            modifier = Modifier.padding(top = 15.dp),
-            value = amount,
-            onValueChange = { amount = it },
-            label = { Text("Importe") },
-            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Phone)
-        )
+        Column(
+            horizontalAlignment = Alignment.Start
+        ) {
+            OutlinedTextField(
+                modifier = Modifier.padding(top = 10.dp),
+                value = amount,
+                onValueChange = { amount = it },
+                label = { Text("Importe") },
+                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Phone)
+            )
+
+            if (!errorAmount.equals("")) {
+                Text(
+                    modifier = Modifier.padding(top = 4.dp, start = 4.dp),
+                    text = errorAmount,
+                    fontSize = 12.sp,
+                    color = Color.Red
+
+                )
+            }
+        }
+
+
 
         Button(
-            modifier = Modifier.padding(top = 15.dp).width(120.dp),
+            modifier = Modifier
+                .padding(top = 15.dp)
+                .width(120.dp),
             enabled = isContactSelected and !amount.equals(""),
             onClick = {
                 try {
+                    var validDebt = true
                     val amountDouble = amount.toDouble()
-                    if(description.length > 30){
+                    if(amountDouble > 1000){
+                        errorAmount = "El importe tiene que ser menor a 1000"
+                        amount = ""
+                        validDebt = false
+                    }
+                    if(description.length > 25){
                         description = ""
-
-                    } else {
+                        errorDesc = "Maximo 30 caracteres"
+                        validDebt = false
+                    }
+                    if(validDebt) {
+                        errorDesc = ""
+                        errorAmount = ""
                         val creatDdebt = CreateDebtDTO(
                             contactSelected.username,
                             amountDouble,
                             description,
                             false,
                         )
+                        amount = ""
+                        description = ""
+                        isContactSelected = false
                         state.value.saveDebt(creatDdebt)
                     }
                 } catch (e: NumberFormatException) {
                     amount = ""
+                    errorAmount = "Introduce un importe numérico"
                 }
-
             }
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ){
-                Icon(Icons.Outlined.Add,"Add",
-//                    modifier = Modifier.weight(0.4f)
-                )
+                Icon(Icons.Outlined.Add,"Add")
                 Text(
                     text = "Crear",
                     modifier = Modifier.padding(start = 10.dp)
