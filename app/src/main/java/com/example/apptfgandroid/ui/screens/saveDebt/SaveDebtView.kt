@@ -176,8 +176,8 @@ fun SelectContact(
             expanded = isExpanded,
             onDismissRequest = { isExpanded = false }
         ) {
-//                state.value.contacts.toList().forEach { contact ->
-            country.forEach { contact ->
+                state.value.contacts.toList().forEach { contact ->
+//            country.forEach { contact ->
                 DropdownMenuItem(
                     modifier = Modifier.padding(start = 10.dp),
                     text = {
@@ -187,22 +187,22 @@ fun SelectContact(
                         ){
                             Text(
                                 modifier = Modifier.weight(2f),
-                                text = contact
+                                text = contact.username
                             )
                             Text(
                                 modifier = Modifier.weight(1f),
-                                text = contact
+                                text = contact.firstName
                             )
                             Text(
                                 modifier = Modifier.weight(1f),
-                                text = contact
+                                text = contact.lastName
                             )
 
                         }
 
                     },
                     onClick = {
-//                        onContactSelected(contact)
+                        onContactSelected(contact)
                         isExpanded = false
                         onIsContactSelectedChange(true)
                     }
@@ -227,60 +227,59 @@ fun SaveDebtContent(state: State<SaveDebtState>) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(top = 35.dp)
-            .background(Color.Green),
+            .padding(top = 35.dp),
+//            .background(Color.Green),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top
     ) {
-//        SelectContact(
-//            state = state,
-//            isContactSelected = isContactSelected,
-//            onIsContactSelectedChange = {
-//                isContactSelected = it
-//            },
-//            contactSelected = contactSelected,
-//            onContactSelected ={
-//                contactSelected = it
-//            }
-//        )
-
-        Row(
-            modifier = Modifier.weight(1f),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ){
-            SearchIcon(
-                isExpanded = isExpanded,
-                onIsExpandedChange = {
-                    isExpanded = it
-                }
-            )
-            Box(modifier = Modifier
-                .weight(5f)
-                .height(50.dp)
-                .background(Color.Yellow)){
-                CGLDropdown(
-                    items = listOf("Zaragoza", "Opción 2", "Opción 3"),
-                    defaultItem = "Zaragoza",
-                    onItemSelected = { newValue -> println("Nuevo valor seleccionado en dropdown 1: $newValue") },
-                    backgroundColor = Color.Red,
-                    borderColor = Color.Red,
-                    textColor = Color.Black,
-                    textColorDropdown = Color.Red,
-                    selectedBackgroundColor = Color.Red,
-                    selectedBorderColor = Color.Red,
-                    selectedTextColor = Color.Blue,
-                )
+        SelectContact(
+            state = state,
+            isContactSelected = isContactSelected,
+            onIsContactSelectedChange = {
+                isContactSelected = it
+            },
+            contactSelected = contactSelected,
+            onContactSelected ={
+                contactSelected = it
             }
-            Spacer(modifier = Modifier.weight(1f))
+        )
 
-        }
+//        Row(
+//            modifier = Modifier.weight(1f),
+//            horizontalArrangement = Arrangement.SpaceBetween,
+//            verticalAlignment = Alignment.CenterVertically
+//        ){
+//            SearchIcon(
+//                isExpanded = isExpanded,
+//                onIsExpandedChange = {
+//                    isExpanded = it
+//                }
+//            )
+//            Box(modifier = Modifier
+//                .weight(5f)
+//                .height(50.dp)
+//                .background(Color.Yellow)){
+//                CGLDropdown(
+//                    items = listOf("Zaragoza", "Opción 2", "Opción 3"),
+//                    defaultItem = "Zaragoza",
+//                    onItemSelected = { newValue -> println("Nuevo valor seleccionado en dropdown 1: $newValue") },
+//                    backgroundColor = Color.Red,
+//                    borderColor = Color.Red,
+//                    textColor = Color.Black,
+//                    textColorDropdown = Color.Red,
+//                    selectedBackgroundColor = Color.Red,
+//                    selectedBorderColor = Color.Red,
+//                    selectedTextColor = Color.Blue,
+//                )
+//            }
+//            Spacer(modifier = Modifier.weight(1f))
+//
+//        }
 
 
 
         Column(
-            horizontalAlignment = Alignment.Start,
-            modifier = Modifier.background(Color.Red)
+            horizontalAlignment = Alignment.Start
         ){
             OutlinedTextField(
                 modifier = Modifier.padding(top = 10.dp),
@@ -324,7 +323,7 @@ fun SaveDebtContent(state: State<SaveDebtState>) {
             modifier = Modifier
                 .padding(top = 15.dp)
                 .width(120.dp),
-            enabled = isContactSelected and !amount.equals(""),
+            enabled = isContactSelected and !amount.isNotEmpty() and description.isNotEmpty(),
             onClick = {
                 try {
                     var validDebt = true
@@ -351,6 +350,7 @@ fun SaveDebtContent(state: State<SaveDebtState>) {
                         amount = ""
                         description = ""
                         isContactSelected = false
+                        println("Deuda creada: $creatDdebt")
                         state.value.saveDebt(creatDdebt)
                     }
                 } catch (e: NumberFormatException) {
