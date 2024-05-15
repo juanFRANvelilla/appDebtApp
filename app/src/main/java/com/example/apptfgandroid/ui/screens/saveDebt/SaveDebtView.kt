@@ -1,12 +1,18 @@
 package com.example.apptfgandroid.ui.screens.saveDebt
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.background
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardOptions
@@ -28,15 +34,24 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.unit.toSize
 import com.example.apptfgandroid.models.CreateDebtDTO
 import com.example.apptfgandroid.ui.common.composables.BottomBar
 import org.koin.androidx.compose.getViewModel
@@ -207,27 +222,65 @@ fun SaveDebtContent(state: State<SaveDebtState>) {
     var amount by remember { mutableStateOf("") }
     var errorDesc by remember { mutableStateOf("") }
     var errorAmount by remember { mutableStateOf("") }
+    var isExpanded by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(top = 35.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+            .padding(top = 35.dp)
+            .background(Color.Green),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Top
     ) {
-        SelectContact(
-            state = state,
-            isContactSelected = isContactSelected,
-            onIsContactSelectedChange = {
-                isContactSelected = it
-            },
-            contactSelected = contactSelected,
-            onContactSelected ={
-                contactSelected = it
+//        SelectContact(
+//            state = state,
+//            isContactSelected = isContactSelected,
+//            onIsContactSelectedChange = {
+//                isContactSelected = it
+//            },
+//            contactSelected = contactSelected,
+//            onContactSelected ={
+//                contactSelected = it
+//            }
+//        )
+
+        Row(
+            modifier = Modifier.weight(1f),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ){
+            SearchIcon(
+                isExpanded = isExpanded,
+                onIsExpandedChange = {
+                    isExpanded = it
+                }
+            )
+            Box(modifier = Modifier
+                .weight(5f)
+                .height(50.dp)
+                .background(Color.Yellow)){
+                CGLDropdown(
+                    items = listOf("Zaragoza", "Opción 2", "Opción 3"),
+                    defaultItem = "Zaragoza",
+                    onItemSelected = { newValue -> println("Nuevo valor seleccionado en dropdown 1: $newValue") },
+                    backgroundColor = Color.Red,
+                    borderColor = Color.Red,
+                    textColor = Color.Black,
+                    textColorDropdown = Color.Red,
+                    selectedBackgroundColor = Color.Red,
+                    selectedBorderColor = Color.Red,
+                    selectedTextColor = Color.Blue,
+                )
             }
-        )
+            Spacer(modifier = Modifier.weight(1f))
+
+        }
+
+
 
         Column(
-            horizontalAlignment = Alignment.Start
+            horizontalAlignment = Alignment.Start,
+            modifier = Modifier.background(Color.Red)
         ){
             OutlinedTextField(
                 modifier = Modifier.padding(top = 10.dp),
@@ -267,9 +320,6 @@ fun SaveDebtContent(state: State<SaveDebtState>) {
                 )
             }
         }
-
-
-
         Button(
             modifier = Modifier
                 .padding(top = 15.dp)
@@ -321,3 +371,212 @@ fun SaveDebtContent(state: State<SaveDebtState>) {
         }
     }
 }
+
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun CGLDropdown(
+    modifier: Modifier = Modifier,
+    items: List<String>,
+    defaultItem: String,
+    onItemSelected: (String) -> Unit,
+    leadingIcon: ImageVector? = null,
+    leadingIconColor: Color? = null,
+    backgroundColor: Color,
+    borderColor: Color,
+    textColor: Color,
+    textColorDropdown: Color,
+    selectedBackgroundColor: Color,
+    selectedBorderColor: Color,
+    selectedTextColor: Color
+) {
+    var expanded by remember { mutableStateOf(false) }
+    var selectedText by remember { mutableStateOf(defaultItem) }
+    var showLeadingIcon by remember { mutableStateOf(true) }
+    var textfieldSize by remember { mutableStateOf(Size.Zero)}
+
+    BoxWithConstraints(
+        modifier = modifier,
+        contentAlignment = Alignment.TopStart
+    ) {
+        OutlinedTextField(
+            value = selectedText,
+            onValueChange = { selectedText = it },
+            modifier = Modifier
+                .fillMaxWidth()
+                .onGloballyPositioned { coordinates ->
+                    //This value is used to assign to the DropDown the same width
+                    textfieldSize = coordinates.size.toSize()
+                },
+
+            readOnly = false,
+            leadingIcon = if (showLeadingIcon) {
+                leadingIcon?.let {
+                    {
+                        Icon(
+                            imageVector = it,
+                            contentDescription = null,
+                            tint = leadingIconColor ?: Color.Unspecified
+                        )
+                    }
+                }
+            } else {
+                null
+            },
+            trailingIcon = null,
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+//                backgroundColor = if (expanded) selectedBackgroundColor else backgroundColor,
+                focusedBorderColor = if (expanded) selectedBorderColor else borderColor,
+                unfocusedBorderColor = if (expanded) selectedBorderColor else borderColor,
+                textColor = if (expanded) selectedTextColor else textColor
+            ),
+            textStyle = TextStyle(
+                fontFamily = FontFamily.Default,
+                fontSize = 16.sp,
+                fontWeight = FontWeight.W500,
+                lineHeight = 24.sp,
+                letterSpacing = 0.1.sp
+            ),
+            interactionSource = remember { MutableInteractionSource() }
+                .also { interactionSource ->
+                    LaunchedEffect(interactionSource) {
+                        interactionSource.interactions.collect {
+                            if (it is PressInteraction.Release) {
+                                expanded = !expanded
+                            }
+                        }
+                    }
+                }
+        )
+
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false },
+            modifier = Modifier
+                .width(with(LocalDensity.current) { constraints.maxWidth.toDp() })
+                .background(Color.White) // Cambia al color que prefieras
+        ) {
+            items.forEach { label ->
+                DropdownMenuItem(
+                    text = { Text(text = label.toString(), color = textColorDropdown) },
+                    onClick = {
+                        selectedText = label
+                        expanded = false
+                        onItemSelected(label)
+                        showLeadingIcon = false
+                    }
+                )
+            }
+        }
+    }
+}
+
+
+
+
+
+
+
+
+//@Composable
+//fun CGLDropdown(
+//    modifier: Modifier = Modifier,
+//    items: List<String>,
+//    defaultItem: String,
+//    onItemSelected: (String) -> Unit,
+//    leadingIcon: ImageVector? = null,
+//    leadingIconColor: Color? = null,
+//    trailingIcon: ImageVector? = null,
+//    trailingIconColor: Color? = null,
+//    backgroundColor: Color,
+//    borderColor: Color,
+//    textColor: Color,
+//    textColorDropdown: Color,
+//    selectedBackgroundColor: Color,
+//    selectedBorderColor: Color,
+//    selectedTextColor: Color
+//) {
+//    var expanded by remember { mutableStateOf(false) }
+//    var selectedText by remember { mutableStateOf(defaultItem) }
+//    var showLeadingIcon by remember { mutableStateOf(true) }
+//    var textfieldSize by remember { mutableStateOf(Size.Zero)}
+//    BoxWithConstraints(
+//        modifier = modifier,
+//        contentAlignment = Alignment.TopStart
+//    ) {
+//        OutlinedTextField(
+//            value = selectedText,
+//            onValueChange = {selectedText = it},
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .onGloballyPositioned { coordinates ->
+//                    //This value is used to assign to the DropDown the same width
+//                    textfieldSize = coordinates.size.toSize()
+//                },
+//            readOnly = true,
+//            leadingIcon = if (showLeadingIcon) {
+//                leadingIcon?.let {
+//                    {
+//                        Icon(
+//                            imageVector = it,
+//                            contentDescription = null,
+//                            tint = leadingIconColor ?: Color.Unspecified
+//                        )
+//                    }
+//                }
+//            } else {
+//                null
+//            },
+//            trailingIcon = trailingIcon?.let {
+//                {
+//                    Icon(
+//                        imageVector = it,
+//                        contentDescription = null,
+//                        tint = trailingIconColor ?: Color.Unspecified,
+//                    )
+//                }
+//            },
+//            colors = TextFieldDefaults.outlinedTextFieldColors(
+//                backgroundColor = if (expanded) selectedBackgroundColor else backgroundColor,
+//                focusedBorderColor = if (expanded) selectedBorderColor else borderColor,
+//                unfocusedBorderColor = if (expanded) selectedBorderColor else borderColor,
+//                textColor = if (expanded) selectedTextColor else textColor
+//            ),
+//            textStyle = TextStyle(
+//                fontFamily = FontFamily.Default,
+//                fontSize = 16.sp,
+//                fontWeight = FontWeight.W500,
+//                lineHeight = 24.sp,
+//                letterSpacing = 0.1.sp
+//            ),
+//            interactionSource = remember { MutableInteractionSource() }
+//                .also { interactionSource ->
+//                    LaunchedEffect(interactionSource) {
+//                        interactionSource.interactions.collect {
+//                            if (it is PressInteraction.Release) {
+//                                expanded = !expanded
+//                            }
+//                        }
+//                    }
+//                }
+//        )
+//        DropdownMenu(
+//            expanded = expanded,
+//            onDismissRequest = { expanded = false },
+//            modifier = Modifier
+//                .width(with(LocalDensity.current) { constraints.maxWidth.toDp() })
+//                .background(Color.White) // Cambia al color que prefieras
+//        ) {
+//            items.forEach { label ->
+//                DropdownMenuItem(onClick = {
+//                    selectedText = label
+//                    expanded = false
+//                    onItemSelected(label)
+//                    showLeadingIcon = false
+//                }) {
+//                    Text(text = label, color = textColorDropdown)
+//                }
+//            }
+//        }
+//    }
+//}
