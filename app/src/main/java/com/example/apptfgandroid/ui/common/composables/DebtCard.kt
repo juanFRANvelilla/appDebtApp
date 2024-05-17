@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -45,7 +46,7 @@ fun DebtCard(
             .fillMaxWidth()
             .padding(top=10.dp, bottom = 10.dp, start = 5.dp, end = 5.dp)
             .background(
-                color = Color.White,
+                color = MaterialTheme.colorScheme.primary.copy(alpha = 0.1f),
                 shape = RoundedCornerShape(4.dp)
             )
             .border(
@@ -59,27 +60,38 @@ fun DebtCard(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ){
-            if(debt.isPaid){
-                Icon(
-                    modifier = Modifier
-                        .weight(0.15f),
-                    imageVector = Icons.Outlined.Check, contentDescription = "", tint = Color.Green)
+            Column(
+                verticalArrangement = Arrangement.Center,
+                modifier = Modifier
+                    .padding(6.dp)
+                    .weight(0.15f)
+//                    .background(Color.Yellow.copy(alpha = 0.4f) , shape = RoundedCornerShape(4.dp))
+                    .height(50.dp)
 
-            } else{
-                Icon(
-                    modifier = Modifier
-                        .weight(0.15f),
-                    imageVector = rememberPendingActions(), contentDescription = "", tint = MaterialTheme.colorScheme.primary)
+            ){
+                if(debt.isPaid){
+                    Icon(
+//                    modifier = Modifier
+//                        .weight(0.15f),
+                        imageVector = Icons.Outlined.Check, contentDescription = "", tint = Color.Green)
+
+                } else{
+                    Icon(
+//                    modifier = Modifier
+//                        .weight(0.15f),
+                        imageVector = rememberPendingActions(), contentDescription = "", tint = MaterialTheme.colorScheme.primary)
+                }
             }
+
             val colorAmount = if (debt.isCreditor) Color.Green else Color.Red
             Column(
                 modifier = Modifier
+                    .padding(start = 8.dp)
                     .weight(1f)
             ) {
                 Row(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(end = 10.dp),
+                        .fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ){
                     Box{
@@ -94,21 +106,17 @@ fun DebtCard(
                     }
                     Text(text = debt.counterpartyUser.username)
                 }
-                Divider(color = Color.Gray, thickness = 2.dp)
+                Divider(color = MaterialTheme.colorScheme.primary, thickness = 2.dp)
                 Row(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(end = 10.dp),
+                        .fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ){
                     Text(
-                        modifier = Modifier.weight(0.5f),
                         text = debt.amount.toString(), color = colorAmount
                     )
+                    Spacer(modifier = Modifier.weight(1f))
                     Text(
-                        modifier = Modifier
-                            .weight(2f)
-                            .height(20.dp),
                         text = debt.description
                     )
                 }
