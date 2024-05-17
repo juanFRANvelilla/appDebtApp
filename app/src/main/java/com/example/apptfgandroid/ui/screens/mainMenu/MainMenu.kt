@@ -30,7 +30,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.apptfgandroid.navigation.AppScreens
+import com.example.apptfgandroid.ui.common.ItemBottomNav
 import com.example.apptfgandroid.ui.common.composables.BottomBar
+import com.example.apptfgandroid.ui.common.composables.PieChart
 import com.example.apptfgandroid.ui.popups.ShowNotifications
 import org.koin.androidx.compose.getViewModel
 
@@ -55,8 +57,8 @@ fun MainMenu(
 
     Scaffold (
         topBar = { TopBar(navController, state) },
-        content = { MainMenuContent(navController) },
-        bottomBar = { BottomBar(navController) }
+        content = { MainMenuContent(navController, state) },
+        bottomBar = { BottomBar(navController, ItemBottomNav.MainMenuHome.title) }
     )
 }
 
@@ -138,16 +140,19 @@ fun TopBar(
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun MainMenuContent(
-    navController: NavController?
+    navController: NavController?,
+    state: MainMenuState
 ) {
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center
     ) {
+        val owe = String.format("%.2f", state.balance.owe).toDouble()
+        val owed = String.format("%.2f", state.balance.owed).toDouble()
         PieChart(
             data = mapOf(
-                Pair("Te deben", 150),
-                Pair("Debes", 120),
+                Pair("Debes", owe),
+                Pair("Te deben", owed),
             )
         )
 

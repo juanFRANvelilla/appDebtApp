@@ -1,4 +1,4 @@
-package com.example.apptfgandroid.ui.screens.mainMenu
+package com.example.apptfgandroid.ui.common.composables
 
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
@@ -36,7 +36,7 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun PieChart(
-    data: Map<String, Int>,
+    data: Map<String, Double>,
     radiusOuter: Dp = 140.dp,
     chartBarWidth: Dp = 35.dp,
     animDuration: Int = 1000,
@@ -134,7 +134,7 @@ fun PieChart(
 
 @Composable
 fun DetailsPieChart(
-    data: Map<String, Int>,
+    data: Map<String, Double>,
     colors: List<Color>
 ) {
     Column(
@@ -154,7 +154,7 @@ fun DetailsPieChart(
 
 @Composable
 fun DetailsPieChartItem(
-    data: Pair<String, Int>,
+    data: Pair<String, Double>,
     height: Dp = 45.dp,
     color: Color
 ) {

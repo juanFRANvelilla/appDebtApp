@@ -12,10 +12,13 @@ import com.example.apptfgandroid.models.DebtDTO
 import com.example.apptfgandroid.models.UserDTO
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.collectAsState
 import androidx.navigation.NavHostController
+import com.example.apptfgandroid.navigation.AppScreens
+import com.example.apptfgandroid.ui.common.ItemBottomNav
 import com.example.apptfgandroid.ui.common.composables.BottomBar
 import com.example.apptfgandroid.ui.common.composables.DebtCard
 import com.example.apptfgandroid.ui.common.composables.PaymentOption
@@ -41,7 +44,6 @@ fun debt(){
         description = "Pago de préstamo Pago de préstamo Pago de préstamoPago de préstamoPago de préstamoPago de préstamoPago de préstamo",
         isPaid = true
     )
-//    DebtCard(debtDTO)
     CurrentDebtsView(null)
 
 }
@@ -57,11 +59,10 @@ fun debt(){
 fun CurrentDebtsView(navController: NavHostController?) {
     val viewModel: CurrentDebtsViewModel = getViewModel()
     val state by viewModel.state.collectAsState()
-    println("CurrentDebts state: ${state.debtList}")
 
     Scaffold (
         content = { CurrentDebtsContent(state) },
-        bottomBar = { BottomBar(navController) }
+        bottomBar = { BottomBar(navController, ItemBottomNav.CurrentDebts.title) }
     )
 }
 

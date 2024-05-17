@@ -9,7 +9,7 @@ import androidx.navigation.NavController
 import com.example.apptfgandroid.ui.common.ItemBottomNav
 
 @Composable
-fun BottomBar(navController: NavController?) {
+fun BottomBar(navController: NavController?, itemDesc: String) {
     val itemBottom = listOf(
         ItemBottomNav.MainMenuHome,
         ItemBottomNav.SaveDebt,
@@ -21,7 +21,8 @@ fun BottomBar(navController: NavController?) {
         NavigationBar {
             itemBottom.forEach{item ->
                 NavigationBarItem(
-                    selected = item.title.equals("Home"),
+                    selected =
+                    item.title == itemDesc,
                     onClick = {
                         navController?.navigate(item.route) {
                             popUpTo(item.route) {

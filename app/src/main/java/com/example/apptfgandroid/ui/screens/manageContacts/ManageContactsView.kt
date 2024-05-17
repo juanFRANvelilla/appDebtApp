@@ -15,7 +15,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -40,6 +39,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.apptfgandroid.models.UserDTO
+import com.example.apptfgandroid.navigation.AppScreens
+import com.example.apptfgandroid.ui.common.ItemBottomNav
 import com.example.apptfgandroid.ui.common.composables.BottomBar
 import com.example.apptfgandroid.ui.popups.AddContactDialog
 import org.koin.androidx.compose.getViewModel
@@ -56,7 +57,7 @@ fun ManageContacts(
     Scaffold(
         content = { ManageContactsContent(state) } ,
         topBar = { ToolBarContacts(state = state) },
-        bottomBar = { BottomBar(navController) }
+        bottomBar = { BottomBar(navController, ItemBottomNav.Contacts.title) }
     )
 }
 

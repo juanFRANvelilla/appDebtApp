@@ -5,14 +5,12 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardOptions
@@ -48,7 +46,6 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.toSize
@@ -56,6 +53,7 @@ import com.example.apptfgandroid.models.CreateDebtDTO
 import com.example.apptfgandroid.ui.common.composables.BottomBar
 import org.koin.androidx.compose.getViewModel
 import com.example.apptfgandroid.models.UserDTO
+import com.example.apptfgandroid.ui.common.ItemBottomNav
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -65,18 +63,11 @@ fun SaveDebtView(navController: NavHostController?) {
     val state = viewModel.state.collectAsState()
     Scaffold(
         content = { SaveDebtContent(state) } ,
-        bottomBar = { BottomBar(navController) }
+        bottomBar = { BottomBar(navController, ItemBottomNav.SaveDebt.title) }
     )
-
 }
 
 
-@Composable
-@Preview
-fun prev(){
-//    SaveDebtContent(navController = null)
-//    SearchIcon(null, {  })
-}
 
 
 
@@ -323,7 +314,7 @@ fun SaveDebtContent(state: State<SaveDebtState>) {
             modifier = Modifier
                 .padding(top = 15.dp)
                 .width(120.dp),
-            enabled = isContactSelected and !amount.isNotEmpty() and description.isNotEmpty(),
+            enabled = isContactSelected and !amount.equals("") and !description.equals(""),
             onClick = {
                 try {
                     var validDebt = true
