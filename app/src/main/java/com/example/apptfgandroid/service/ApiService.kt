@@ -48,6 +48,8 @@ interface ApiService {
     @GET("debt/getCurrentDebts")
     suspend fun getCurrentDebts(): List<DebtDTO>
 
+    @GET("debt/payOffDebt")
+    suspend fun payOffDebt(@Query("debtId") debtId: Int): Map<String, Any>
 }
 
 

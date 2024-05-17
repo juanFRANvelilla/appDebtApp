@@ -12,12 +12,10 @@ import com.example.apptfgandroid.models.DebtDTO
 import com.example.apptfgandroid.models.UserDTO
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.collectAsState
 import androidx.navigation.NavHostController
-import com.example.apptfgandroid.navigation.AppScreens
 import com.example.apptfgandroid.ui.common.ItemBottomNav
 import com.example.apptfgandroid.ui.common.composables.BottomBar
 import com.example.apptfgandroid.ui.common.composables.DebtCard
@@ -37,6 +35,7 @@ fun debt(){
     )
 
     val debtDTO = DebtDTO(
+        id = 2,
         isCreditor = false,
         counterpartyUser =  userDTO,
         amount = 1000.0,
@@ -85,6 +84,7 @@ fun CurrentDebtsContent(state: CurrentDebtsState) {
         )
 
         val debtDTO = DebtDTO(
+            id = 2,
             isCreditor = false,
             counterpartyUser =  userDTO,
             amount = 1000.0,
@@ -103,8 +103,14 @@ fun CurrentDebtsContent(state: CurrentDebtsState) {
 
         LazyColumn() {
             items(filteredDebts) { debt ->
+                DebtCard(
+                    debt = debt,
+                    onPayOffDebt = {
+                        println("Pagar deuda con id ${debt.id}")
+                        state.payOffDebt(debt.id)
 
-                DebtCard(debt = debt)
+                    }
+                )
             }
         }
     }

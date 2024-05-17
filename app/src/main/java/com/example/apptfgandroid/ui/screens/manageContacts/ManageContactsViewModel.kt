@@ -1,8 +1,8 @@
 package com.example.apptfgandroid.ui.screens.manageContacts
 
 import androidx.lifecycle.ViewModel
-import com.example.apptfgandroid.toCommonMutableStateFlow
 import com.example.apptfgandroid.useCase.UseCaseManageContact
+import com.example.apptfgandroid.utils.toCommonMutableStateFlow
 import com.example.tfgapp.models.ServerResponseDTO
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

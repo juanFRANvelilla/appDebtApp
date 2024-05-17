@@ -33,7 +33,10 @@ import androidx.compose.ui.unit.dp
 import com.example.apptfgandroid.models.DebtDTO
 
 @Composable
-fun DebtCard(debt: DebtDTO) {
+fun DebtCard(
+    debt: DebtDTO,
+    onPayOffDebt: () -> Unit
+) {
     val backgroundColor =
         if(debt.isCreditor)
             MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.tertiary
@@ -115,14 +118,12 @@ fun DebtCard(debt: DebtDTO) {
                     .weight(0.15f)){
                     IconButton(
                         onClick = {
-                            //saldar deuda
+                            onPayOffDebt()
                         },
-
                         ) {
                         Icon(imageVector = Icons.Outlined.Send, contentDescription = "")
                     }
                 }
-
             }
         }
     }

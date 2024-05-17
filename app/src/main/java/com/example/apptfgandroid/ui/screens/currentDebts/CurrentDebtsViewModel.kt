@@ -1,9 +1,9 @@
 package com.example.apptfgandroid.ui.screens.currentDebts
 
 import androidx.lifecycle.ViewModel
-import com.example.apptfgandroid.toCommonMutableStateFlow
-import com.example.apptfgandroid.ui.screens.mainMenu.MainMenuState
 import com.example.apptfgandroid.useCase.CurrentDebtsUseCase
+import com.example.apptfgandroid.utils.toCommonMutableStateFlow
+import com.example.tfgapp.models.ServerResponseDTO
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -24,6 +24,7 @@ class CurrentDebtsViewModel(
         viewModelScope.launch(Dispatchers.Main) {
             getDebts()
         }
+        _state.value.payOffDebt = { debtId -> payOffDebt(debtId) }
     }
 
     private suspend fun getDebts(){
@@ -38,6 +39,15 @@ class CurrentDebtsViewModel(
                         }
                     }
                 }
+            }
+        }
+    }
+
+    private fun payOffDebt(debtId: Int){
+        viewModelScope.launch(Dispatchers.Main) {
+            val responseDTO: ServerResponseDTO? = currentDebtsUseCase.payOffDebt(debtId)
+            if(responseDTO?.status=="response"){
+                getDebts()
             }
         }
     }

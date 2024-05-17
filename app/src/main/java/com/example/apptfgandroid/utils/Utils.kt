@@ -1,4 +1,4 @@
-package com.example.apptfgandroid
+package com.example.apptfgandroid.utils
 
 import kotlinx.coroutines.flow.MutableStateFlow
 

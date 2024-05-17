@@ -2,9 +2,9 @@ package com.example.apptfgandroid.ui.screens.saveDebt
 
 import androidx.lifecycle.ViewModel
 import com.example.apptfgandroid.models.CreateDebtDTO
-import com.example.apptfgandroid.toCommonMutableStateFlow
 import com.example.apptfgandroid.useCase.SaveDebtUseCase
 import com.example.apptfgandroid.useCase.UseCaseManageContact
+import com.example.apptfgandroid.utils.toCommonMutableStateFlow
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow

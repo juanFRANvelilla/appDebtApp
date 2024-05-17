@@ -1,6 +1,8 @@
 package com.example.apptfgandroid.dataSource
 
 import com.example.apptfgandroid.models.DebtDTO
+import com.example.tfgapp.models.ServerResponseDTO
+import com.example.tfgapp.models.toServerResponseDTO
 import com.example.tfgapp.service.RetrofitService
 import retrofit2.HttpException
 
@@ -14,7 +16,26 @@ class CurrentDebtsRemoteDataSource {
             when (e) {
                 is HttpException -> {
                     val errorMessage = e.response()?.errorBody()?.string()
+                    println("Error en getCurrentDebts: $errorMessage")
                     return null
+                }
+                else -> println(e.message)
+            }
+        }
+        return null
+    }
+
+    suspend fun payOffDebt(token: String, debtId: Int): ServerResponseDTO? {
+        val apiService = RetrofitService.contactsCallsJwt(token)
+        try {
+            val responseServer: Map<String, Any> = apiService.payOffDebt(debtId)
+            return responseServer.toServerResponseDTO()
+
+        } catch (e: Exception) {
+            when (e) {
+                is HttpException -> {
+                    val errorMessage = e.response()?.errorBody()?.string()
+                    println("Error en payOffDebt: $errorMessage")
                 }
 
                 else -> println(e.message)

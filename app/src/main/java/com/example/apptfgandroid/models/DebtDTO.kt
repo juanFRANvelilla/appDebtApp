@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 
 data class DebtDTO(
+    val id: Int,
     @SerializedName("creditor")
     val isCreditor: Boolean,
     val counterpartyUser: UserDTO,
