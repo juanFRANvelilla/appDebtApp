@@ -1,6 +1,6 @@
 package com.example.apptfgandroid.ui.screens.currentDebts
 
-import com.example.apptfgandroid.models.DebtDTO
+import com.example.apptfgandroid.models.debt.DebtDTO
 
 data class CurrentDebtsState(
     val debtList: List<DebtDTO> = emptyList(),

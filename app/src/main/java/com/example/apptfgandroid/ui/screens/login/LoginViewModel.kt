@@ -1,7 +1,7 @@
 package com.example.apptfgandroid.ui.screens.login
 
 import androidx.lifecycle.ViewModel
-import com.example.apptfgandroid.models.LoginRequestDTO
+import com.example.apptfgandroid.models.access.LoginRequestDTO
 import com.example.apptfgandroid.useCase.UseCaseLogin
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

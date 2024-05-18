@@ -18,7 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.dp
-import com.example.apptfgandroid.models.LoginRequestDTO
+import com.example.apptfgandroid.models.access.LoginRequestDTO
 import com.example.apptfgandroid.ui.common.composables.PasswordTextField
 import com.example.apptfgandroid.ui.common.composables.TelephoneTextField
 import org.koin.androidx.compose.getViewModel

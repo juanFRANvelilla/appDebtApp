@@ -49,10 +49,10 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.toSize
-import com.example.apptfgandroid.models.CreateDebtDTO
+import com.example.apptfgandroid.models.debt.CreateDebtDTO
 import com.example.apptfgandroid.ui.common.composables.BottomBar
 import org.koin.androidx.compose.getViewModel
-import com.example.apptfgandroid.models.UserDTO
+import com.example.apptfgandroid.models.user.UserDTO
 import com.example.apptfgandroid.ui.common.ItemBottomNav
 
 @OptIn(ExperimentalMaterial3Api::class)

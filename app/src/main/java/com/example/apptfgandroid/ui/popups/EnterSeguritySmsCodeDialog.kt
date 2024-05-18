@@ -32,7 +32,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import com.example.apptfgandroid.models.CreateUserDTO
+import com.example.apptfgandroid.models.user.CreateUserDTO
 import com.example.apptfgandroid.ui.screens.register.RegisterViewModel
 import com.example.tfgapp.models.ServerResponseDTO
 

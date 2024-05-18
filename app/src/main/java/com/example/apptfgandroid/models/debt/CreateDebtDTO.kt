@@ -1,4 +1,4 @@
-package com.example.apptfgandroid.models
+package com.example.apptfgandroid.models.debt
 
 data class CreateDebtDTO(
     val debtorUsername: String,

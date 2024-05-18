@@ -1,8 +1,8 @@
 package com.example.apptfgandroid.repository
 
 import com.example.apptfgandroid.dataSource.RegisterRemoteDataSource
-import com.example.apptfgandroid.models.CreateUserDTO
-import com.example.apptfgandroid.models.PhoneValidationDTO
+import com.example.apptfgandroid.models.user.CreateUserDTO
+import com.example.apptfgandroid.models.access.PhoneValidationDTO
 import com.example.tfgapp.models.ServerResponseDTO
 
 class RepositoryRegister(

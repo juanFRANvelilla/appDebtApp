@@ -1,7 +1,7 @@
 package com.example.apptfgandroid.repository
 
 import com.example.apptfgandroid.dataSource.MainMenuRemoteDataSource
-import com.example.apptfgandroid.models.BalanceDTO
+import com.example.apptfgandroid.models.balance.BalanceDTO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 

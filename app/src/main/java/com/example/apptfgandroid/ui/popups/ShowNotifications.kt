@@ -13,7 +13,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.foundation.lazy.items
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import com.example.apptfgandroid.models.UserDTO
+import com.example.apptfgandroid.models.user.UserDTO
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button

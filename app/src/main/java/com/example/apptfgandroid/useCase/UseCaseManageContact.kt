@@ -1,7 +1,7 @@
 package com.example.apptfgandroid.useCase
 
 import com.example.apptfgandroid.commonViewModel.ManageTokenViewModel
-import com.example.apptfgandroid.models.UserDTO
+import com.example.apptfgandroid.models.user.UserDTO
 //import com.example.apptfgandroid.repository.PreferencesRepository
 import com.example.apptfgandroid.repository.ManageContactsRepository
 import com.example.tfgapp.models.ServerResponseDTO

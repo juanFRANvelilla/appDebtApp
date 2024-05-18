@@ -1,4 +1,4 @@
-package com.example.apptfgandroid.models
+package com.example.apptfgandroid.models.balance
 
 data class BalanceDTO (
     val owe: Double,

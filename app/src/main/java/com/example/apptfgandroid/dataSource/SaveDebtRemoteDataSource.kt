@@ -1,6 +1,6 @@
 package com.example.apptfgandroid.dataSource
 
-import com.example.apptfgandroid.models.CreateDebtDTO
+import com.example.apptfgandroid.models.debt.CreateDebtDTO
 import com.example.tfgapp.models.ConvertResponseToServerResponseDTO
 import com.example.tfgapp.models.ServerResponseDTO
 import com.example.tfgapp.models.toServerResponseDTO

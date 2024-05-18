@@ -1,7 +1,7 @@
 package com.example.apptfgandroid.useCase
 
-import com.example.apptfgandroid.models.CreateUserDTO
-import com.example.apptfgandroid.models.PhoneValidationDTO
+import com.example.apptfgandroid.models.user.CreateUserDTO
+import com.example.apptfgandroid.models.access.PhoneValidationDTO
 import com.example.apptfgandroid.repository.RepositoryRegister
 import com.example.tfgapp.models.ServerResponseDTO
 

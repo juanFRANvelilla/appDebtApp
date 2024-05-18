@@ -1,6 +1,6 @@
 package com.example.apptfgandroid.dataSource
 
-import com.example.apptfgandroid.models.DebtDTO
+import com.example.apptfgandroid.models.debt.DebtDTO
 import com.example.tfgapp.models.ServerResponseDTO
 import com.example.tfgapp.models.toServerResponseDTO
 import com.example.tfgapp.service.RetrofitService

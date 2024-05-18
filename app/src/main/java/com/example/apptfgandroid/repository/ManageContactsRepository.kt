@@ -1,7 +1,7 @@
 package com.example.apptfgandroid.repository
 
 import com.example.apptfgandroid.dataSource.ManageContactsRemoteDataSource
-import com.example.apptfgandroid.models.UserDTO
+import com.example.apptfgandroid.models.user.UserDTO
 import com.example.tfgapp.models.ServerResponseDTO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

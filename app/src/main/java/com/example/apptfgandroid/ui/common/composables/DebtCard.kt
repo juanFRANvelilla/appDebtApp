@@ -31,7 +31,7 @@ import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
-import com.example.apptfgandroid.models.DebtDTO
+import com.example.apptfgandroid.models.debt.DebtDTO
 
 @Composable
 fun DebtCard(

@@ -1,7 +1,7 @@
 package com.example.apptfgandroid.ui.screens.mainMenu
 
 import androidx.lifecycle.ViewModel
-import com.example.apptfgandroid.models.UserDTO
+import com.example.apptfgandroid.models.user.UserDTO
 import com.example.apptfgandroid.useCase.UseCaseMainMenu
 import com.example.apptfgandroid.useCase.UseCaseManageContact
 import com.example.apptfgandroid.utils.toCommonMutableStateFlow

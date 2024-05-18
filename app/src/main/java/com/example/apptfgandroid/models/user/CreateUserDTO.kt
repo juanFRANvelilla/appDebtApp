@@ -1,4 +1,4 @@
-package com.example.apptfgandroid.models
+package com.example.apptfgandroid.models.user
 
 import com.google.gson.annotations.SerializedName
 

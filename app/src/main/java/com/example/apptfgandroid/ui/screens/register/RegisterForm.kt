@@ -25,8 +25,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.example.apptfgandroid.models.CreateUserDTO
-import com.example.apptfgandroid.models.PhoneValidationDTO
+import com.example.apptfgandroid.models.user.CreateUserDTO
+import com.example.apptfgandroid.models.access.PhoneValidationDTO
 import com.example.apptfgandroid.ui.common.composables.PasswordTextField
 import com.example.apptfgandroid.ui.common.composables.TelephoneTextField
 import com.example.apptfgandroid.ui.popups.EnterSeguritySmsCodeDialog

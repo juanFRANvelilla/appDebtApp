@@ -1,6 +1,6 @@
 package com.example.apptfgandroid.dataSource
 
-import com.example.apptfgandroid.models.UserDTO
+import com.example.apptfgandroid.models.user.UserDTO
 import com.example.tfgapp.models.ConvertResponseToServerResponseDTO
 import com.example.tfgapp.models.ServerResponseDTO
 import com.example.tfgapp.models.toServerResponseDTO

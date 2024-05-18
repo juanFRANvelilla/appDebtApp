@@ -1,6 +1,6 @@
 package com.example.apptfgandroid.dataSource
 
-import com.example.apptfgandroid.models.BalanceDTO
+import com.example.apptfgandroid.models.balance.BalanceDTO
 import com.example.tfgapp.service.RetrofitService
 import retrofit2.HttpException
 

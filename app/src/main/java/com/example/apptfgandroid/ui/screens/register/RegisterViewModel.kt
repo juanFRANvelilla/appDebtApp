@@ -1,8 +1,8 @@
 package com.example.apptfgandroid.ui.screens.register
 
 import androidx.lifecycle.ViewModel
-import com.example.apptfgandroid.models.CreateUserDTO
-import com.example.apptfgandroid.models.PhoneValidationDTO
+import com.example.apptfgandroid.models.user.CreateUserDTO
+import com.example.apptfgandroid.models.access.PhoneValidationDTO
 import com.example.apptfgandroid.useCase.UseCaseRegister
 import com.example.tfgapp.models.ServerResponseDTO
 import kotlinx.coroutines.CoroutineScope

@@ -1,6 +1,6 @@
 package com.example.apptfgandroid.dataSource
 
-import com.example.apptfgandroid.models.LoginRequestDTO
+import com.example.apptfgandroid.models.access.LoginRequestDTO
 import com.example.tfgapp.models.ServerResponseDTO
 import com.example.tfgapp.models.toServerResponseDTO
 import com.example.tfgapp.service.ApiService

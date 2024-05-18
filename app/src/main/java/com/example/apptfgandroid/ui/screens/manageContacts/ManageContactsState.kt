@@ -1,6 +1,6 @@
 package com.example.apptfgandroid.ui.screens.manageContacts
 
-import com.example.apptfgandroid.models.UserDTO
+import com.example.apptfgandroid.models.user.UserDTO
 import com.example.tfgapp.models.ServerResponseDTO
 
 data class ManageContactsState(

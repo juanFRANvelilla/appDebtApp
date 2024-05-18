@@ -1,12 +1,12 @@
 package com.example.tfgapp.service
 
-import com.example.apptfgandroid.models.BalanceDTO
-import com.example.apptfgandroid.models.CreateDebtDTO
-import com.example.apptfgandroid.models.CreateUserDTO
-import com.example.apptfgandroid.models.DebtDTO
-import com.example.apptfgandroid.models.LoginRequestDTO
-import com.example.apptfgandroid.models.PhoneValidationDTO
-import com.example.apptfgandroid.models.UserDTO
+import com.example.apptfgandroid.models.balance.BalanceDTO
+import com.example.apptfgandroid.models.debt.CreateDebtDTO
+import com.example.apptfgandroid.models.user.CreateUserDTO
+import com.example.apptfgandroid.models.debt.DebtDTO
+import com.example.apptfgandroid.models.access.LoginRequestDTO
+import com.example.apptfgandroid.models.access.PhoneValidationDTO
+import com.example.apptfgandroid.models.user.UserDTO
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response

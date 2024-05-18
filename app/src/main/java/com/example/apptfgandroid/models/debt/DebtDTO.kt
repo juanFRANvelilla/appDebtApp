@@ -1,5 +1,6 @@
-package com.example.apptfgandroid.models
+package com.example.apptfgandroid.models.debt
 
+import com.example.apptfgandroid.models.user.UserDTO
 import com.google.gson.annotations.SerializedName
 
 

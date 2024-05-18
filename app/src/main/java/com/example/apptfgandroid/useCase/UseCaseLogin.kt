@@ -1,7 +1,7 @@
 package com.example.apptfgandroid.useCase
 
 import com.example.apptfgandroid.commonViewModel.ManageTokenViewModel
-import com.example.apptfgandroid.models.LoginRequestDTO
+import com.example.apptfgandroid.models.access.LoginRequestDTO
 //import com.example.apptfgandroid.repository.PreferencesRepository
 import com.example.apptfgandroid.repository.LoginRepository
 

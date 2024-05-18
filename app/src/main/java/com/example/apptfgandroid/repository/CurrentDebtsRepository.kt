@@ -1,7 +1,7 @@
 package com.example.apptfgandroid.repository
 
 import com.example.apptfgandroid.dataSource.CurrentDebtsRemoteDataSource
-import com.example.apptfgandroid.models.DebtDTO
+import com.example.apptfgandroid.models.debt.DebtDTO
 import com.example.tfgapp.models.ServerResponseDTO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

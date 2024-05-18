@@ -1,7 +1,7 @@
 package com.example.apptfgandroid.repository
 
 import com.example.apptfgandroid.dataSource.SaveDebtRemoteDataSource
-import com.example.apptfgandroid.models.CreateDebtDTO
+import com.example.apptfgandroid.models.debt.CreateDebtDTO
 import com.example.tfgapp.models.ServerResponseDTO
 
 class SaveDebtRepository(
