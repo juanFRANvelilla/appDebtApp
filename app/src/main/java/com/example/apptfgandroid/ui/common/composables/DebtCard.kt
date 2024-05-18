@@ -51,7 +51,7 @@ fun DebtCard(
             )
             .border(
                 width = 1.dp,
-                color = Color.Gray,
+                color = MaterialTheme.colorScheme.primary,
                 shape = RoundedCornerShape(4.dp)
             )
     ) {

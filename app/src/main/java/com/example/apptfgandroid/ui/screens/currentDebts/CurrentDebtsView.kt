@@ -49,6 +49,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.apptfgandroid.ui.common.ItemBottomNav
 import com.example.apptfgandroid.ui.common.composables.BottomBar
+import com.example.apptfgandroid.ui.common.composables.BottomSheetContent
 import com.example.apptfgandroid.ui.common.composables.DebtCard
 import com.example.apptfgandroid.ui.common.composables.PaymentOption
 import com.example.apptfgandroid.ui.common.composables.SelectableBox
@@ -80,56 +81,7 @@ fun debt(){
 }
 
 
-@Composable
-fun BottomSheetContent(onDismiss: () -> Unit, onAccept: () -> Unit) {
-    Box(
-        modifier = Modifier
-            .clip(RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp))
-            .background(Color.White)
-    ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp)
-        ) {
-            Text(
-                text = "¿Estás seguro de que quieres dejar saldada esta deuda?",
-                style = MaterialTheme.typography.bodyLarge
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 12.dp),
-                horizontalArrangement = Arrangement.Center
-            ) {
-                TextButton(
-                    onClick = {
-                        onDismiss()
-                    },
-                    modifier = Modifier.padding(end = 8.dp)
-                ) {
-                    Icon(imageVector = Icons.Default.Close, contentDescription = null)
-                    Text("Cancelar")
-                }
 
-                TextButton(
-                    onClick = {
-                        onAccept()
-                    }
-                ) {
-                    Icon(imageVector = Icons.Default.Check, contentDescription = null)
-                    Text("Aceptar")
-                }
-
-            }
-
-        }
-
-    }
-
-}
 
 
 
@@ -148,6 +100,7 @@ fun CurrentDebtsView(navController: NavHostController?) {
         sheetState = bottomSheetState,
         sheetContent = {
             BottomSheetContent(
+                message = "¿Estás seguro de que quieres pagar esta deuda?",
                 onDismiss = {
                     scope.launch {
                         bottomSheetState.hide()
