@@ -149,12 +149,17 @@ fun MainMenuContent(
     ) {
         val owe = String.format("%.2f", state.balance.owe).toDouble()
         val owed = String.format("%.2f", state.balance.owed).toDouble()
-        PieChart(
-            data = mapOf(
-                Pair("Debes", owe),
-                Pair("Te deben", owed),
+        if ((owe > 0.0) || (owed > 0.0)){
+            PieChart(
+                data = mapOf(
+                    Pair("Debes", owe),
+                    Pair("Te deben", owed),
+                )
             )
-        )
+        } else {
+            Text(text = "No tienes deudas pendientes")
+        }
+
 
     }
 }
