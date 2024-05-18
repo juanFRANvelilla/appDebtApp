@@ -8,7 +8,8 @@ data class MainMenuState(
     val notificationList: NotificationDTO? = NotificationDTO(emptyList()),
     var deleteToken: () -> Unit = {},
     var acceptContactRequest: (UserDTO) -> Unit = { _ -> },
-    var balance: BalanceDTO = BalanceDTO.empty
+    var balance: BalanceDTO = BalanceDTO.empty,
+    var removeNotification: () -> Unit = { },
     ){
         companion object {
             val empty = MainMenuState()

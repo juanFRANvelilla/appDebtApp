@@ -20,6 +20,8 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
+import com.example.apptfgandroid.models.notification.NotificationDTO
+import com.example.apptfgandroid.ui.screens.mainMenu.MainMenuState
 
 //@Preview
 //@Composable
@@ -32,9 +34,10 @@ import androidx.compose.runtime.remember
 fun ShowNotifications(
     onDismiss: () -> Unit,
     onAcceptRequest: (UserDTO) -> Unit,
-    requestList: MutableList<UserDTO>
+    state: MainMenuState
 ) {
-    val requestListState = remember { mutableStateListOf(*requestList.toTypedArray()) }
+    val notifications = state.notificationList
+    val numberOfNofifications = notifications?.requestContactList?.size //sumarle las notificaciones de deudas
 
     Dialog(
         onDismissRequest = {
@@ -47,24 +50,21 @@ fun ShowNotifications(
                     color = MaterialTheme.colorScheme.background,
                     shape = RoundedCornerShape(14.dp)
                 )
-                .height(if(requestListState.size < 3) 120.dp * requestListState.size else 360.dp)
+                .height(if(numberOfNofifications!! < 3) 120.dp * numberOfNofifications else 360.dp)
         ) {
             LazyColumn(
                 modifier = Modifier
                     .padding(14.dp)
             ) {
-
-                items(requestListState) { user ->
-                    if(requestListState.size == 0){
-                            Text("no tienes notificaciones")
-                        }
+                val sortedList = notifications.requestContactList.sortedByDescending { it.date }
+                items(sortedList) { requestContactList ->
                     Column {
-                        Text(text = user.username, color = Color.Red)
-                        Text(text = "${user.firstName} ${user.lastName} ha solicitado ser tu contacto")
+                        Text(text = requestContactList.userRequest.username, color = Color.Red)
+                        Text(text = "${requestContactList.userRequest.firstName} ${requestContactList.userRequest.lastName} ha solicitado ser tu contacto")
                         Button(
                             onClick = {
-                                onAcceptRequest(user)
-                                requestListState.remove(user)
+                                onAcceptRequest(requestContactList.userRequest)
+                                state.removeNotification()
                             }
                         )
                         {

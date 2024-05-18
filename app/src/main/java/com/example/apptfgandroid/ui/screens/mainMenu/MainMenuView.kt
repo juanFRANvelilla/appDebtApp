@@ -72,7 +72,9 @@ fun TopBar(
     navController: NavController?,
     state: MainMenuState
 ){
-    val requestList = state.contactRequest
+    val notifications = state.notificationList
+    val numberOfNofifications = notifications?.requestContactList?.size //sumarle las notificaciones de deudas
+
     var expandedRequest by remember { mutableStateOf(false) }
     TopAppBar(
         title = { Text(text = "Debt App") },
@@ -108,9 +110,9 @@ fun TopBar(
                     modifier = Modifier
                         .padding(end = 18.dp),
                 )
-                val numberOfRequest = requestList.size
+
                 Text(
-                    text = if (numberOfRequest < 10) numberOfRequest.toString() else " 9+",
+                    text = if (numberOfNofifications!! < 10) numberOfNofifications.toString() else " 9+",
                     modifier = Modifier
                         .padding(start = 14.dp, bottom = 14.dp),
                     color = Color.White,
@@ -123,12 +125,12 @@ fun TopBar(
             titleContentColor = MaterialTheme.colorScheme.onPrimary
         )
     )
-    if(expandedRequest && state.contactRequest.isNotEmpty()){
+    if(expandedRequest && numberOfNofifications!! > 0){
         ShowNotifications(
             onDismiss = {
                 expandedRequest = false
             },
-            requestList = requestList.toMutableList(),
+            state = state,
             onAcceptRequest = {
                 state.acceptContactRequest(it)
             }

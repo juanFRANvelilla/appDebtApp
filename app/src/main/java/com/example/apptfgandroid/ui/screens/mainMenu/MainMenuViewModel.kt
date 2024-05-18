@@ -29,6 +29,7 @@ class MainMenuViewModel(
         }
         _state.value.deleteToken = { deleteToken() }
         _state.value.acceptContactRequest = { userDTO -> acceptContactRequest(userDTO) }
+        _state.value.removeNotification = { getRequest() }
     }
 
     private fun deleteToken(){
