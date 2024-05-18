@@ -12,8 +12,8 @@ import com.example.apptfgandroid.dataSource.SaveDebtRemoteDataSource
 import com.example.apptfgandroid.repository.CurrentDebtsRepository
 import com.example.apptfgandroid.repository.MainMenuRepository
 //import com.example.apptfgandroid.repository.PreferencesRepository
-import com.example.apptfgandroid.repository.RepositoryLogin
-import com.example.apptfgandroid.repository.RepositoryManageContacts
+import com.example.apptfgandroid.repository.LoginRepository
+import com.example.apptfgandroid.repository.ManageContactsRepository
 import com.example.apptfgandroid.repository.RepositoryRegister
 import com.example.apptfgandroid.repository.SaveDebtRepository
 import com.example.apptfgandroid.ui.screens.currentDebts.CurrentDebtsViewModel
@@ -56,7 +56,7 @@ val appModule = module {
     //dependencias para el view model de login
     single{ preferencesDataStore(name = "preferences") }
     single<LoginRemoteDataSource> { LoginRemoteDataSource(get()) }
-    single<RepositoryLogin> { RepositoryLogin(get()) }
+    single<LoginRepository> { LoginRepository(get()) }
     single<UseCaseLogin> { UseCaseLogin(get(), get()) }
     viewModel { LoginViewModel(get()) }
 
@@ -69,7 +69,7 @@ val appModule = module {
 
     //dependencias para el view model de manageContacts
     single<ManageContactsRemoteDataSource> { ManageContactsRemoteDataSource() }
-    single<RepositoryManageContacts>{ RepositoryManageContacts(get()) }
+    single<ManageContactsRepository>{ ManageContactsRepository(get()) }
     single<UseCaseManageContact>{ UseCaseManageContact(get(), get()) }
     viewModel { ManageContactsViewModel(get()) }
 

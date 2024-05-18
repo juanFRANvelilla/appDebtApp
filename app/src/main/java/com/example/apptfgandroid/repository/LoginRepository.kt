@@ -4,7 +4,7 @@ import com.example.apptfgandroid.dataSource.LoginRemoteDataSource
 import com.example.apptfgandroid.models.LoginRequestDTO
 import com.example.tfgapp.models.ServerResponseDTO
 
-class RepositoryLogin(
+class LoginRepository(
     private val loginRemoteDataSource: LoginRemoteDataSource,
 ) {
     suspend fun doLogin(loginRequest: LoginRequestDTO): ServerResponseDTO = loginRemoteDataSource.doLogin(loginRequest)

@@ -3,12 +3,12 @@ package com.example.apptfgandroid.useCase
 import com.example.apptfgandroid.commonViewModel.ManageTokenViewModel
 import com.example.apptfgandroid.models.UserDTO
 //import com.example.apptfgandroid.repository.PreferencesRepository
-import com.example.apptfgandroid.repository.RepositoryManageContacts
+import com.example.apptfgandroid.repository.ManageContactsRepository
 import com.example.tfgapp.models.ServerResponseDTO
 import kotlinx.coroutines.flow.Flow
 
 class UseCaseManageContact(
-    private val repository: RepositoryManageContacts,
+    private val repository: ManageContactsRepository,
     private val manageTokenViewModel: ManageTokenViewModel
 //    private val preferencesRepository: PreferencesRepository
 ) {

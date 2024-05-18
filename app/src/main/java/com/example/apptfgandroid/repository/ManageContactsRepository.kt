@@ -6,7 +6,7 @@ import com.example.tfgapp.models.ServerResponseDTO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
-class RepositoryManageContacts(
+class ManageContactsRepository(
     private val manageContactsRemoteDataSource: ManageContactsRemoteDataSource
 ) {
     suspend fun getContacts(token: String): Flow<Set<UserDTO>> = flow {
