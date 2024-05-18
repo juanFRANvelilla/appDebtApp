@@ -10,4 +10,6 @@ class UseCaseMainMenu(
 ) {
     fun deleteToken() = manageTokenViewModel.setToken("")
     suspend fun getBalance() = mainMenuRepository.getBalance(manageTokenViewModel.getToken())
+
+    suspend fun getNotifications() = mainMenuRepository.getNotifications(manageTokenViewModel.getToken())
 }

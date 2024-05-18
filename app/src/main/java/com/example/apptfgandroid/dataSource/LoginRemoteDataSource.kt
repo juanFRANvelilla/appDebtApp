@@ -15,7 +15,7 @@ class LoginRemoteDataSource(
 
     suspend fun doLogin(loginRequest: LoginRequestDTO): ServerResponseDTO {
         val response = apiService.login(loginRequest)
-        println(response)
+        println("login response: $response")
         return response.toServerResponseDTO()
     }
 }

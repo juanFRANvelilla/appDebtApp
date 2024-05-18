@@ -16,7 +16,7 @@ class MainMenuViewModel(
     private val useCaseManageContact: UseCaseManageContact,
     private val useCaseMainMenu: UseCaseMainMenu,
 
-): ViewModel() {
+    ): ViewModel() {
     private val viewModelScope =  CoroutineScope(Dispatchers.Main)
 
     private val _state = MutableStateFlow(MainMenuState())
@@ -55,11 +55,12 @@ class MainMenuViewModel(
 
     private fun getRequest(){
         viewModelScope.launch(Dispatchers.Main) {
-            useCaseManageContact.getRequest().collect {request ->
+            useCaseMainMenu.getNotifications().collect {notifications ->
                 withContext(Dispatchers.Main) {
                     _state.update {
+                        println("Recibimos notificaciones $notifications")
                         it.copy(
-                            contactRequest = request
+                            notificationList = notifications
                         )
                     }
                 }
@@ -75,12 +76,12 @@ class MainMenuViewModel(
     }
 
     private fun removeUser(userToRemove: UserDTO) {
-        val currentSet = _state.value.contactRequest
-        val updatedSet = currentSet - userToRemove
-        _state.update {
-            it.copy(
-                contactRequest = updatedSet
-            )
-        }
+//        val currentSet = _state.value.contactRequest
+//        val updatedSet = currentSet - userToRemove
+//        _state.update {
+//            it.copy(
+//                contactRequest = updatedSet
+//            )
+//        }
     }
 }

@@ -18,12 +18,13 @@ class ManageContactsRemoteDataSource() {
     }
 
     suspend fun getRequest(token: String): Set<UserDTO> {
-        val apiService = contactsCallsJwt(token)
-        return try {
-            apiService.showContactRequest()
-        } catch (e: Exception) {
-            emptySet()
-        }
+//        val apiService = contactsCallsJwt(token)
+//        return try {
+//            apiService.showContactRequest()
+//        } catch (e: Exception) {
+//            emptySet()
+//        }
+        return emptySet()
     }
 
     suspend fun sendContactRequest(contactRequest: String, token: String): ServerResponseDTO? {
