@@ -1,6 +1,7 @@
 package com.example.apptfgandroid.useCase
 
 import com.example.apptfgandroid.commonViewModel.ManageTokenViewModel
+import com.example.apptfgandroid.models.notification.DebtNotificationDTO
 import com.example.apptfgandroid.repository.CurrentDebtsRepository
 import com.example.tfgapp.models.ServerResponseDTO
 
@@ -11,4 +12,7 @@ class CurrentDebtsUseCase(
     suspend fun getDebts() = currentDebtsRepository.getDebts(manageTokenViewModel.getToken())
 
     suspend fun payOffDebt(debtId: Int): ServerResponseDTO? = currentDebtsRepository.payOffDebt(manageTokenViewModel.getToken(), debtId)
+
+    suspend fun sendNotification(debtNotification: DebtNotificationDTO) = currentDebtsRepository.sendNotification(debtNotification, manageTokenViewModel.getToken())
+
 }

@@ -37,7 +37,7 @@ fun ShowNotifications(
     state: MainMenuState
 ) {
     val notifications = state.notificationList
-    val numberOfNofifications = notifications?.requestContactList?.size //sumarle las notificaciones de deudas
+    val numberOfNofifications = notifications.requestContactList.size + notifications.debtNotificationList.size
 
     Dialog(
         onDismissRequest = {

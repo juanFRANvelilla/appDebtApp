@@ -6,6 +6,7 @@ import com.example.apptfgandroid.models.user.CreateUserDTO
 import com.example.apptfgandroid.models.debt.DebtDTO
 import com.example.apptfgandroid.models.access.LoginRequestDTO
 import com.example.apptfgandroid.models.access.PhoneValidationDTO
+import com.example.apptfgandroid.models.notification.DebtNotificationDTO
 import com.example.apptfgandroid.models.notification.NotificationDTO
 import com.example.apptfgandroid.models.user.UserDTO
 import okhttp3.Interceptor
@@ -42,6 +43,9 @@ interface ApiService {
 
     @GET("notification/getNotifications")
     suspend fun getNotifications(): NotificationDTO
+
+    @POST("notification/createDebtNotification")
+    suspend fun createDebtNotification(@Body data: DebtNotificationDTO): Map<String, Any>
 
     @POST("debt/saveDebt")
     suspend fun saveDebt(@Body data: CreateDebtDTO): Map<String, Any>

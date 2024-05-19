@@ -1,7 +1,10 @@
 package com.example.apptfgandroid.dataSource
 
 import com.example.apptfgandroid.models.balance.BalanceDTO
+import com.example.apptfgandroid.models.notification.DebtNotificationDTO
 import com.example.apptfgandroid.models.notification.NotificationDTO
+import com.example.tfgapp.models.ServerResponseDTO
+import com.example.tfgapp.models.toServerResponseDTO
 import com.example.tfgapp.service.RetrofitService
 import retrofit2.HttpException
 
@@ -23,19 +26,21 @@ class MainMenuRemoteDataSource {
         return null
     }
 
-    suspend fun getNotifications(token: String): NotificationDTO? {
+    suspend fun getNotifications(token: String): NotificationDTO {
         val apiService = RetrofitService.contactsCallsJwt(token)
         try {
+            println("Getting notifications")
             return apiService.getNotifications()
         } catch (e: Exception) {
             when (e) {
                 is HttpException -> {
                     val errorMessage = e.response()?.errorBody()?.string()
-                    return null
+                    return NotificationDTO.empty()
                 }
                 else -> println(e.message)
             }
         }
-        return null
+        return NotificationDTO.empty()
     }
+
 }

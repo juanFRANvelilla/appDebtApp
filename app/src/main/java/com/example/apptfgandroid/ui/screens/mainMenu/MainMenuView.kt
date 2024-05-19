@@ -73,7 +73,7 @@ fun TopBar(
     state: MainMenuState
 ){
     val notifications = state.notificationList
-    val numberOfNofifications = notifications?.requestContactList?.size //sumarle las notificaciones de deudas
+    val numberOfNofifications = (notifications.requestContactList.size + notifications.debtNotificationList.size)
 
     var expandedRequest by remember { mutableStateOf(false) }
     TopAppBar(

@@ -13,4 +13,18 @@ data class DebtDTO(
     val date: String,
     val description: String,
     val isPaid: Boolean
-)
+){
+    companion object {
+        fun empty(): DebtDTO {
+            return DebtDTO(
+                id = 0,
+                isCreditor = false,
+                counterpartyUser = UserDTO.empty(),
+                amount = 0.0,
+                date = "",
+                description = "",
+                isPaid = false
+            )
+        }
+    }
+}

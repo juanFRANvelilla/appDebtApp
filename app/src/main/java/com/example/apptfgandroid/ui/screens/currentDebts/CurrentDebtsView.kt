@@ -21,6 +21,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.navigation.NavHostController
+import com.example.apptfgandroid.models.notification.DebtNotificationDTO
 import com.example.apptfgandroid.ui.common.ItemBottomNav
 import com.example.apptfgandroid.ui.common.composables.BottomBar
 import com.example.apptfgandroid.ui.common.composables.BottomSheetContent
@@ -68,6 +69,7 @@ fun CurrentDebtsView(navController: NavHostController?) {
     val state by viewModel.state.collectAsState()
     val bottomSheetState = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
     var debtIdToPayOff by remember { mutableStateOf(0) }
+    var debtToSendNotification by remember { mutableStateOf(DebtDTO.empty()) }
 
 
     ModalBottomSheetLayout(
@@ -81,7 +83,7 @@ fun CurrentDebtsView(navController: NavHostController?) {
                     }
                 },
                 onAccept = {
-                    state.payOffDebt(debtIdToPayOff)
+                    state.sendNotification(DebtNotificationDTO(debtToSendNotification, ""))
                     scope.launch {
                         bottomSheetState.hide()
                     }
@@ -100,6 +102,9 @@ fun CurrentDebtsView(navController: NavHostController?) {
                     },
                     onDebtToPayOffChange = {
                         debtIdToPayOff = it
+                    },
+                    ondebtToSendNotificationChange = {
+                        debtToSendNotification = it
                     }
                 )
             },
@@ -114,7 +119,8 @@ fun CurrentDebtsView(navController: NavHostController?) {
 fun CurrentDebtsContent(
     state: CurrentDebtsState,
     onShowBottomSheetChange: (Boolean) -> Unit,
-    onDebtToPayOffChange: (Int) -> Unit
+    onDebtToPayOffChange: (Int) -> Unit,
+    ondebtToSendNotificationChange: (DebtDTO) -> Unit
 
 ) {
     var selectedOption by remember { mutableStateOf(PaymentOption.Owe) }
@@ -158,6 +164,7 @@ fun CurrentDebtsContent(
                     onPayOffDebt = {
                         onShowBottomSheetChange(true)
                         onDebtToPayOffChange(debt.id)
+                        ondebtToSendNotificationChange(debt)
 //                        state.payOffDebt(debt.id)
                     }
                 )

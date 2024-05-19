@@ -1,6 +1,7 @@
 package com.example.apptfgandroid.ui.screens.currentDebts
 
 import androidx.lifecycle.ViewModel
+import com.example.apptfgandroid.models.notification.DebtNotificationDTO
 import com.example.apptfgandroid.useCase.CurrentDebtsUseCase
 import com.example.apptfgandroid.utils.toCommonMutableStateFlow
 import com.example.tfgapp.models.ServerResponseDTO
@@ -20,11 +21,20 @@ class CurrentDebtsViewModel(
     private val _state = MutableStateFlow(CurrentDebtsState())
     val state = _state.toCommonMutableStateFlow()
 
+
     init {
         viewModelScope.launch(Dispatchers.Main) {
             getDebts()
         }
         _state.value.payOffDebt = { debtId -> payOffDebt(debtId) }
+        _state.value.sendNotification = { debtNotification -> sendNotification(debtNotification) }
+    }
+
+    private fun sendNotification(debtNotification: DebtNotificationDTO){
+        println("Sending notification")
+        viewModelScope.launch(Dispatchers.Main) {
+            currentDebtsUseCase.sendNotification(debtNotification)
+        }
     }
 
     private suspend fun getDebts(){

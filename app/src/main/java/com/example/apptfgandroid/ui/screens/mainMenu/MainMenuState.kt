@@ -5,11 +5,11 @@ import com.example.apptfgandroid.models.notification.NotificationDTO
 import com.example.apptfgandroid.models.user.UserDTO
 
 data class MainMenuState(
-    val notificationList: NotificationDTO? = NotificationDTO(emptyList()),
+    val notificationList: NotificationDTO = NotificationDTO(emptyList(), emptyList()),
     var deleteToken: () -> Unit = {},
     var acceptContactRequest: (UserDTO) -> Unit = { _ -> },
     var balance: BalanceDTO = BalanceDTO.empty,
-    var removeNotification: () -> Unit = { },
+    var removeNotification: () -> Unit = { }
     ){
         companion object {
             val empty = MainMenuState()
