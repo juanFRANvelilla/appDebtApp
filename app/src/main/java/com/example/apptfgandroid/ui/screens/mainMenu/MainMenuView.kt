@@ -72,8 +72,8 @@ fun TopBar(
     navController: NavController?,
     state: MainMenuState
 ){
-    val notifications = state.notificationList
-    val numberOfNofifications = (notifications.requestContactList.size + notifications.debtNotificationList.size)
+    val notifications = state.notificationListSorted
+    val numberOfNofifications = notifications.size
 
     var expandedRequest by remember { mutableStateOf(false) }
     TopAppBar(

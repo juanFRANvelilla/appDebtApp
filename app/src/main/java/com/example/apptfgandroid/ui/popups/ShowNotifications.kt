@@ -20,7 +20,9 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
+import com.example.apptfgandroid.models.notification.DebtNotificationDTO
 import com.example.apptfgandroid.models.notification.NotificationDTO
+import com.example.apptfgandroid.models.notification.RequestContactDTO
 import com.example.apptfgandroid.ui.screens.mainMenu.MainMenuState
 
 //@Preview
@@ -36,8 +38,8 @@ fun ShowNotifications(
     onAcceptRequest: (UserDTO) -> Unit,
     state: MainMenuState
 ) {
-    val notifications = state.notificationList
-    val numberOfNofifications = notifications.requestContactList.size + notifications.debtNotificationList.size
+    val notifications = state.notificationListSorted
+    val numberOfNofifications = notifications.size
 
     Dialog(
         onDismissRequest = {
@@ -50,26 +52,34 @@ fun ShowNotifications(
                     color = MaterialTheme.colorScheme.background,
                     shape = RoundedCornerShape(14.dp)
                 )
-                .height(if(numberOfNofifications!! < 3) 120.dp * numberOfNofifications else 360.dp)
+                .height(if(numberOfNofifications < 3) 120.dp * numberOfNofifications else 360.dp)
         ) {
             LazyColumn(
                 modifier = Modifier
                     .padding(14.dp)
             ) {
-                val sortedList = notifications.requestContactList.sortedByDescending { it.date }
-                items(sortedList) { requestContactList ->
+                items(notifications) { notification ->
                     Column {
-                        Text(text = requestContactList.userRequest.username, color = Color.Red)
-                        Text(text = "${requestContactList.userRequest.firstName} ${requestContactList.userRequest.lastName} ha solicitado ser tu contacto")
-                        Button(
-                            onClick = {
-                                onAcceptRequest(requestContactList.userRequest)
-                                state.removeNotification()
+                        when (notification.second) {
+                            is RequestContactDTO -> {
+                                Text(text = (notification.second as RequestContactDTO).userRequest.username, color = Color.Red)
+                                Text(text = "${(notification.second as RequestContactDTO).userRequest.firstName} ${(notification.second as RequestContactDTO).userRequest.lastName} ha solicitado ser tu contacto")
+                                Button(
+                                    onClick = {
+                                        onAcceptRequest((notification.second as RequestContactDTO).userRequest)
+                                        state.removeNotification()
+                                    }
+                                )
+                                {
+                                    Text(text = "ACEPTAR")
+                                }
                             }
-                        )
-                        {
-                            Text(text = "ACEPTAR")
+                            else -> {
+                                Text("Notificacion de deuda")
+                                Text(text = (notification.second as DebtNotificationDTO).debt.description, color = Color.Red)
+                            }
                         }
+
                     }
                 }
             }

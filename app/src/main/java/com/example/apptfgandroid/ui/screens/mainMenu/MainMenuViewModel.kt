@@ -12,6 +12,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class MainMenuViewModel(
     private val useCaseManageContact: UseCaseManageContact,
@@ -61,8 +63,24 @@ class MainMenuViewModel(
                 withContext(Dispatchers.Main) {
                     _state.update {
                         println("Recibimos notificaciones $notifications")
+                        val comonNotifications = mutableListOf<Pair<String, Any>>()
+
+                        notifications.requestContactList.forEach { requestContact ->
+                            comonNotifications.add(requestContact.date to requestContact)
+                        }
+
+                        notifications.debtNotificationList.forEach { debtNotification ->
+                            comonNotifications.add(debtNotification.date to debtNotification)
+                        }
+                        val dateTimeFormatter = DateTimeFormatter.ISO_DATE_TIME
+                        val comonNotificationsSorted = comonNotifications.sortedByDescending { (date, _) ->
+                            LocalDateTime.parse(date, dateTimeFormatter)
+                        }
+
+                        println("Notificaciones ordenadas $comonNotificationsSorted")
+
                         it.copy(
-                            notificationList = notifications
+                            notificationListSorted = comonNotificationsSorted
                         )
                     }
                 }
