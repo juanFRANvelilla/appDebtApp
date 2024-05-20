@@ -2,6 +2,7 @@ package com.example.apptfgandroid.ui.common.composables
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -36,17 +37,19 @@ import com.example.apptfgandroid.models.debt.DebtDTO
 @Composable
 fun DebtCard(
     debt: DebtDTO,
-    onPayOffDebt: () -> Unit
+    onPayOffDebt: () -> Unit,
+    debtToSendNotification: DebtDTO,
+    ondebtToSendNotificationChange: (DebtDTO) -> Unit
 ) {
     val backgroundColor =
-        if(debt.isCreditor)
-            MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.tertiary
+        if(debtToSendNotification == DebtDTO.empty())
+            Color.White else MaterialTheme.colorScheme.primary.copy(alpha = 0.1f)
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .padding(top=10.dp, bottom = 10.dp, start = 5.dp, end = 5.dp)
             .background(
-                color = MaterialTheme.colorScheme.primary.copy(alpha = 0.1f),
+                color = backgroundColor,
                 shape = RoundedCornerShape(4.dp)
             )
             .border(
@@ -54,6 +57,11 @@ fun DebtCard(
                 color = MaterialTheme.colorScheme.primary,
                 shape = RoundedCornerShape(4.dp)
             )
+            .clickable {
+                if(debt.isCreditor and !debt.isPaid){
+                    if(debtToSendNotification == DebtDTO.empty()) ondebtToSendNotificationChange(debt) else ondebtToSendNotificationChange(DebtDTO.empty())
+                }
+            }
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),

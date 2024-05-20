@@ -1,7 +1,14 @@
 package com.example.apptfgandroid.ui.screens.currentDebts
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -15,12 +22,22 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetLayout
 import androidx.compose.material.ModalBottomSheetValue
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Add
+import androidx.compose.material.icons.outlined.Send
 import androidx.compose.material.rememberModalBottomSheetState
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.example.apptfgandroid.models.debt.CreateDebtDTO
 import com.example.apptfgandroid.models.notification.DebtNotificationDTO
 import com.example.apptfgandroid.ui.common.ItemBottomNav
 import com.example.apptfgandroid.ui.common.composables.BottomBar
@@ -83,7 +100,7 @@ fun CurrentDebtsView(navController: NavHostController?) {
                     }
                 },
                 onAccept = {
-                    state.sendNotification(DebtNotificationDTO(debtToSendNotification, ""))
+                    state.payOffDebt(debtIdToPayOff)
                     scope.launch {
                         bottomSheetState.hide()
                     }
@@ -103,6 +120,7 @@ fun CurrentDebtsView(navController: NavHostController?) {
                     onDebtToPayOffChange = {
                         debtIdToPayOff = it
                     },
+                    debtToSendNotification = debtToSendNotification,
                     ondebtToSendNotificationChange = {
                         debtToSendNotification = it
                     }
@@ -120,12 +138,18 @@ fun CurrentDebtsContent(
     state: CurrentDebtsState,
     onShowBottomSheetChange: (Boolean) -> Unit,
     onDebtToPayOffChange: (Int) -> Unit,
+    debtToSendNotification: DebtDTO,
     ondebtToSendNotificationChange: (DebtDTO) -> Unit
 
 ) {
     var selectedOption by remember { mutableStateOf(PaymentOption.Owe) }
+    var showSendNotifficationBottom by remember { mutableStateOf(false) }
 
-    Column(){
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.SpaceBetween,
+        modifier = Modifier.fillMaxSize()
+    ) {
         SelectableBox(
             selectedOption
         ) {
@@ -141,11 +165,12 @@ fun CurrentDebtsContent(
 
         val debtDTO = DebtDTO(
             id = 2,
-            isCreditor = false,
+            isCreditor = true,
             counterpartyUser =  userDTO,
             amount = 1000.0,
             date = LocalDate.now().toString(),
-            description = "Pago de préstamo Pago de préstamo Pago de préstamoPago de préstamoPago de préstamoPago de préstamoPago de préstamo",
+//            description = "Pago de préstamo Pago de préstamo Pago de préstamoPago de préstamoPago de préstamoPago de préstamoPago de préstamo",
+            description = "Pago de préstamo",
             isPaid = false
         )
 
@@ -157,6 +182,8 @@ fun CurrentDebtsContent(
             else -> debtList.filter { it.isCreditor }
         }
 
+        if(selectedOption == PaymentOption.Owed && filteredDebts.size > 0) showSendNotifficationBottom = true
+
         LazyColumn() {
             items(filteredDebts) { debt ->
                 DebtCard(
@@ -164,10 +191,36 @@ fun CurrentDebtsContent(
                     onPayOffDebt = {
                         onShowBottomSheetChange(true)
                         onDebtToPayOffChange(debt.id)
-                        ondebtToSendNotificationChange(debt)
-//                        state.payOffDebt(debt.id)
+                    },
+                    debtToSendNotification = debtToSendNotification,
+                    ondebtToSendNotificationChange = {
+                        ondebtToSendNotificationChange(it)
                     }
+
                 )
+            }
+        }
+
+
+        if(showSendNotifficationBottom){
+            Spacer(modifier = Modifier.weight(1f))
+            Button(
+                modifier = Modifier.padding(bottom = 86.dp),
+                enabled = debtToSendNotification != DebtDTO.empty(),
+                onClick = {
+                    state.sendNotification(DebtNotificationDTO(debtToSendNotification, ""))
+                    ondebtToSendNotificationChange(DebtDTO.empty())
+                }
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ){
+                    Text(
+                        text = "Mandar recordatorio",
+                        modifier = Modifier.padding(end = 10.dp)
+                    )
+                    Icon(Icons.Outlined.Send,"")
+                }
             }
         }
     }
