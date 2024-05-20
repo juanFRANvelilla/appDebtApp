@@ -44,6 +44,9 @@ interface ApiService {
     @GET("notification/getNotifications")
     suspend fun getNotifications(): NotificationDTO
 
+    @POST("notification/deleteDebtNotification")
+    suspend fun removeNotification(@Body data: DebtNotificationDTO): Map<String, Any>
+
     @POST("notification/createDebtNotification")
     suspend fun createDebtNotification(@Body data: DebtNotificationDTO): Map<String, Any>
 

@@ -6,10 +6,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -22,32 +20,26 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Check
-import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import com.example.apptfgandroid.models.notification.DebtNotificationDTO
-import com.example.apptfgandroid.models.notification.NotificationDTO
 import com.example.apptfgandroid.models.notification.RequestContactDTO
 import com.example.apptfgandroid.ui.screens.mainMenu.MainMenuState
-
-//@Preview
-//@Composable
-//fun sdfdsfsssss(){
-//    ShowNotifications(onDismiss = { /*TODO*/ }, request = getUsersExample().toList())
-//}
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun ShowNotifications(
     onDismiss: () -> Unit,
     onAcceptRequest: (UserDTO) -> Unit,
+    onAcceptNotification: (DebtNotificationDTO) -> Unit,
     state: MainMenuState
 ) {
     val notifications = state.notificationListSorted
@@ -82,13 +74,64 @@ fun ShowNotifications(
                                 )
                             }
                             else -> {
-                                Text("Notificacion de deuda")
-                                Text(text = (notification.second as DebtNotificationDTO).debt.description, color = Color.Red)
+                                DebtNotificationCard(
+                                    debtNotification = (notification.second as DebtNotificationDTO),
+                                    onAcceptNotification = {
+                                        onAcceptNotification(it)
+                                    }
+                                )
                             }
                         }
-
                     }
                 }
+            }
+        }
+    }
+}
+
+@Composable
+fun DebtNotificationCard(
+    debtNotification: DebtNotificationDTO,
+    onAcceptNotification: (DebtNotificationDTO) -> Unit,
+){
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
+    ){
+        Column(
+            modifier = Modifier
+                .weight(5.5f)
+        ) {
+            val creditor = debtNotification.debt.counterpartyUser
+            val debtDateTime = LocalDateTime.parse(debtNotification.date)
+            val outputFormatter = DateTimeFormatter.ofPattern("d 'de' MMMM 'del' yyyy", Locale("es"))
+            val debtFormattedDate = debtDateTime.format(outputFormatter)
+            Text(text = creditor.username, color = MaterialTheme.colorScheme.primary)
+            Text(text = "${creditor.firstName} ${creditor.lastName} " +
+                    "te recuerda que le debes ${debtNotification.debt.amount} euros de la deuda '${debtNotification.debt.description}'" +
+                    "del dia $debtFormattedDate")
+        }
+
+        IconButton(
+            modifier = Modifier
+                .weight(2.2f)
+                .padding(start = 5.dp, top=15.dp, bottom = 15.dp)
+                .clip(RoundedCornerShape(10.dp))
+                .background(MaterialTheme.colorScheme.primary),
+            onClick = {
+                onAcceptNotification(debtNotification)
+            }
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(
+                    imageVector = Icons.Outlined.Check,
+                    contentDescription = "",
+                    tint = Color.White
+                )
+                Text(text = "Aceptar", fontSize = 10.sp, color = Color.White)
+
             }
         }
     }
@@ -110,7 +153,6 @@ fun RequestContactNotificationCard(
             Text(text = requestContact.userRequest.username, color = MaterialTheme.colorScheme.primary)
             Text(text = "${requestContact.userRequest.firstName} ${requestContact.userRequest.lastName} ha solicitado ser tu contacto")
         }
-//        Spacer(modifier = Modifier.weight(0.2f))
 
         IconButton(
             modifier = Modifier

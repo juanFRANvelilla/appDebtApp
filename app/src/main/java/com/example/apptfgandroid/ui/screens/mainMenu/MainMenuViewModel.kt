@@ -32,7 +32,7 @@ class MainMenuViewModel(
         }
         _state.value.deleteToken = { deleteToken() }
         _state.value.acceptContactRequest = { userDTO -> acceptContactRequest(userDTO) }
-        _state.value.removeNotification = { getRequest() }
+        _state.value.removeNotification = { debtNotificationDTO ->  removeNotification(debtNotificationDTO) }
     }
 
     private fun deleteToken(){
@@ -88,6 +88,13 @@ class MainMenuViewModel(
     private fun acceptContactRequest(userDTOToAccept: UserDTO){
         viewModelScope.launch(Dispatchers.Main) {
             useCaseManageContact.acceptContactRequest(userDTOToAccept.username)
+            getRequest()
+        }
+    }
+
+    private fun removeNotification(debtNotificationDTO: DebtNotificationDTO){
+        viewModelScope.launch(Dispatchers.Main) {
+            useCaseMainMenu.removeNotification(debtNotificationDTO)
             getRequest()
         }
     }

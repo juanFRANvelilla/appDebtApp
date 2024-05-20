@@ -133,6 +133,9 @@ fun TopBar(
             state = state,
             onAcceptRequest = {
                 state.acceptContactRequest(it)
+            },
+            onAcceptNotification = {
+                state.removeNotification(it)
             }
         )
     }

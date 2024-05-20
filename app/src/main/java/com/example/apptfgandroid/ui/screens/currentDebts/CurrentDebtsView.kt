@@ -6,9 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -23,7 +21,6 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetLayout
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.Send
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.material3.Button
@@ -37,7 +34,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.example.apptfgandroid.models.debt.CreateDebtDTO
 import com.example.apptfgandroid.models.notification.DebtNotificationDTO
 import com.example.apptfgandroid.ui.common.ItemBottomNav
 import com.example.apptfgandroid.ui.common.composables.BottomBar
@@ -139,7 +135,6 @@ fun CurrentDebtsContent(
     onDebtToSendNotificationChange: (DebtDTO) -> Unit
 ) {
     var selectedOption by remember { mutableStateOf(PaymentOption.Owe) }
-//    var showSendNotifficationBottom by remember { mutableStateOf(false) }
 
     val userDTO = UserDTO(
         username = "+346354532",
@@ -174,7 +169,6 @@ fun CurrentDebtsContent(
 
 
 //        val debtList = listOf<DebtDTO>(debtDTO)
-        println("current debts ${state.debtList}")
         val debtList = state.debtList
 
         val filteredDebts: List<DebtDTO> = when (selectedOption) {
@@ -182,10 +176,6 @@ fun CurrentDebtsContent(
             else -> debtList.filter { it.isCreditor }
         }
 
-        println("opcion seleccionada $selectedOption")
-        println("deudas filtradas $filteredDebts")
-
-//        if(selectedOption == PaymentOption.Owed && filteredDebts.size > 0) showSendNotifficationBottom = true
 
         LazyColumn() {
             items(filteredDebts) { debt ->

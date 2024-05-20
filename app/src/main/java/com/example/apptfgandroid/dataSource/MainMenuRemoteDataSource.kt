@@ -29,18 +29,36 @@ class MainMenuRemoteDataSource {
     suspend fun getNotifications(token: String): NotificationDTO {
         val apiService = RetrofitService.contactsCallsJwt(token)
         try {
-            println("Getting notifications")
             return apiService.getNotifications()
         } catch (e: Exception) {
             when (e) {
                 is HttpException -> {
                     val errorMessage = e.response()?.errorBody()?.string()
+                    println(errorMessage)
                     return NotificationDTO.empty()
                 }
                 else -> println(e.message)
             }
         }
         return NotificationDTO.empty()
+    }
+
+    suspend fun removeNotification(debtNotificationDTO: DebtNotificationDTO, token: String): ServerResponseDTO? {
+        val apiService = RetrofitService.contactsCallsJwt(token)
+        try {
+            val response = apiService.removeNotification(debtNotificationDTO)
+            return response.toServerResponseDTO()
+        } catch (e: Exception) {
+            when (e) {
+                is HttpException -> {
+                    val errorMessage = e.response()?.errorBody()?.string()
+                    println(errorMessage)
+                    return null
+                }
+                else -> println(e.message)
+            }
+        }
+        return null
     }
 
 }

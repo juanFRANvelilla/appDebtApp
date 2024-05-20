@@ -20,4 +20,8 @@ class MainMenuRepository(
         val request = mainMenuRemoteDataSource.getNotifications(token)
         emit(request)
     }
+
+    suspend fun removeNotification(debtNotificationDTO: DebtNotificationDTO, token: String): ServerResponseDTO? {
+        return mainMenuRemoteDataSource.removeNotification(debtNotificationDTO, token)
+    }
 }
