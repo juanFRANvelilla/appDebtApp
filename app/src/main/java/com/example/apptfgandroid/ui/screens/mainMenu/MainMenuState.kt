@@ -6,7 +6,6 @@ import com.example.apptfgandroid.models.user.UserDTO
 
 data class MainMenuState(
     val notificationListSorted: List<Pair<String, Any>> = mutableListOf(),
-//    val notificationList: NotificationDTO = NotificationDTO(emptyList(), emptyList()),
     var deleteToken: () -> Unit = {},
     var acceptContactRequest: (UserDTO) -> Unit = { _ -> },
     var balance: BalanceDTO = BalanceDTO.empty,

@@ -39,8 +39,9 @@ fun DebtCard(
     debt: DebtDTO,
     onPayOffDebt: () -> Unit,
     debtToSendNotification: DebtDTO,
-    ondebtToSendNotificationChange: (DebtDTO) -> Unit
+    onDebtToSendNotificationChange: (DebtDTO) -> Unit
 ) {
+    println("mostrar la deuda $debt")
     val backgroundColor =
         if(debtToSendNotification == DebtDTO.empty())
             Color.White else MaterialTheme.colorScheme.primary.copy(alpha = 0.1f)
@@ -59,7 +60,7 @@ fun DebtCard(
             )
             .clickable {
                 if(debt.isCreditor and !debt.isPaid){
-                    if(debtToSendNotification == DebtDTO.empty()) ondebtToSendNotificationChange(debt) else ondebtToSendNotificationChange(DebtDTO.empty())
+                    if(debtToSendNotification == DebtDTO.empty()) onDebtToSendNotificationChange(debt) else onDebtToSendNotificationChange(DebtDTO.empty())
                 }
             }
     ) {

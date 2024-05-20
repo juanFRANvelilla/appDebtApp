@@ -88,7 +88,6 @@ fun CurrentDebtsView(navController: NavHostController?) {
     var debtIdToPayOff by remember { mutableStateOf(0) }
     var debtToSendNotification by remember { mutableStateOf(DebtDTO.empty()) }
 
-
     ModalBottomSheetLayout(
         sheetState = bottomSheetState,
         sheetContent = {
@@ -121,7 +120,7 @@ fun CurrentDebtsView(navController: NavHostController?) {
                         debtIdToPayOff = it
                     },
                     debtToSendNotification = debtToSendNotification,
-                    ondebtToSendNotificationChange = {
+                    onDebtToSendNotificationChange = {
                         debtToSendNotification = it
                     }
                 )
@@ -129,8 +128,6 @@ fun CurrentDebtsView(navController: NavHostController?) {
             bottomBar = { BottomBar(navController, ItemBottomNav.CurrentDebts.title) }
         )
     }
-
-
 }
 
 @Composable
@@ -139,11 +136,28 @@ fun CurrentDebtsContent(
     onShowBottomSheetChange: (Boolean) -> Unit,
     onDebtToPayOffChange: (Int) -> Unit,
     debtToSendNotification: DebtDTO,
-    ondebtToSendNotificationChange: (DebtDTO) -> Unit
-
+    onDebtToSendNotificationChange: (DebtDTO) -> Unit
 ) {
     var selectedOption by remember { mutableStateOf(PaymentOption.Owe) }
-    var showSendNotifficationBottom by remember { mutableStateOf(false) }
+//    var showSendNotifficationBottom by remember { mutableStateOf(false) }
+
+    val userDTO = UserDTO(
+        username = "+346354532",
+        firstName = "Juanfran",
+        lastName = "Velilla",
+        email = "ejemplo@correo.com"
+    )
+
+    val debtDTO = DebtDTO(
+        id = 2,
+        isCreditor = true,
+        counterpartyUser =  userDTO,
+        amount = 1000.0,
+        date = LocalDate.now().toString(),
+//            description = "Pago de préstamo Pago de préstamo Pago de préstamoPago de préstamoPago de préstamoPago de préstamoPago de préstamo",
+        description = "Pago de préstamo",
+        isPaid = false
+    )
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -156,25 +170,11 @@ fun CurrentDebtsContent(
             selectedOption = it
         }
 
-        val userDTO = UserDTO(
-            username = "+346354532",
-            firstName = "Juanfran",
-            lastName = "Velilla",
-            email = "ejemplo@correo.com"
-        )
 
-        val debtDTO = DebtDTO(
-            id = 2,
-            isCreditor = true,
-            counterpartyUser =  userDTO,
-            amount = 1000.0,
-            date = LocalDate.now().toString(),
-//            description = "Pago de préstamo Pago de préstamo Pago de préstamoPago de préstamoPago de préstamoPago de préstamoPago de préstamo",
-            description = "Pago de préstamo",
-            isPaid = false
-        )
+
 
 //        val debtList = listOf<DebtDTO>(debtDTO)
+        println("current debts ${state.debtList}")
         val debtList = state.debtList
 
         val filteredDebts: List<DebtDTO> = when (selectedOption) {
@@ -182,7 +182,10 @@ fun CurrentDebtsContent(
             else -> debtList.filter { it.isCreditor }
         }
 
-        if(selectedOption == PaymentOption.Owed && filteredDebts.size > 0) showSendNotifficationBottom = true
+        println("opcion seleccionada $selectedOption")
+        println("deudas filtradas $filteredDebts")
+
+//        if(selectedOption == PaymentOption.Owed && filteredDebts.size > 0) showSendNotifficationBottom = true
 
         LazyColumn() {
             items(filteredDebts) { debt ->
@@ -193,23 +196,24 @@ fun CurrentDebtsContent(
                         onDebtToPayOffChange(debt.id)
                     },
                     debtToSendNotification = debtToSendNotification,
-                    ondebtToSendNotificationChange = {
-                        ondebtToSendNotificationChange(it)
+                    onDebtToSendNotificationChange = {
+                        onDebtToSendNotificationChange(it)
                     }
 
                 )
             }
         }
 
+        Spacer(modifier =Modifier.weight(1f))
 
-        if(showSendNotifficationBottom){
-            Spacer(modifier = Modifier.weight(1f))
+
+        if(selectedOption == PaymentOption.Owed && filteredDebts.size > 0){
             Button(
                 modifier = Modifier.padding(bottom = 86.dp),
                 enabled = debtToSendNotification != DebtDTO.empty(),
                 onClick = {
                     state.sendNotification(DebtNotificationDTO(debtToSendNotification, ""))
-                    ondebtToSendNotificationChange(DebtDTO.empty())
+                    onDebtToSendNotificationChange(DebtDTO.empty())
                 }
             ) {
                 Row(

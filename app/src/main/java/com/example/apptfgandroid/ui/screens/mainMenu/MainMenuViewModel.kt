@@ -76,9 +76,6 @@ class MainMenuViewModel(
                         val comonNotificationsSorted = comonNotifications.sortedByDescending { (date, _) ->
                             LocalDateTime.parse(date, dateTimeFormatter)
                         }
-
-                        println("Notificaciones ordenadas $comonNotificationsSorted")
-
                         it.copy(
                             notificationListSorted = comonNotificationsSorted
                         )
@@ -91,7 +88,7 @@ class MainMenuViewModel(
     private fun acceptContactRequest(userDTOToAccept: UserDTO){
         viewModelScope.launch(Dispatchers.Main) {
             useCaseManageContact.acceptContactRequest(userDTOToAccept.username)
-            removeUser(userDTOToAccept)
+            getRequest()
         }
     }
 
