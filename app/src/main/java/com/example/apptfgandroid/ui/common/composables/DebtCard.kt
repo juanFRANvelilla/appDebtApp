@@ -45,24 +45,28 @@ fun DebtCard(
     val backgroundColor =
         if(debtToSendNotification == DebtDTO.empty())
             Color.White else MaterialTheme.colorScheme.primary.copy(alpha = 0.1f)
+
+    var modifier = Modifier
+        .fillMaxWidth()
+        .padding(top=10.dp, bottom = 10.dp, start = 5.dp, end = 5.dp)
+        .background(
+            color = backgroundColor,
+            shape = RoundedCornerShape(4.dp)
+        )
+        .border(
+            width = 1.dp,
+            color = MaterialTheme.colorScheme.primary,
+            shape = RoundedCornerShape(4.dp)
+        )
+
+    if(debt.isCreditor and !debt.isPaid){
+        modifier = modifier.clickable {
+            if(debtToSendNotification == DebtDTO.empty()) onDebtToSendNotificationChange(debt) else onDebtToSendNotificationChange(DebtDTO.empty())
+        }
+    }
+
     Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top=10.dp, bottom = 10.dp, start = 5.dp, end = 5.dp)
-            .background(
-                color = backgroundColor,
-                shape = RoundedCornerShape(4.dp)
-            )
-            .border(
-                width = 1.dp,
-                color = MaterialTheme.colorScheme.primary,
-                shape = RoundedCornerShape(4.dp)
-            )
-            .clickable {
-                if(debt.isCreditor and !debt.isPaid){
-                    if(debtToSendNotification == DebtDTO.empty()) onDebtToSendNotificationChange(debt) else onDebtToSendNotificationChange(DebtDTO.empty())
-                }
-            }
+        modifier = modifier
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
