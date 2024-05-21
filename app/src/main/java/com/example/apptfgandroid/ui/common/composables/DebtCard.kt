@@ -41,10 +41,18 @@ fun DebtCard(
     debtToSendNotification: DebtDTO,
     onDebtToSendNotificationChange: (DebtDTO) -> Unit
 ) {
-    println("mostrar la deuda $debt")
-    val backgroundColor =
-        if(debtToSendNotification == DebtDTO.empty())
-            Color.White else MaterialTheme.colorScheme.primary.copy(alpha = 0.1f)
+    var backgroundColor: Color
+    var fontColor: Color
+    if(debtToSendNotification == DebtDTO.empty()){
+        backgroundColor = Color.White
+        fontColor = MaterialTheme.colorScheme.primary
+    } else {
+        backgroundColor = MaterialTheme.colorScheme.primary
+        fontColor = Color.White
+    }
+
+
+
 
     var modifier = Modifier
         .fillMaxWidth()
@@ -69,7 +77,7 @@ fun DebtCard(
         modifier = modifier
     ) {
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth().padding(end = 6.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ){
@@ -78,21 +86,16 @@ fun DebtCard(
                 modifier = Modifier
                     .padding(6.dp)
                     .weight(0.15f)
-//                    .background(Color.Yellow.copy(alpha = 0.4f) , shape = RoundedCornerShape(4.dp))
                     .height(50.dp)
 
             ){
                 if(debt.isPaid){
                     Icon(
-//                    modifier = Modifier
-//                        .weight(0.15f),
                         imageVector = Icons.Outlined.Check, contentDescription = "", tint = Color.Green)
 
                 } else{
                     Icon(
-//                    modifier = Modifier
-//                        .weight(0.15f),
-                        imageVector = rememberPendingActions(), contentDescription = "", tint = MaterialTheme.colorScheme.primary)
+                        imageVector = rememberPendingActions(), contentDescription = "", tint = fontColor)
                 }
             }
 
@@ -111,15 +114,15 @@ fun DebtCard(
                         Row(
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
-                            Text(text = debt.counterpartyUser.firstName)
-                            Text( modifier = Modifier.padding(start=5.dp),text = debt.counterpartyUser.lastName)
-
+                            Text(
+                                text = "${debt.counterpartyUser.firstName} ${debt.counterpartyUser.lastName}",
+                                color = fontColor)
                         }
 
                     }
-                    Text(text = debt.counterpartyUser.username)
+                    Text(text = debt.counterpartyUser.username, color = fontColor)
                 }
-                Divider(color = MaterialTheme.colorScheme.primary, thickness = 2.dp)
+                Divider(color = fontColor, thickness = 2.dp)
                 Row(
                     modifier = Modifier
                         .fillMaxWidth(),
@@ -130,19 +133,21 @@ fun DebtCard(
                     )
                     Spacer(modifier = Modifier.weight(1f))
                     Text(
-                        text = debt.description
+                        text = debt.description,
+                        color = fontColor
                     )
                 }
             }
             if(!debt.isPaid && debt.isCreditor){
                 Box( modifier = Modifier
-                    .weight(0.15f)){
+//                    .weight(0.3f)
+                ){
                     IconButton(
                         onClick = {
                             onPayOffDebt()
-                        },
+                                  },
                         ) {
-                        Icon(imageVector = Icons.Outlined.Send, contentDescription = "")
+                        Icon(imageVector = Icons.Outlined.Send, contentDescription = "", tint = fontColor)
                     }
                 }
             }

@@ -88,7 +88,7 @@ fun CurrentDebtsView(navController: NavHostController?) {
         sheetState = bottomSheetState,
         sheetContent = {
             BottomSheetContent(
-                message = "¿Estás seguro de que quieres pagar esta deuda?",
+                message = "¿Estás seguro de que quieres dejar pagada esta deuda?",
                 onDismiss = {
                     scope.launch {
                         bottomSheetState.hide()
