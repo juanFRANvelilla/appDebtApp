@@ -23,23 +23,20 @@ interface ApiService {
     @POST("login")
     suspend fun login(@Body data: LoginRequestDTO): Map<String, Any>
 
-    @POST("api/confirmPhone")
+    @POST("access/confirmPhone")
     suspend fun confirmPhone(@Body data: PhoneValidationDTO): Map<String, Any>
 
-    @POST("api/validatePhone")
+    @POST("access/validatePhone")
     suspend fun validatePhone(@Body data: CreateUserDTO): Map<String, Any>
 
-    @GET("api2/showContacts")
+    @GET("contact/showContacts")
     suspend fun showContacts(): Set<UserDTO>
 
-    @GET("api2/requestContact")
+    @GET("contact/requestContact")
     suspend fun sendContactRequest(@Query("contactUsername") contactUsername: String): Map<String, Any>
 
-    @GET("api2/acceptRequestContact")
+    @GET("contact/acceptRequestContact")
     suspend fun acceptContactRequest(@Query("contactUsername") contactUsername: String): Map<String, Any>
-
-//    @GET("api2/showRequestContact")
-//    suspend fun showContactRequest(): Set<UserDTO>
 
     @GET("notification/getNotifications")
     suspend fun getNotifications(): NotificationDTO
