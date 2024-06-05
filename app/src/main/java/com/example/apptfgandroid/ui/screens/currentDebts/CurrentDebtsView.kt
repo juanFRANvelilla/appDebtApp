@@ -17,6 +17,7 @@ import com.example.apptfgandroid.models.debt.DebtDTO
 import com.example.apptfgandroid.models.user.UserDTO
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetLayout
 import androidx.compose.material.ModalBottomSheetValue
@@ -102,7 +103,8 @@ fun CurrentDebtsView(navController: NavHostController?) {
                     }
                 }
             )
-        }
+        },
+        sheetShape = RoundedCornerShape(topStart = 18.dp, topEnd = 18.dp),
     ){
         Scaffold (
             content = {
