@@ -1,12 +1,15 @@
 package com.example.apptfgandroid.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.apptfgandroid.commonViewModel.ManageTokenViewModel
 import com.example.apptfgandroid.ui.screens.saveDebt.SaveDebtView
 import com.example.apptfgandroid.ui.screens.currentDebts.CurrentDebtsView
+import com.example.apptfgandroid.ui.screens.historyContactDebts.HistoryContactDebtsView
 import com.example.apptfgandroid.ui.screens.login.LoginForm
 import com.example.apptfgandroid.ui.screens.mainMenu.MainMenu
 import com.example.apptfgandroid.ui.screens.manageContacts.ManageContacts
@@ -54,16 +57,18 @@ fun AppNavigation(manageTokenViewModel: ManageTokenViewModel) {
             )
 
         }
-//        composable(
-//            route = AppScreens.MainMenu.route + "/{data}",
-//            arguments = listOf(
-//                navArgument(name = "data") {
-//                    type = NavType.StringType
-//                }
-//            )
-//        ) {
-//            MainMenu(navController, it.arguments?.getString("data").toString())
-//        }
+        composable(route = AppScreens.HistoryContactDebts.route + "?username={username}",
+            arguments = listOf(
+                navArgument(name = "username") {
+                    nullable = false
+                    defaultValue = ""
+                    type = NavType.StringType
+                }
+            )
+        ) {
+            HistoryContactDebtsView(
+                navController,
+                it.arguments?.getString("username")!!)
+        }
     }
-
 }

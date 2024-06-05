@@ -17,6 +17,7 @@ import com.example.apptfgandroid.repository.ManageContactsRepository
 import com.example.apptfgandroid.repository.RepositoryRegister
 import com.example.apptfgandroid.repository.SaveDebtRepository
 import com.example.apptfgandroid.ui.screens.currentDebts.CurrentDebtsViewModel
+import com.example.apptfgandroid.ui.screens.historyContactDebts.HistoryContactDebtsViewModel
 import com.example.apptfgandroid.ui.screens.mainMenu.MainMenuViewModel
 import com.example.apptfgandroid.ui.screens.register.RegisterViewModel
 import com.example.apptfgandroid.ui.screens.login.LoginViewModel
@@ -91,6 +92,8 @@ val appModule = module {
     single<CurrentDebtsRepository> { CurrentDebtsRepository(get()) }
     single<CurrentDebtsRemoteDataSource> { CurrentDebtsRemoteDataSource() }
     viewModel { CurrentDebtsViewModel(get()) }
+
+    viewModel { HistoryContactDebtsViewModel(get())}
 
 
 }

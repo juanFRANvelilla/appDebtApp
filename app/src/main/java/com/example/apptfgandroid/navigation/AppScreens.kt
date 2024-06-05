@@ -7,4 +7,5 @@ sealed class AppScreens(val route: String){
     object SaveDebt: AppScreens("saveDebt")
     object ManageContacs: AppScreens("manageContacts")
     object CurrentDebtsView: AppScreens("currentDebtsView")
+    object HistoryContactDebts: AppScreens("historyContactDebt")
 }
