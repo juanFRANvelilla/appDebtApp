@@ -2,6 +2,7 @@ package com.example.apptfgandroid.ui.screens.manageContacts
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -39,10 +40,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.apptfgandroid.models.user.UserDTO
+import com.example.apptfgandroid.navigation.AppNavigation
+import com.example.apptfgandroid.navigation.AppScreens
 import com.example.apptfgandroid.ui.common.ItemBottomNav
 import com.example.apptfgandroid.ui.common.composables.BottomBar
 import com.example.apptfgandroid.ui.popups.AddContactDialog
 import org.koin.androidx.compose.getViewModel
+import java.net.URLEncoder
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -54,7 +58,7 @@ fun ManageContacts(
     val viewModel: ManageContactsViewModel = getViewModel()
     val state = viewModel.state.collectAsState()
     Scaffold(
-        content = { ManageContactsContent(state) } ,
+        content = { ManageContactsContent(state, navController) } ,
         topBar = { ToolBarContacts(state = state) },
         bottomBar = { BottomBar(navController, ItemBottomNav.Contacts.title) }
     )
@@ -63,7 +67,7 @@ fun ManageContacts(
 
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
-fun ManageContactsContent(state: State<ManageContactsState>){
+fun ManageContactsContent(state: State<ManageContactsState>, navController: NavController?){
     val contactsList = state.value.contacts.toList()
     LazyColumn(
         modifier = Modifier
@@ -75,6 +79,10 @@ fun ManageContactsContent(state: State<ManageContactsState>){
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(start = 16.dp, bottom = 16.dp)
+                    .clickable {
+                        val encodedUsername = URLEncoder.encode(user.username)
+                        navController?.navigate(AppScreens.HistoryContactDebts.route + "?username=$encodedUsername")
+                    }
             ) {
                 Icon(
                     imageVector = Icons.Default.Person,

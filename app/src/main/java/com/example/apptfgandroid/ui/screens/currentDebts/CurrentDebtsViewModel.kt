@@ -39,7 +39,7 @@ class CurrentDebtsViewModel(
 
     private suspend fun getDebts(){
         viewModelScope.launch(Dispatchers.Main) {
-            currentDebtsUseCase.getDebts().collect {debts ->
+            currentDebtsUseCase.getCurrentDebts().collect {debts ->
                 withContext(Dispatchers.Main) {
                     if(debts != null){
                         _state.update {

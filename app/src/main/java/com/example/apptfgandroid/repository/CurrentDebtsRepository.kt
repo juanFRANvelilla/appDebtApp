@@ -11,8 +11,13 @@ class CurrentDebtsRepository(
     private val currentDebtsRemoteDataSource: CurrentDebtsRemoteDataSource
 ) {
 
-    suspend fun getDebts(token: String): Flow<List<DebtDTO>?> = flow{
-        val request = currentDebtsRemoteDataSource.getDebts(token)
+    suspend fun getCurrentDebts(token: String): Flow<List<DebtDTO>?> = flow{
+        val request = currentDebtsRemoteDataSource.getCurrentDebts(token)
+        emit(request)
+    }
+
+    suspend fun getHistoricalDebts(token: String, counterpartyUser: String): Flow<List<DebtDTO>?> = flow{
+        val request = currentDebtsRemoteDataSource.getHistoricalDebts(token, counterpartyUser)
         emit(request)
     }
 

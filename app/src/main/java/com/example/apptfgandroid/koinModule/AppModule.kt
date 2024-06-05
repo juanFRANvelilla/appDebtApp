@@ -93,7 +93,7 @@ val appModule = module {
     single<CurrentDebtsRemoteDataSource> { CurrentDebtsRemoteDataSource() }
     viewModel { CurrentDebtsViewModel(get()) }
 
-    viewModel { HistoryContactDebtsViewModel(get())}
+    viewModel { _parameters -> HistoryContactDebtsViewModel(get(), _parameters[0])}
 
 
 }

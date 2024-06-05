@@ -42,6 +42,7 @@ import com.example.apptfgandroid.ui.common.composables.PaymentOption
 import com.example.apptfgandroid.ui.common.composables.SelectableBox
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
+import org.koin.core.parameter.parametersOf
 import java.time.LocalDate
 
 
@@ -49,9 +50,8 @@ import java.time.LocalDate
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
 @Composable
 fun HistoryContactDebtsView(navController: NavHostController?, username: String) {
-    println("deudas historicas con $username")
     val scope = rememberCoroutineScope()
-    val viewModel: HistoryContactDebtsViewModel = getViewModel()
+    val viewModel: HistoryContactDebtsViewModel = getViewModel(parameters = { parametersOf(username) })
     val state by viewModel.state.collectAsState()
     val bottomSheetState = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
     var debtIdToPayOff by remember { mutableStateOf(0) }

@@ -56,6 +56,9 @@ interface ApiService {
     @GET("debt/getCurrentDebts")
     suspend fun getCurrentDebts(): List<DebtDTO>
 
+    @GET("debt/getHistoricalDebts")
+    suspend fun getHistoricalDebts(@Query("counterpartyUsername") counterpartyUsername: String): List<DebtDTO>
+
     @GET("debt/payOffDebt")
     suspend fun payOffDebt(@Query("debtId") debtId: Int): Map<String, Any>
 }

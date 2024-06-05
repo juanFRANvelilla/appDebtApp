@@ -13,7 +13,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class HistoryContactDebtsViewModel(
-    private val currentDebtsUseCase: CurrentDebtsUseCase
+    private val currentDebtsUseCase: CurrentDebtsUseCase,
+    counterpartyUser: String
 
 ): ViewModel() {
     private val viewModelScope =  CoroutineScope(Dispatchers.Main)
@@ -23,8 +24,13 @@ class HistoryContactDebtsViewModel(
 
 
     init {
+        _state.update {
+            it.copy(
+                counterpartyUser = counterpartyUser
+            )
+        }
         viewModelScope.launch(Dispatchers.Main) {
-            getDebts()
+            getHistoricalDebts()
         }
         _state.value.payOffDebt = { debtId -> payOffDebt(debtId) }
         _state.value.sendNotification = { debtNotification -> sendNotification(debtNotification) }
@@ -37,9 +43,9 @@ class HistoryContactDebtsViewModel(
         }
     }
 
-    private suspend fun getDebts(){
+    private suspend fun getHistoricalDebts() {
         viewModelScope.launch(Dispatchers.Main) {
-            currentDebtsUseCase.getDebts().collect {debts ->
+            currentDebtsUseCase.getHistoricalDebts(_state.value.counterpartyUser).collect {debts ->
                 withContext(Dispatchers.Main) {
                     if(debts != null){
                         _state.update {
@@ -57,7 +63,7 @@ class HistoryContactDebtsViewModel(
         viewModelScope.launch(Dispatchers.Main) {
             val responseDTO: ServerResponseDTO? = currentDebtsUseCase.payOffDebt(debtId)
             if(responseDTO?.status=="response"){
-                getDebts()
+                getHistoricalDebts()
             }
         }
     }

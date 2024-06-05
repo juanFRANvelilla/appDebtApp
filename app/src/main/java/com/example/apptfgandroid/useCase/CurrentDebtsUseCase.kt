@@ -9,7 +9,9 @@ class CurrentDebtsUseCase(
     private val manageTokenViewModel: ManageTokenViewModel,
     private val currentDebtsRepository: CurrentDebtsRepository
 ) {
-    suspend fun getDebts() = currentDebtsRepository.getDebts(manageTokenViewModel.getToken())
+    suspend fun getCurrentDebts() = currentDebtsRepository.getCurrentDebts(manageTokenViewModel.getToken())
+
+    suspend fun getHistoricalDebts(counterpartyUser: String) = currentDebtsRepository.getHistoricalDebts(manageTokenViewModel.getToken(), counterpartyUser)
 
     suspend fun payOffDebt(debtId: Int): ServerResponseDTO? = currentDebtsRepository.payOffDebt(manageTokenViewModel.getToken(), debtId)
 
