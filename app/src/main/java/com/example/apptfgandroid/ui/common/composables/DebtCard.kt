@@ -14,6 +14,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Check
+import androidx.compose.material.icons.outlined.CheckCircle
+import androidx.compose.material.icons.outlined.Refresh
 import androidx.compose.material.icons.outlined.Send
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
@@ -91,7 +93,7 @@ fun DebtCard(
             ){
                 if(debt.isPaid){
                     Icon(
-                        imageVector = Icons.Outlined.Check, contentDescription = "", tint = Color.Green)
+                        imageVector = Icons.Outlined.Check, contentDescription = "", tint = fontColor, modifier = Modifier.padding(start= 8.dp))
 
                 } else{
                     Icon(
@@ -129,7 +131,8 @@ fun DebtCard(
                     horizontalArrangement = Arrangement.SpaceBetween
                 ){
                     Text(
-                        text = debt.amount.toString(), color = colorAmount
+                        text = String.format("%.2f", debt.amount),
+                        color = colorAmount
                     )
                     Spacer(modifier = Modifier.weight(1f))
                     Text(

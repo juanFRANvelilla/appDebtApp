@@ -20,22 +20,27 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetLayout
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material.icons.outlined.Send
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.example.apptfgandroid.models.notification.DebtNotificationDTO
-import com.example.apptfgandroid.ui.common.ItemBottomNav
-import com.example.apptfgandroid.ui.common.composables.BottomBar
 import com.example.apptfgandroid.ui.common.composables.BottomSheetContent
 import com.example.apptfgandroid.ui.common.composables.DebtCard
 import com.example.apptfgandroid.ui.common.composables.PaymentOption
@@ -49,9 +54,9 @@ import java.time.LocalDate
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
 @Composable
-fun HistoryContactDebtsView(navController: NavHostController?, username: String) {
+fun HistoryContactDebtsView(navController: NavHostController?, counterpartyUsername: String) {
     val scope = rememberCoroutineScope()
-    val viewModel: HistoryContactDebtsViewModel = getViewModel(parameters = { parametersOf(username) })
+    val viewModel: HistoryContactDebtsViewModel = getViewModel(parameters = { parametersOf(counterpartyUsername) })
     val state by viewModel.state.collectAsState()
     val bottomSheetState = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
     var debtIdToPayOff by remember { mutableStateOf(0) }
@@ -77,7 +82,7 @@ fun HistoryContactDebtsView(navController: NavHostController?, username: String)
         }
     ){
         Scaffold (
-            content = {
+            content = {innerPadding ->
                 CurrentDebtsContent(
                     state,
                     onShowBottomSheetChange = {
@@ -91,12 +96,40 @@ fun HistoryContactDebtsView(navController: NavHostController?, username: String)
                     debtToSendNotification = debtToSendNotification,
                     onDebtToSendNotificationChange = {
                         debtToSendNotification = it
-                    }
+                    },
+                    modifier = Modifier.padding(innerPadding)
                 )
             },
-            bottomBar = { BottomBar(navController, ItemBottomNav.CurrentDebts.title) }
+            topBar = { HistoricalContactDebtsTopBar(navController, counterpartyUsername) },
         )
     }
+}
+
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun HistoricalContactDebtsTopBar(
+    navController: NavController?,
+    counterpartyUsername: String
+){
+    TopAppBar(
+        title = { Text(text = "Historial con $counterpartyUsername") },
+        navigationIcon = {
+            IconButton(onClick = {
+                navController?.popBackStack()
+            }) {
+                Icon(
+                    imageVector = Icons.Default.ArrowBack,
+                    contentDescription = "Back",
+                    tint = MaterialTheme.colorScheme.onPrimary
+                )
+            }
+        },
+        colors = TopAppBarDefaults.smallTopAppBarColors(
+            containerColor = MaterialTheme.colorScheme.primary,
+            titleContentColor = MaterialTheme.colorScheme.onPrimary
+        )
+    )
 }
 
 @Composable
@@ -105,7 +138,8 @@ fun CurrentDebtsContent(
     onShowBottomSheetChange: (Boolean) -> Unit,
     onDebtToPayOffChange: (Int) -> Unit,
     debtToSendNotification: DebtDTO,
-    onDebtToSendNotificationChange: (DebtDTO) -> Unit
+    onDebtToSendNotificationChange: (DebtDTO) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     var selectedOption by remember { mutableStateOf(PaymentOption.Owe) }
 
@@ -130,7 +164,7 @@ fun CurrentDebtsContent(
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceBetween,
-        modifier = Modifier.fillMaxSize()
+        modifier = modifier
     ) {
         SelectableBox(
             selectedOption
@@ -186,7 +220,7 @@ fun CurrentDebtsContent(
                         text = "Mandar recordatorio",
                         modifier = Modifier.padding(end = 10.dp)
                     )
-                    Icon(Icons.Outlined.Send,"")
+                    Icon(Icons.Outlined.Notifications,"")
                 }
             }
         }

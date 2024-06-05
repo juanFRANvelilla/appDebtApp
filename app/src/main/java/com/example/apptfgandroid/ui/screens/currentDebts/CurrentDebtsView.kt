@@ -21,6 +21,7 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetLayout
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material.icons.outlined.Send
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.material3.Button
@@ -213,7 +214,7 @@ fun CurrentDebtsContent(
                         text = "Mandar recordatorio",
                         modifier = Modifier.padding(end = 10.dp)
                     )
-                    Icon(Icons.Outlined.Send,"")
+                    Icon(Icons.Outlined.Notifications,"")
                 }
             }
         }
