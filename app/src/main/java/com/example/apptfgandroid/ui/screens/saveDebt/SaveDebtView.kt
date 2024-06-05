@@ -177,20 +177,14 @@ fun SelectContact(
                             verticalAlignment = Alignment.CenterVertically
                         ){
                             Text(
-                                modifier = Modifier.weight(2f),
+                                modifier = Modifier.weight(1f),
                                 text = contact.username
                             )
                             Text(
                                 modifier = Modifier.weight(1f),
-                                text = contact.firstName
+                                text = "${contact.firstName} ${contact.lastName}"
                             )
-                            Text(
-                                modifier = Modifier.weight(1f),
-                                text = contact.lastName
-                            )
-
                         }
-
                     },
                     onClick = {
                         onContactSelected(contact)

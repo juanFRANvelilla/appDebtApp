@@ -19,15 +19,6 @@ fun Map<String, Any>.toServerResponseDTO(): ServerResponseDTO {
     return ServerResponseDTO(status, message)
 }
 
-//fun ConvertResponseToServerResponseDTO(response: String?): ServerResponseDTO{
-//    val type = object : TypeToken<Map<String, Any>>() {}.type
-//    return try {
-//        val errorMap: Map<String, Any> = Gson().fromJson(response, type)
-//        errorMap.toServerResponseDTO()
-//    } catch (e: JsonSyntaxException) {
-//        ServerResponseDTO(status = "error", message = "indefinido")
-//    }
-//}
 
 fun ConvertResponseToServerResponseDTO(response: String?): ServerResponseDTO{
     val type = object : TypeToken<Map<String, Any>>() {}.type
