@@ -14,8 +14,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Check
-import androidx.compose.material.icons.outlined.CheckCircle
-import androidx.compose.material.icons.outlined.Refresh
 import androidx.compose.material.icons.outlined.Send
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
@@ -142,9 +140,9 @@ fun DebtCard(
                 }
             }
             if(!debt.isPaid && debt.isCreditor){
-                Box( modifier = Modifier
-//                    .weight(0.3f)
-                ){
+                Box(
+                    modifier = Modifier
+                ) {
                     IconButton(
                         onClick = {
                             onPayOffDebt()
