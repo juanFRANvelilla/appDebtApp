@@ -43,12 +43,12 @@ fun DebtCard(
 ) {
     var backgroundColor: Color
     var fontColor: Color
-    if(debtToSendNotification == DebtDTO.empty()){
-        backgroundColor = Color.White
-        fontColor = MaterialTheme.colorScheme.primary
-    } else {
+    if(debtToSendNotification == debt){
         backgroundColor = MaterialTheme.colorScheme.primary
         fontColor = Color.White
+    } else {
+        backgroundColor = Color.White
+        fontColor = MaterialTheme.colorScheme.primary
     }
 
 

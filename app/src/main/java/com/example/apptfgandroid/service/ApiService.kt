@@ -23,10 +23,10 @@ interface ApiService {
     @POST("login")
     suspend fun login(@Body data: LoginRequestDTO): Map<String, Any>
 
-    @POST("access/confirmPhone")
+    @POST("api/confirmPhone")
     suspend fun confirmPhone(@Body data: PhoneValidationDTO): Map<String, Any>
 
-    @POST("access/validatePhone")
+    @POST("api/validatePhone")
     suspend fun validatePhone(@Body data: CreateUserDTO): Map<String, Any>
 
     @GET("contact/showContacts")

@@ -56,7 +56,7 @@ fun ShowNotifications(
                     color = MaterialTheme.colorScheme.background,
                     shape = RoundedCornerShape(14.dp)
                 )
-                .height(if (numberOfNofifications < 3) 120.dp * numberOfNofifications else 360.dp)
+                .height(if (numberOfNofifications < 3) 110.dp * numberOfNofifications else 360.dp)
         ) {
             LazyColumn(
                 modifier = Modifier

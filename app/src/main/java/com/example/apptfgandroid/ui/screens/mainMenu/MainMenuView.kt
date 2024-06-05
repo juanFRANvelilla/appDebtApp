@@ -1,6 +1,7 @@
 package com.example.apptfgandroid.ui.screens.mainMenu
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -23,12 +24,15 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.apptfgandroid.R
 import com.example.apptfgandroid.navigation.AppScreens
 import com.example.apptfgandroid.ui.common.ItemBottomNav
 import com.example.apptfgandroid.ui.common.composables.BottomBar
@@ -150,7 +154,8 @@ fun MainMenuContent(
 ) {
     Column(
         modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         val owe = String.format("%.2f", state.balance.owe).toDouble()
         val owed = String.format("%.2f", state.balance.owed).toDouble()
@@ -162,10 +167,8 @@ fun MainMenuContent(
                 )
             )
         } else {
-            Text(text = "No tienes deudas pendientes")
+            Image(painter = painterResource(id = R.drawable.waiting), contentDescription ="")
         }
-
-
     }
 }
 
