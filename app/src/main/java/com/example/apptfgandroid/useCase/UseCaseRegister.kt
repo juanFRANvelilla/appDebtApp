@@ -13,7 +13,6 @@ class UseCaseRegister(
 
     suspend fun validatePhone(createUserDTO: CreateUserDTO): ServerResponseDTO = repositoryRegister.validatePhone(createUserDTO)
 
-
     suspend fun sendSmsCode(smsCode: SmsCode) = repositoryRegister.sendSmsCode(smsCode)
 
 }

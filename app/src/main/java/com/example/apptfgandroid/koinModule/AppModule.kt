@@ -40,14 +40,14 @@ val appModule = module {
     viewModel { ManageTokenViewModel(get()) }
 
 
-//    single(named("urlFastApi")) {
-//        Retrofit.Builder()
-//            .baseUrl("http://127.0.0.3:8003/")
-//            .addConverterFactory(GsonConverterFactory.create())
-//            .build()
-//    }
+    single(named("urlFastApi")) {
+        Retrofit.Builder()
+            .baseUrl("http://192.168.0.128:8003/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    }
 
-    single {
+    single(named("urlBackend")) {
         Retrofit.Builder()
             .baseUrl("http://192.168.0.128:8080/")
             .addConverterFactory(GsonConverterFactory.create())
@@ -57,19 +57,19 @@ val appModule = module {
 
     //dependencias para el view model de login
     single{ preferencesDataStore(name = "preferences") }
-    single<LoginRemoteDataSource> { LoginRemoteDataSource(get()) }
+    single<LoginRemoteDataSource> { LoginRemoteDataSource(get(named("urlBackend"))) }
     single<LoginRepository> { LoginRepository(get()) }
     single<UseCaseLogin> { UseCaseLogin(get(), get()) }
     viewModel { LoginViewModel(get()) }
 
-//    single<RegisterRemoteDataSource> {
-//        val retrofit1: Retrofit = get(named("baseUrl1"))
-//        val retrofit2: Retrofit = get(named("baseUrl2"))
-//        RegisterRemoteDataSource(retrofit1, retrofit2)
-//    }
+
 
     //dependencias para el view model de register
-    single<RegisterRemoteDataSource> { RegisterRemoteDataSource(get()) }
+    single<RegisterRemoteDataSource> {
+        val urlFastApi: Retrofit = get(named("urlFastApi"))
+        val urlBackend: Retrofit = get(named("urlBackend"))
+        RegisterRemoteDataSource(urlFastApi, urlBackend)
+    }
     single<RepositoryRegister> { RepositoryRegister(get()) }
     single<UseCaseRegister> { UseCaseRegister(get()) }
      viewModel { RegisterViewModel(get()) }

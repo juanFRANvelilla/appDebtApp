@@ -70,13 +70,6 @@ interface ApiService {
 
 
 object RetrofitService{
-    fun fastApiCalls(): Retrofit {
-        return Retrofit.Builder()
-            .baseUrl("http://127.0.0.3:8003/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-    }
-
     fun contactsCallsJwt(token: String): ApiService{
         val okHttpClient = OkHttpClient.Builder()
             .addInterceptor(TokenInterceptor(token))
