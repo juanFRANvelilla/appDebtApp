@@ -6,6 +6,7 @@ import com.example.apptfgandroid.models.user.CreateUserDTO
 import com.example.apptfgandroid.models.debt.DebtDTO
 import com.example.apptfgandroid.models.access.LoginRequestDTO
 import com.example.apptfgandroid.models.access.PhoneValidationDTO
+import com.example.apptfgandroid.models.access.SmsCode
 import com.example.apptfgandroid.models.notification.DebtNotificationDTO
 import com.example.apptfgandroid.models.notification.NotificationDTO
 import com.example.apptfgandroid.models.user.UserDTO
@@ -22,6 +23,9 @@ import retrofit2.http.Query
 interface ApiService {
     @POST("login")
     suspend fun login(@Body data: LoginRequestDTO): Map<String, Any>
+
+    @POST("sms")
+    suspend fun sendSms(@Body smsCode: SmsCode)
 
     @POST("api/confirmPhone")
     suspend fun confirmPhone(@Body data: PhoneValidationDTO): Map<String, Any>
@@ -66,6 +70,13 @@ interface ApiService {
 
 
 object RetrofitService{
+    fun fastApiCalls(): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl("http://127.0.0.3:8003/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    }
+
     fun contactsCallsJwt(token: String): ApiService{
         val okHttpClient = OkHttpClient.Builder()
             .addInterceptor(TokenInterceptor(token))

@@ -2,6 +2,7 @@ package com.example.apptfgandroid.useCase
 
 import com.example.apptfgandroid.models.user.CreateUserDTO
 import com.example.apptfgandroid.models.access.PhoneValidationDTO
+import com.example.apptfgandroid.models.access.SmsCode
 import com.example.apptfgandroid.repository.RepositoryRegister
 import com.example.tfgapp.models.ServerResponseDTO
 
@@ -11,5 +12,8 @@ class UseCaseRegister(
     suspend fun confirmPhone(phoneValidationDTO: PhoneValidationDTO): ServerResponseDTO = repositoryRegister.confirmPhone(phoneValidationDTO)
 
     suspend fun validatePhone(createUserDTO: CreateUserDTO): ServerResponseDTO = repositoryRegister.validatePhone(createUserDTO)
+
+
+    suspend fun sendSmsCode(smsCode: SmsCode) = repositoryRegister.sendSmsCode(smsCode)
 
 }

@@ -11,7 +11,6 @@ import com.example.apptfgandroid.dataSource.MainMenuRemoteDataSource
 import com.example.apptfgandroid.dataSource.SaveDebtRemoteDataSource
 import com.example.apptfgandroid.repository.CurrentDebtsRepository
 import com.example.apptfgandroid.repository.MainMenuRepository
-//import com.example.apptfgandroid.repository.PreferencesRepository
 import com.example.apptfgandroid.repository.LoginRepository
 import com.example.apptfgandroid.repository.ManageContactsRepository
 import com.example.apptfgandroid.repository.RepositoryRegister
@@ -30,6 +29,7 @@ import com.example.apptfgandroid.useCase.UseCaseMainMenu
 import com.example.apptfgandroid.useCase.UseCaseManageContact
 import com.example.apptfgandroid.useCase.UseCaseRegister
 import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -40,6 +40,13 @@ val appModule = module {
     viewModel { ManageTokenViewModel(get()) }
 
 
+//    single(named("urlFastApi")) {
+//        Retrofit.Builder()
+//            .baseUrl("http://127.0.0.3:8003/")
+//            .addConverterFactory(GsonConverterFactory.create())
+//            .build()
+//    }
+
     single {
         Retrofit.Builder()
             .baseUrl("http://192.168.0.128:8080/")
@@ -48,18 +55,18 @@ val appModule = module {
     }
 
 
-    //dependencias para el preferenceRepository
-//    val context: Context = getKoin().get()
-//    single { context }
-//    single<PreferencesRepository> {PreferencesRepository(get())}
-
-
     //dependencias para el view model de login
     single{ preferencesDataStore(name = "preferences") }
     single<LoginRemoteDataSource> { LoginRemoteDataSource(get()) }
     single<LoginRepository> { LoginRepository(get()) }
     single<UseCaseLogin> { UseCaseLogin(get(), get()) }
     viewModel { LoginViewModel(get()) }
+
+//    single<RegisterRemoteDataSource> {
+//        val retrofit1: Retrofit = get(named("baseUrl1"))
+//        val retrofit2: Retrofit = get(named("baseUrl2"))
+//        RegisterRemoteDataSource(retrofit1, retrofit2)
+//    }
 
     //dependencias para el view model de register
     single<RegisterRemoteDataSource> { RegisterRemoteDataSource(get()) }

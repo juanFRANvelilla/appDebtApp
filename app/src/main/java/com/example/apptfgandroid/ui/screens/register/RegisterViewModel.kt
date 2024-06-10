@@ -3,6 +3,7 @@ package com.example.apptfgandroid.ui.screens.register
 import androidx.lifecycle.ViewModel
 import com.example.apptfgandroid.models.user.CreateUserDTO
 import com.example.apptfgandroid.models.access.PhoneValidationDTO
+import com.example.apptfgandroid.models.access.SmsCode
 import com.example.apptfgandroid.useCase.UseCaseRegister
 import com.example.tfgapp.models.ServerResponseDTO
 import kotlinx.coroutines.CoroutineScope
@@ -29,6 +30,26 @@ class RegisterViewModel(
                 }
                 else{
                     onIsDialogVisibleChange(true)
+                }
+            }
+        }
+    }
+
+    fun sendSmsCode(
+        smsCode: SmsCode,
+    ) {
+        viewModelScope.launch {
+            withContext(Dispatchers.Main) {
+                try {
+                    useCaseRegister.sendSmsCode(smsCode)
+                } catch (e: Exception) {
+                    when (e) {
+                        is HttpException -> {
+                            val errorMessage = e.response()?.errorBody()?.string()
+                            println(errorMessage)
+                        }
+                        else -> println(e.message)
+                    }
                 }
             }
         }

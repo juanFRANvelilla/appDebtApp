@@ -27,6 +27,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.apptfgandroid.models.user.CreateUserDTO
 import com.example.apptfgandroid.models.access.PhoneValidationDTO
+import com.example.apptfgandroid.models.access.SmsCode
 import com.example.apptfgandroid.ui.common.composables.PasswordTextField
 import com.example.apptfgandroid.ui.common.composables.TelephoneTextField
 import com.example.apptfgandroid.ui.popups.EnterSeguritySmsCodeDialog
@@ -128,10 +129,12 @@ fun RegisterForm(
                 }else {
                     val randomNumber = Random.nextInt(0, 1000000)
                     verificationCode = String.format("%06d", randomNumber)
+                    val completePhoneNumber = countryPrefix + phoneNumber
                     val phoneValidationDTO = PhoneValidationDTO(
-                        username = countryPrefix + phoneNumber,
+                        username = completePhoneNumber,
                         verificationCode = verificationCode
                     )
+                    viewModel.sendSmsCode(SmsCode(to = completePhoneNumber, code = verificationCode))
                     viewModel.confirmPhone(
                         phoneValidationDTO = phoneValidationDTO,
                         onErrorMessageChange = {
