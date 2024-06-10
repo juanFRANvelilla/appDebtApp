@@ -115,12 +115,6 @@ fun SelectContact(
     var isExpanded by remember { mutableStateOf(false) }
     var contact by remember { mutableStateOf("") }
 
-//    val country = arrayOf("India", "USA", "China", "Japan", "India", "USA", "China",
-//        "Japan","India", "USA", "China", "Japan","India", "USA", "China", "Japan",
-//        "India", "USA", "China", "Japan", "India", "USA", "China")
-
-    val country = arrayOf("India", "USA", "China")
-
 
     Column {
         Row(
@@ -143,7 +137,6 @@ fun SelectContact(
                     .padding(start = 5.dp),
                 value = fieldValue,
                 onValueChange = {
-//                    isExpanded = true
                     contact = it
                 },
                 label = { Text("Buscar contacto") },
@@ -169,7 +162,6 @@ fun SelectContact(
             onDismissRequest = { isExpanded = false }
         ) {
                 state.value.contacts.toList().forEach { contact ->
-//            country.forEach { contact ->
                 DropdownMenuItem(
                     modifier = Modifier.padding(start = 10.dp),
                     text = {
