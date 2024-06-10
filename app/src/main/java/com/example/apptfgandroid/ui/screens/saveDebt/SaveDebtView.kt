@@ -54,6 +54,7 @@ import com.example.apptfgandroid.ui.common.composables.BottomBar
 import org.koin.androidx.compose.getViewModel
 import com.example.apptfgandroid.models.user.UserDTO
 import com.example.apptfgandroid.ui.common.ItemBottomNav
+import com.example.apptfgandroid.ui.popups.ResponseMessageDialog
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -208,6 +209,7 @@ fun SaveDebtContent(state: State<SaveDebtState>) {
     var errorDesc by remember { mutableStateOf("") }
     var errorAmount by remember { mutableStateOf("") }
     var isExpanded by remember { mutableStateOf(false) }
+    var showDialog by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
@@ -337,6 +339,7 @@ fun SaveDebtContent(state: State<SaveDebtState>) {
                         isContactSelected = false
                         println("Deuda creada: $creatDdebt")
                         state.value.saveDebt(creatDdebt)
+                        showDialog = true
                     }
                 } catch (e: NumberFormatException) {
                     amount = ""
@@ -355,7 +358,20 @@ fun SaveDebtContent(state: State<SaveDebtState>) {
             }
         }
     }
+
+    if(showDialog){
+        ResponseMessageDialog(
+            onDismiss = {
+                showDialog = false
+            },
+            status = "ok",
+            message = "Deuda creada correctamente"
+        )
+    }
+
 }
+
+
 
 
 @OptIn(ExperimentalMaterial3Api::class)
