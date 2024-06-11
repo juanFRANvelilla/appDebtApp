@@ -207,7 +207,6 @@ fun SaveDebtContent(state: State<SaveDebtState>) {
         modifier = Modifier
             .fillMaxSize()
             .padding(top = 35.dp),
-//            .background(Color.Green),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top
     ) {
