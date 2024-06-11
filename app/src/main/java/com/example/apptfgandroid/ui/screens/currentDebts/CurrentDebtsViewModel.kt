@@ -38,13 +38,11 @@ class CurrentDebtsViewModel(
     }
 
     private suspend fun getDebts(){
-        println("llamamos a debts desde vm")
         viewModelScope.launch(Dispatchers.Main) {
             currentDebtsUseCase.getCurrentDebts().collect {debts ->
                 withContext(Dispatchers.Main) {
                     if(debts != null){
                         _state.update {
-                            println("deudas actuales $debts")
                             it.copy(
                                 debtList = debts
                             )

@@ -11,7 +11,6 @@ class CurrentDebtsRemoteDataSource {
     suspend fun getCurrentDebts(token: String): List<DebtDTO>? {
         val apiService = RetrofitService.contactsCallsJwt(token)
         try {
-            println("llamamos a getCurrentDebts ${apiService.getCurrentDebts()}" )
             return apiService.getCurrentDebts()
         } catch (e: Exception) {
             when (e) {
