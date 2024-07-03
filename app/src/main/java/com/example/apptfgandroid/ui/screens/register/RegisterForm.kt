@@ -134,6 +134,7 @@ fun RegisterForm(
                         username = completePhoneNumber,
                         verificationCode = verificationCode
                     )
+                    println("verificationCode: $verificationCode")
                     viewModel.sendSmsCode(SmsCode(to = completePhoneNumber, code = verificationCode))
                     viewModel.confirmPhone(
                         phoneValidationDTO = phoneValidationDTO,

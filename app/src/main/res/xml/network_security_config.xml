@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <network-security-config>
-    <base-config cleartextTrafficPermitted="true">
-        <trust-anchors>
-            <!-- Este bloque es opcional y se utiliza para agregar certificados personalizados -->
-            <!--<certificates src="@raw/custom_ca" />-->
-        </trust-anchors>
-    </base-config>
     <domain-config cleartextTrafficPermitted="true">
-        <domain includeSubdomains="true">localhost</domain>
-        <!-- Agrega otros dominios si es necesario -->
+        <domain includeSubdomains="true">example.com</domain>
     </domain-config>
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">another-example.com</domain>
+    </domain-config>
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">yourserver.com</domain>
+    </domain-config>
+    <base-config cleartextTrafficPermitted="true" />
 </network-security-config>

@@ -76,7 +76,7 @@ object RetrofitService{
             .build()
 
         return Retrofit.Builder()
-            .baseUrl("http://192.168.0.128:8080/")
+            .baseUrl("https://tfg.api.juanfranciscoperez.es/")
             .addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClient)
             .build()
