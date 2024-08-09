@@ -21,13 +21,23 @@ android {
         }
     }
 
+    signingConfigs {
+        create("release") {
+            keyAlias = "debtApp"
+            keyPassword = "debtApp"
+            storeFile = file("C:/Users/juanf/Documents/myKeyStore/debtAppKeyStore.jks")
+            storePassword = "debtApp"
+        }
+    }
+
     buildTypes {
-        release {
-            isMinifyEnabled = false
+        getByName("release") {
+            isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("release")
         }
     }
     compileOptions {
