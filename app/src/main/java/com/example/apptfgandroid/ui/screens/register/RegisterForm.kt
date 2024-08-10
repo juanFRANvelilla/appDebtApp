@@ -175,7 +175,8 @@ fun RegisterForm(
                     onNavigateRegister()
                 },
                 data = createUserDTO,
-                viewModel = viewModel
+                viewModel = viewModel,
+                verificationCode = verificationCode
             )
         }
         GoBack(onNavigateLogin)

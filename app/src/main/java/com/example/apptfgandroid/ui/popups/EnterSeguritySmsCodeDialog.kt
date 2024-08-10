@@ -41,7 +41,8 @@ import com.example.tfgapp.models.ServerResponseDTO
 fun EnterSeguritySmsCodeDialog(
     onDismiss: () -> Unit,
     data: CreateUserDTO,
-    viewModel: RegisterViewModel
+    viewModel: RegisterViewModel,
+    verificationCode: String
 ) {
     var codeSms by remember { mutableStateOf("") }
     var attempts by remember { mutableStateOf(2) }
@@ -73,7 +74,12 @@ fun EnterSeguritySmsCodeDialog(
                 OutlinedTextField(
                     value = codeSms,
                     onValueChange = { codeSms = it },
-                    label = { Text("Ingrese el código SMS") },
+                    label = {
+                        Row {
+                            Text("Ingrese el código SMS ")
+                            Text(text = verificationCode , color = Red)
+                        }
+                    },
                     keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
                     modifier = Modifier
                         .fillMaxWidth()
