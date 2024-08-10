@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.apptfgandroid"
+    namespace = "com.example.debtappandroid"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.apptfgandroid"
+        applicationId = "com.example.debtappandroid"
         minSdk = 27
         targetSdk = 33
         versionCode = 1

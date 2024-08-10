@@ -13,6 +13,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "AppTfgAndroid"
+rootProject.name = "DebtApp"
 include(":app")
  

@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">AppTfgAndroid</string>
-    <string name="url1">http://192.168.56.1:8080/</string>
+    <string name="app_name">DebtApp</string>
     <string name="url2">https://tfg.api.juanfranciscoperez.es/</string>
 </resources>
