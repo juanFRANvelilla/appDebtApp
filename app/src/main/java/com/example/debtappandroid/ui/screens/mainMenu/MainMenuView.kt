@@ -39,6 +39,7 @@ import com.example.debtappandroid.ui.common.composables.BottomBar
 import com.example.debtappandroid.ui.common.composables.PieChart
 import com.example.debtappandroid.ui.popups.ShowNotifications
 import org.koin.androidx.compose.getViewModel
+import java.util.Locale
 
 @Preview
 @Composable
@@ -157,17 +158,30 @@ fun MainMenuContent(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        val owe = String.format("%.2f", state.balance.owe).toDouble()
-        val owed = String.format("%.2f", state.balance.owed).toDouble()
-        if ((owe > 0.0) || (owed > 0.0)){
+        val oweString = try {
+            String.format(Locale.US, "%.2f", state.balance.owe)
+        } catch (e: NumberFormatException) {
+            "0.00"
+        }
+
+        val owedString = try {
+            String.format(Locale.US, "%.2f", state.balance.owed)
+        } catch (e: NumberFormatException) {
+            "0.00"
+        }
+
+        val owe = oweString.toDoubleOrNull() ?: 0.0
+        val owed = owedString.toDoubleOrNull() ?: 0.0
+
+        if (owe > 0.0 || owed > 0.0) {
             PieChart(
                 data = mapOf(
-                    Pair("Debes", owe),
-                    Pair("Te deben", owed),
+                    "Debes" to owe,
+                    "Te deben" to owed,
                 )
             )
         } else {
-            Image(painter = painterResource(id = R.drawable.waiting), contentDescription ="")
+            Image(painter = painterResource(id = R.drawable.waiting), contentDescription = "")
         }
     }
 }
