@@ -109,7 +109,7 @@ fun DebtNotificationCard(
             Text(text = creditor.username, color = MaterialTheme.colorScheme.primary)
             Text(text = "${creditor.firstName} ${creditor.lastName} " +
                     "te recuerda que le debes ${debtNotification.debt.amount} euros de la deuda '${debtNotification.debt.description}'" +
-                    "del dia $debtFormattedDate")
+                    " del dia $debtFormattedDate")
         }
 
         IconButton(
